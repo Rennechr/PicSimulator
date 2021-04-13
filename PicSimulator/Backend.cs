@@ -8,7 +8,7 @@ namespace PicSimulator
 {
     class Backend
     {
-        public bool[,] storage = new bool[8,255] ;
+        public static bool[,] storage = new bool[8,255] ;
 
     }
 }
