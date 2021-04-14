@@ -1,0 +1,86 @@
+;Beispiel 3 Binärzähler 19.10.2020
+;8Bit-Binärzähler
+;Reset-Eingang an RA0
+;Inhibit-Eingang an RA1
+;Carry-Ausgang an RA3
+;Anweisung für Assembler
+device 16F84
+
+;Definition Variablen und Konstanten (Datenblatt seite 13..
+counter EQU 10h  ;Zählvariable
+status EQU 03h
+rp0 EQU 5
+trisa  EQU 05h
+trisb EQU 06h
+portb EQU 06h
+porta EQU 05h
+reset EQU 0
+inhibit EQU 1
+pcl EQU 02h
+carry EQU 3  ;Carryausgang
+zero EQU 2
+                              
+ORG 0h  ;Programmstart definieren
+                               
+cold     
+                               
+    CLRF counter  ;counter auf 0 setzten
+    BSF status, rp0 ;auf bank1 schalten
+    CLRF trisb  ;Port B als Ausgang arbeitet
+    BCF trisa, carry ;Carry-Ausgang
+    BCF status, rp0 ;Bank 0
+    CLRF portb  ;I/O auf 0
+    BCF porta, carry ;carry wird zurückgesetzt
+loop     
+    BTFSC porta, reset ;Reset aktiv?
+    GOTO cold  ;rücksetzten
+    BTFSC porta, inhibit ;Inhibit aktiv?
+    GOTO loop  ;Schleife
+    BCF porta, carry ;Carry = 0
+    INCF counter  ;counter inkrementieren
+    MOVLW 0FH  ;unter 4 Bits relevant
+    ANDWF counter, w
+    XORLW 0AH  ;ist es 0AH?
+    BTFSS status, zero
+    GOTO weiter  ;nein, kein 0AH in LSB counter
+    MOVLW 0F0H  ;unter 4Bit löschen
+    ANDWF counter
+    MOVLW 10H  ;obere Bits um 1 erhöhen
+    ADDWF counter
+    MOVLW 0F0H  ;obere 4 Bits relevant
+    ANDWF counter, w
+    XORLW 0A0H  ;ist W ein 0A0H?
+    BTFSS status,zero
+    GOTO weiter
+    CLRF counter  ;sonst counter auf 0
+    BSF porta, carry ;Zeige Übertrag
+
+weiter   
+    MOVF counter, w ;counter in w
+    CALL ausgabe
+    MOVWF portb  ;W in Ausgabeport
+    BCF porta, 6
+    BSF porta, 6
+            
+    SWAPF counter, w
+    CALL ausgabe
+    MOVWF portb
+    BCF porta, 7
+    BSF porta, 7
+            
+    GOTO loop  ;zurückspringen
+           
+ausgabe  
+    ANDLW 9
+    ADDWF pcl ;Inhalt von W auf PCL addieren
+    RETLW 00111111B;Muster für die 0
+    RETLW 00000110B;für 1
+    RETLW 01011011B;für 2
+    RETLW 01001111B;3
+    RETLW 01100110B;4
+    RETLW 01101101B;5
+    RETLW 01111101B;6
+    RETLW 00000111B;7
+    RETLW 01111111B;8
+    RETLW 01101111B;9
+	END
