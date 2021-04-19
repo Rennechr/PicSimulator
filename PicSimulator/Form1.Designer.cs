@@ -39,7 +39,12 @@
             this.Col7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CodePanel = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
+            this.buttonGo = new System.Windows.Forms.Button();
+            this.buttonStepIn = new System.Windows.Forms.Button();
+            this.buttonReset = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -132,6 +137,7 @@
             // CodePanel
             // 
             this.CodePanel.AutoScroll = true;
+            this.CodePanel.BackColor = System.Drawing.SystemColors.ControlDark;
             this.CodePanel.Location = new System.Drawing.Point(442, 41);
             this.CodePanel.Name = "CodePanel";
             this.CodePanel.Size = new System.Drawing.Size(580, 470);
@@ -148,11 +154,51 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // buttonGo
+            // 
+            this.buttonGo.Location = new System.Drawing.Point(17, 57);
+            this.buttonGo.Name = "buttonGo";
+            this.buttonGo.Size = new System.Drawing.Size(75, 23);
+            this.buttonGo.TabIndex = 4;
+            this.buttonGo.Text = "Go";
+            this.buttonGo.UseVisualStyleBackColor = true;
+            // 
+            // buttonStepIn
+            // 
+            this.buttonStepIn.Location = new System.Drawing.Point(17, 86);
+            this.buttonStepIn.Name = "buttonStepIn";
+            this.buttonStepIn.Size = new System.Drawing.Size(75, 23);
+            this.buttonStepIn.TabIndex = 5;
+            this.buttonStepIn.Text = "Step In";
+            this.buttonStepIn.UseVisualStyleBackColor = true;
+            // 
+            // buttonReset
+            // 
+            this.buttonReset.Location = new System.Drawing.Point(17, 28);
+            this.buttonReset.Name = "buttonReset";
+            this.buttonReset.Size = new System.Drawing.Size(75, 23);
+            this.buttonReset.TabIndex = 6;
+            this.buttonReset.Text = "Reset";
+            this.buttonReset.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.buttonReset);
+            this.groupBox1.Controls.Add(this.buttonStepIn);
+            this.groupBox1.Controls.Add(this.buttonGo);
+            this.groupBox1.Location = new System.Drawing.Point(1042, 390);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(104, 121);
+            this.groupBox1.TabIndex = 7;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Steuerpult";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1212, 743);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.CodePanel);
             this.Controls.Add(this.dataGridView1);
@@ -160,6 +206,7 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -176,6 +223,10 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Col7;
         private System.Windows.Forms.Panel CodePanel;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonGo;
+        private System.Windows.Forms.Button buttonStepIn;
+        private System.Windows.Forms.Button buttonReset;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 

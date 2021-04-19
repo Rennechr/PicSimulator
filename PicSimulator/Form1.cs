@@ -72,7 +72,10 @@ namespace PicSimulator
                     for (int i = 0; i < lines.Length; i++)
                     {
                         Label codeLabel = new Label();
-                        codeLabel.Location = new Point(20, 30 * i + 20);
+                        Label LblBreakpoint = new Label();
+                        LblBreakpoint.Location = new Point(20, 30 * i + 20);
+                        LblBreakpoint.Text = "⬤";
+                        codeLabel.Location = new Point(50, 30 * i + 20);
                         codeLabel.Text = lines[i];
                         codeLabel.AutoSize = true;
                         codeRows.Add(codeLabel);
