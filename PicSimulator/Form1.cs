@@ -14,6 +14,8 @@ namespace PicSimulator
     public partial class Form1 : Form
     {
         public static List<Label> codeRows = new List<Label>();
+        public static List<Label> Breakpoints = new List<Label>();
+
         public Form1()
         {
             InitializeComponent();
@@ -73,21 +75,56 @@ namespace PicSimulator
                     {
                         Label codeLabel = new Label();
                         Label LblBreakpoint = new Label();
+                        Label Zeilennummer = new Label();
+                        Label Strich = new Label();
+                        Strich.Text = "________________________________________________________________________";
+                        Strich.AutoSize = true;
+                        Strich.BackColor = Color.Transparent;
+                        Strich.Location = new Point(0, 30 * i + 30);
                         LblBreakpoint.Location = new Point(20, 30 * i + 20);
-                        LblBreakpoint.Text = "⬤";
-                        codeLabel.Location = new Point(50, 30 * i + 20);
+                        Zeilennummer.Location = new Point(40, 30 * i + 20);
+                        Zeilennummer.Text = (i+1).ToString();
+                        Zeilennummer.AutoSize = true;
+                        LblBreakpoint.Text = "  ";
+                        LblBreakpoint.ForeColor = Color.Red;
+                        LblBreakpoint.AutoSize = true;
+                        LblBreakpoint.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+                        codeLabel.Location = new Point(60, 30 * i + 20);
                         codeLabel.Text = lines[i];
                         codeLabel.AutoSize = true;
                         codeRows.Add(codeLabel);
+                        Breakpoints.Add(LblBreakpoint);
+                        CodePanel.Controls.Add(LblBreakpoint);
+                        CodePanel.Controls.Add(Zeilennummer);
                         CodePanel.Controls.Add(codeLabel);
+                        CodePanel.Controls.Add(Strich);
+
+                        AddEventhandler(i);
                     }
-                    
+
                 }
             }
             else
             {
                 MessageBox.Show("FileDialog konnte nicht geöffnet werden");
             }
-        } 
+        }
+        void AddEventhandler(int i)
+        {
+            Breakpoints.ElementAt(i).Click += (sender2, e2) => ChangeBreakpoint(sender2, e2, i);
+        }
+
+        void ChangeBreakpoint(object sender, EventArgs e, int i)
+        {
+            
+            if (Breakpoints.ElementAt(i).Text == "  ")
+            {
+                Breakpoints.ElementAt(i).Text = "⬤";
+            }
+            else
+            {
+                Breakpoints.ElementAt(i).Text = "  ";
+            }
+        }
     }
 }
