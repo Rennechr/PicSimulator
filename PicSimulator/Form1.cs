@@ -13,9 +13,13 @@ namespace PicSimulator
 {
     public partial class Form1 : Form
     {
-        public static List<Label> codeRows = new List<Label>();
-        public static List<Label> Breakpoints = new List<Label>();
-
+        List<Label> codeRows = new List<Label>();
+        List<Label> Breakpoints = new List<Label>();
+        bool go = false;
+        public static float laufzeit = 0;
+        public static float period = 1;
+        int startRow = 0;
+        Backend backend = new Backend();
         public Form1()
         {
             InitializeComponent();
@@ -41,14 +45,9 @@ namespace PicSimulator
                 {
                     this.dataGridView1.Rows[i].HeaderCell.Value = (i / 2).ToString("X") + "8";
                 }
-
             }
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void CodePanel_Paint(object sender, PaintEventArgs e)
         {
@@ -58,12 +57,12 @@ namespace PicSimulator
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "TXT Files (*.txt)|*.txt";
+            openFileDialog1.Filter = "LST Files (*.lst)|*.lst";
             openFileDialog1.FilterIndex = 0;
-            openFileDialog1.DefaultExt = "txt";
+            openFileDialog1.DefaultExt = "lst";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (!String.Equals(Path.GetExtension(openFileDialog1.FileName), ".txt", StringComparison.OrdinalIgnoreCase))
+                if (!String.Equals(Path.GetExtension(openFileDialog1.FileName), ".lst", StringComparison.OrdinalIgnoreCase))
                 {           // Invalid file type selected; display an error.
                     MessageBox.Show("Der Typ der ausgewählten Datei wird von dieser Anwendung nicht unterstützt. Sie müssen eine TXT-Datei auswählen.", "Ungültiger Dateityp", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
@@ -101,13 +100,34 @@ namespace PicSimulator
 
                         AddEventhandler(i);
                     }
-
+                    setBackendCode();
                 }
             }
             else
             {
                 MessageBox.Show("FileDialog konnte nicht geöffnet werden");
             }
+        }
+        public void setBackendCode()
+        {
+            bool CodeStarted = false;
+            for (int i = 0; i < codeRows.Count(); i++)
+            {
+                if (codeRows.ElementAt(i).Text.StartsWith("0000"))
+                {
+                    backend.codeBackend.Add(codeRows.ElementAt(i).Text.Substring(5, 4));
+                    CodeStarted = true;
+                    startRow = i;
+                }
+                else
+                {
+                    if (CodeStarted)
+                    {
+                        backend.codeBackend.Add(codeRows.ElementAt(i).Text.Substring(5, 4));
+                    }
+                }
+            }
+
         }
         void AddEventhandler(int i)
         {
@@ -120,10 +140,57 @@ namespace PicSimulator
             if (Breakpoints.ElementAt(i).Text == "  ")
             {
                 Breakpoints.ElementAt(i).Text = "⬤";
+                backend.breakpoints.Add(i);
             }
             else
             {
                 Breakpoints.ElementAt(i).Text = "  ";
+                backend.breakpoints.Remove(i);
+            }
+        }
+
+        private void buttonGo_Click(object sender, EventArgs e)
+        {
+            if (go)
+            {
+                buttonGo.Text = "Go";
+                go = !go;
+            }
+            else
+            {
+                timer1.Start();
+                buttonGo.Text = "Pause";
+                go = !go;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            label1.Text = "0,00";
+            laufzeit = 0;
+        }
+
+        private void textBox1_TextChanged_1(object sender, EventArgs e)
+        {
+
+            float flt1 = float.Parse(textBox1.Text);
+            flt1 = flt1 / 4;
+            flt1 = 1 / flt1;
+            label3.Text = flt1.ToString();
+            period = flt1;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            if (go && !backend.breakpoints.Contains(backend.backendCurrentRow)) 
+            {
+                laufzeit += period;
+                label1.Text = laufzeit.ToString();  //todo Laufzeittimer vom Backend updaten je nach befehl
+                backend.next();
+            }
+            else
+            {
+                //do nothing
             }
         }
     }
