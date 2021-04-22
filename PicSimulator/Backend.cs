@@ -22,36 +22,38 @@ namespace PicSimulator
                     switch(codeBackend.ElementAt(backendCurrentRow).Substring(1, 2))
                     {
                         case "0":       //MOVWF or NOP or RETFIE or CLRWDT or RETURN or SLEEP
+                            //switch case?
                             break;
-                        case "1":       //CLRF or CLRW
+                        case "1":       //CLRF or CLRW      todo Jannick
                             break;
-                        case "2":       //SUBWF
+                        case "2":       //SUBWF     todo Jannick
                             break;      
-                        case "3":       //DECF    
+                        case "3":       //DECF       todo Jannick  
                             break;
-                        case "4":       //IORWF
+                        case "4":       //IORWF     todo Jannick
                             break;
-                        case "5":       //ANDWF
+                        case "5":       //ANDWF     todo Jannick
                             break;
-                        case "6":       //XORWF
+                        case "6":       //XORWF     todo Jannick
                             break;
-                        case "7":       //ADDWF
+                        case "7":       //ADDWF     todo Jannick
                             break;
-                        case "8":       //MOVF
+                        case "8":       //MOVF     todo Jannick
                             break;
-                        case "9":       //COMF
+                        case "9":       //COMF     todo Jannick
                             break;
-                        case "A":       //INCF
+                        case "A":       //INCF     todo Jannick
+                            //INCF(speicherstelle)
                             break;
-                        case "B":       //DECFSZ
+                        case "B":       //DECFSZ     todo Jannick
                             break;
-                        case "C":       //RRF
+                        case "C":       //RRF     todo Jannick
                             break;
-                        case "D":       //RLF
+                        case "D":       //RLF     todo Jannick
                             break;
-                        case "E":       //SWAPF
+                        case "E":       //SWAPF     todo Jannick
                             break;
-                        case "F":       //INCFSZ
+                        case "F":       //INCFSZ     todo Jannick
                             break;
                         default:
                             break;
@@ -103,7 +105,9 @@ namespace PicSimulator
                         case "C":
                         case "D":
                         case "E":
+                            break;
                         case "F":
+                            GOTO(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2), 16));
                             break;
                         default:
                             break;
@@ -144,6 +148,10 @@ namespace PicSimulator
                     break;
             }
             backendCurrentRow++;
+        }
+        void GOTO(int toRow)
+        {
+
         }
         
     }
