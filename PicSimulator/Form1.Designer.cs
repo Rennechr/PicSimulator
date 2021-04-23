@@ -45,14 +45,14 @@
             this.buttonReset = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -155,7 +155,6 @@
             this.CodePanel.Name = "CodePanel";
             this.CodePanel.Size = new System.Drawing.Size(580, 470);
             this.CodePanel.TabIndex = 2;
-            this.CodePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.CodePanel_Paint);
             // 
             // button1
             // 
@@ -185,6 +184,7 @@
             this.buttonStepIn.TabIndex = 5;
             this.buttonStepIn.Text = "Step In";
             this.buttonStepIn.UseVisualStyleBackColor = true;
+            this.buttonStepIn.Click += new System.EventHandler(this.buttonStepIn_Click);
             // 
             // buttonReset
             // 
@@ -219,15 +219,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Laufzeit";
             // 
-            // button2
+            // label5
             // 
-            this.button2.Location = new System.Drawing.Point(6, 59);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(103, 23);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "zurücksetzen";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(56, 30);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(23, 17);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "µs";
             // 
             // label1
             // 
@@ -237,6 +236,16 @@
             this.label1.Size = new System.Drawing.Size(36, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "0,00";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(6, 59);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(103, 23);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "zurücksetzen";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // groupBox3
             // 
@@ -251,23 +260,14 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Quarzfrequenz";
             // 
-            // textBox1
+            // label4
             // 
-            this.textBox1.Location = new System.Drawing.Point(7, 30);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(53, 22);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "4,000";
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged_1);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(66, 33);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(36, 17);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "MHz";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(48, 65);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(23, 17);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "µs";
             // 
             // label3
             // 
@@ -278,23 +278,23 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "1,00";
             // 
-            // label4
+            // label2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(48, 65);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(23, 17);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "µs";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(66, 33);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(36, 17);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "MHz";
             // 
-            // label5
+            // textBox1
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(56, 30);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(23, 17);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "µs";
+            this.textBox1.Location = new System.Drawing.Point(7, 30);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(53, 22);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.Text = "4,000";
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged_1);
             // 
             // timer1
             // 

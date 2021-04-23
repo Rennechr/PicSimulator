@@ -16,6 +16,8 @@ namespace PicSimulator
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
         public int backendCurrentRow = 0;
+
+        
         public void next()
         {
             switch (codeBackend.ElementAt(backendCurrentRow).Substring(0,1))
@@ -288,6 +290,12 @@ namespace PicSimulator
                         case "5":
                         case "6":
                         case "7":
+                            bool[] literal = new bool[8];
+                            string bits = Convert.ToString(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 2);
+                            bits = "00000000" + bits;
+                            bits = bits.Substring(bits.Length - 8);             //todo Jannick das verstehen, oder was besseres zum wandeln von hex in bool-array finden
+                            literal = bits.Select(s => s == '1').ToArray();
+                            RETLW(literal);
                             break;
                         case "8":       //IORLW
                             break;      
@@ -315,17 +323,24 @@ namespace PicSimulator
         void GOTO(int toRow)
         {
             backendCurrentRow = toRow;
+            backendCurrentRow--;
         }
         void CALL(int toRow)
         {
             calls.Add(backendCurrentRow);
             backendCurrentRow = toRow;
-
+            backendCurrentRow--;
         }
         void RETURN()
         {
             backendCurrentRow = calls.Last();
             calls.RemoveAt(calls.Count - 1);
+            backendCurrentRow--;
+        }
+        void RETLW(bool[] literal)
+        {
+            WRegister = literal;
+            RETURN();
         }
         void BCF(int storagePlace, int bitNr)
         {

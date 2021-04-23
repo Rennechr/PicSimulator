@@ -15,6 +15,7 @@ namespace PicSimulator
     {
         List<Label> codeRows = new List<Label>();
         List<Label> Breakpoints = new List<Label>();
+        List<int> backendFrontendRowConnection = new List<int>();
         bool go = false;
         public static float laufzeit = 0;
         public static float period = 1;
@@ -49,10 +50,6 @@ namespace PicSimulator
         }
 
 
-        private void CodePanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -111,11 +108,13 @@ namespace PicSimulator
         public void setBackendCode()
         {
             bool CodeStarted = false;
+            
             for (int i = 0; i < codeRows.Count(); i++)
             {
                 if (codeRows.ElementAt(i).Text.StartsWith("0000"))
                 {
                     backend.codeBackend.Add(codeRows.ElementAt(i).Text.Substring(5, 4));
+                    backendFrontendRowConnection.Add(i);
                     CodeStarted = true;
                     startRow = i;
                 }
@@ -125,6 +124,7 @@ namespace PicSimulator
                     if (CodeStarted && (testchar == '0' || testchar == '1' || testchar == '2' || testchar == '3' || testchar == '4' || testchar == '5' || testchar == '6' || testchar == '7' || testchar == '8' || testchar == '9' || testchar == 'A' || testchar == 'B' || testchar == 'C' || testchar == 'D' || testchar == 'E' || testchar == 'F'))
                     {
                         backend.codeBackend.Add(codeRows.ElementAt(i).Text.Substring(5, 4));
+                        backendFrontendRowConnection.Add(i);
                     }
                 }
             }
@@ -183,16 +183,32 @@ namespace PicSimulator
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (go && !backend.breakpoints.Contains(backend.backendCurrentRow)) 
+            if(go && !backend.breakpoints.Contains(backend.backendCurrentRow))
             {
-                laufzeit += period;
-                label1.Text = laufzeit.ToString();  //todo Laufzeittimer vom Backend updaten je nach befehl
-                backend.next();
+                next_step();
             }
             else
             {
                 //do nothing
             }
+        }
+        void next_step()
+        {
+            
+            laufzeit += period;
+            label1.Text = laufzeit.ToString();  //todo Laufzeittimer vom Backend updaten je nach befehl
+            codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
+            backend.next();
+            codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
+
+
+
+
+        }
+
+        private void buttonStepIn_Click(object sender, EventArgs e)
+        {
+            next_step();
         }
     }
 }
