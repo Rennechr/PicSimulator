@@ -121,7 +121,8 @@ namespace PicSimulator
                 }
                 else
                 {
-                    if (CodeStarted)
+                    char testchar = codeRows.ElementAt(i).Text.ElementAt(8);
+                    if (CodeStarted && (testchar == '0' || testchar == '1' || testchar == '2' || testchar == '3' || testchar == '4' || testchar == '5' || testchar == '6' || testchar == '7' || testchar == '8' || testchar == '9' || testchar == 'A' || testchar == 'B' || testchar == 'C' || testchar == 'D' || testchar == 'E' || testchar == 'F'))
                     {
                         backend.codeBackend.Add(codeRows.ElementAt(i).Text.Substring(5, 4));
                     }

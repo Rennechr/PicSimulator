@@ -10,18 +10,39 @@ namespace PicSimulator
 {
     class Backend
     {
-        public static bool[,] storage = new bool[8,255] ;
+        public static bool[,] storage = new bool[255,8];
+        public static bool[] WRegister = new bool[8];
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
+        public List<int> calls = new List<int>();
         public int backendCurrentRow = 0;
         public void next()
         {
             switch (codeBackend.ElementAt(backendCurrentRow).Substring(0,1))
             {
                 case "0":          
-                    switch(codeBackend.ElementAt(backendCurrentRow).Substring(1, 2))
+                    switch(codeBackend.ElementAt(backendCurrentRow).Substring(1, 1))
                     {
                         case "0":       //MOVWF or NOP or RETFIE or CLRWDT or RETURN or SLEEP
+                            switch (codeBackend.ElementAt(backendCurrentRow).Substring(2, 2))
+                            {
+                                case "00":  //NOP
+                                case "20":
+                                case "40":
+                                case "60":
+                                    break;
+                                case "08":  //RETURN
+                                    RETURN();
+                                    break;
+                                case "09":  //RETFIE
+                                    break;
+                                case "54":  //CLRWDT
+                                    break;
+                                case "53":  //SLEEP
+                                    break;
+                                default:    //MOVWF
+                                    break;
+                            }
                             //switch case?
                             break;
                         case "1":       //CLRF or CLRW      todo Jannick
@@ -60,34 +81,175 @@ namespace PicSimulator
                     }
                     break;
                 case "1":
-                    switch (codeBackend.ElementAt(backendCurrentRow).Substring(1, 2))
+                    switch (codeBackend.ElementAt(backendCurrentRow).Substring(1, 1))
                     {
                         case "0":       //BCF
+                            if(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16)< 8)
+                            {
+                                BCF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2,2),16), 0);
+                            }
+                            else
+                            {
+                                BCF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 1);
+                            }
+                            break;
                         case "1":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BCF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 2);
+                            }
+                            else
+                            {
+                                BCF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 3);
+                            }
+                            break;
                         case "2":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BCF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 4);
+                            }
+                            else
+                            {
+                                BCF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 5);
+                            }
+                            break;
                         case "3":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BCF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 6);
+                            }
+                            else
+                            {
+                                BCF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 7);
+                            }
                             break;
                         case "4":       //BSF
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BSF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 0);
+                            }
+                            else
+                            {
+                                BSF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 1);
+                            }
+                            break;
                         case "5":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BSF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 2);
+                            }
+                            else
+                            {
+                                BSF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 3);
+                            }
+                            break;
                         case "6":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BSF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 4);
+                            }
+                            else
+                            {
+                                BSF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 5);
+                            }
+                            break;
                         case "7":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BSF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 6);
+                            }
+                            else
+                            {
+                                BSF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 7);
+                            }
+       
                             break;
                         case "8":       //BTFSC
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BTFSC(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 0);
+                            }
+                            else
+                            {
+                                BTFSC(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 1);
+                            }
+                            break;
                         case "9":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BTFSC(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 2);
+                            }
+                            else
+                            {
+                                BTFSC(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 3);
+                            }
+                            break;
                         case "A":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BTFSC(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 4);
+                            }
+                            else
+                            {
+                                BTFSC(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 5);
+                            }
+                            break;
                         case "B":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BTFSC(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 6);
+                            }
+                            else
+                            {
+                                BTFSC(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 7);
+                            }
                             break;
                         case "C":       //BTFSS
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BTFSS(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 0);
+                            }
+                            else
+                            {
+                                BTFSS(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 1);
+                            }
+                            break;
                         case "D":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BTFSS(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 2);
+                            }
+                            else
+                            {
+                                BTFSS(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 3);
+                            }
+                            break;
                         case "E":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BTFSS(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 4);
+                            }
+                            else
+                            {
+                                BTFSS(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 5);
+                            }
+                            break;
                         case "F":
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 1), 16) < 8)
+                            {
+                                BTFSS(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 6);
+                            }
+                            else
+                            {
+                                BTFSS(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16) - 128, 7);
+                            }
                             break;
                         default:
                             break;
                     }
                     break;
                 case "2":
-                    switch (codeBackend.ElementAt(backendCurrentRow).Substring(1, 2))
+                    switch (codeBackend.ElementAt(backendCurrentRow).Substring(1, 1))
                     {
                         case "0":       //CALL
                         case "1":
@@ -97,6 +259,7 @@ namespace PicSimulator
                         case "5":
                         case "6":
                         case "7":
+                            CALL(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(1, 3), 16));
                             break;
                         case "8":       //GOTO
                         case "9":
@@ -105,16 +268,16 @@ namespace PicSimulator
                         case "C":
                         case "D":
                         case "E":
-                            break;
                         case "F":
-                            GOTO(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2), 16));
+                            GOTO(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(1,3), 16) - 2048);
                             break;
                         default:
+                            //BIG ERROR MSG
                             break;
                     }
                     break;
                 case "3":
-                    switch (codeBackend.ElementAt(backendCurrentRow).Substring(1, 2))
+                    switch (codeBackend.ElementAt(backendCurrentRow).Substring(1, 1))
                     {
                         case "0":       //MOVLW
                         case "1":
@@ -151,8 +314,40 @@ namespace PicSimulator
         }
         void GOTO(int toRow)
         {
+            backendCurrentRow = toRow;
+        }
+        void CALL(int toRow)
+        {
+            calls.Add(backendCurrentRow);
+            backendCurrentRow = toRow;
 
         }
-        
+        void RETURN()
+        {
+            backendCurrentRow = calls.Last();
+            calls.RemoveAt(calls.Count - 1);
+        }
+        void BCF(int storagePlace, int bitNr)
+        {
+            storage[storagePlace, bitNr] = false;
+        }
+        void BSF(int storagePlace, int bitNr)
+        {
+            storage[storagePlace, bitNr] = true;
+        }
+        void BTFSC(int storagePlace, int bitNr)
+        {
+            if (storage[storagePlace, bitNr] == false)
+            {
+                backendCurrentRow++;
+            }
+        }
+        void BTFSS(int storagePlace, int bitNr)
+        {
+            if (storage[storagePlace, bitNr] == true)
+            {
+                backendCurrentRow++;
+            }
+        }
     }
 }
