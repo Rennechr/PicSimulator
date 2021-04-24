@@ -54,10 +54,40 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.lblSFR_C = new System.Windows.Forms.Label();
+            this.lblSFR_DC = new System.Windows.Forms.Label();
+            this.lblSFR_Z = new System.Windows.Forms.Label();
+            this.lblSFR_PD = new System.Windows.Forms.Label();
+            this.lblSFR_TO = new System.Windows.Forms.Label();
+            this.lblSFR_RP0 = new System.Windows.Forms.Label();
+            this.lblSFR_RP1 = new System.Windows.Forms.Label();
+            this.lblSFR_IRP = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.lblSFR_WREG = new System.Windows.Forms.Label();
+            this.lblSFR_FSR = new System.Windows.Forms.Label();
+            this.lblSFR_PCL = new System.Windows.Forms.Label();
+            this.lblSFR_PCLATH = new System.Windows.Forms.Label();
+            this.lblSFR_STATUS = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -300,11 +330,292 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.groupBox5);
+            this.groupBox4.Controls.Add(this.lblSFR_C);
+            this.groupBox4.Controls.Add(this.lblSFR_DC);
+            this.groupBox4.Controls.Add(this.lblSFR_Z);
+            this.groupBox4.Controls.Add(this.lblSFR_PD);
+            this.groupBox4.Controls.Add(this.lblSFR_TO);
+            this.groupBox4.Controls.Add(this.lblSFR_RP0);
+            this.groupBox4.Controls.Add(this.lblSFR_RP1);
+            this.groupBox4.Controls.Add(this.lblSFR_IRP);
+            this.groupBox4.Controls.Add(this.label13);
+            this.groupBox4.Controls.Add(this.label12);
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.label10);
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Location = new System.Drawing.Point(13, 518);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(412, 213);
+            this.groupBox4.TabIndex = 10;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "SFR";
+            this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 170);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(30, 17);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "IRP";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(44, 170);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 17);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "RP1";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(85, 170);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(35, 17);
+            this.label8.TabIndex = 13;
+            this.label8.Text = "RP0";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(126, 170);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(28, 17);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "TO";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(160, 170);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(27, 17);
+            this.label10.TabIndex = 15;
+            this.label10.Text = "PD";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(193, 170);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(17, 17);
+            this.label11.TabIndex = 16;
+            this.label11.Text = "Z";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(216, 170);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(27, 17);
+            this.label12.TabIndex = 17;
+            this.label12.Text = "DC";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(249, 170);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(17, 17);
+            this.label13.TabIndex = 18;
+            this.label13.Text = "C";
+            // 
+            // lblSFR_C
+            // 
+            this.lblSFR_C.AutoSize = true;
+            this.lblSFR_C.Location = new System.Drawing.Point(249, 187);
+            this.lblSFR_C.Name = "lblSFR_C";
+            this.lblSFR_C.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_C.TabIndex = 26;
+            this.lblSFR_C.Text = "0";
+            // 
+            // lblSFR_DC
+            // 
+            this.lblSFR_DC.AutoSize = true;
+            this.lblSFR_DC.Location = new System.Drawing.Point(216, 187);
+            this.lblSFR_DC.Name = "lblSFR_DC";
+            this.lblSFR_DC.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_DC.TabIndex = 25;
+            this.lblSFR_DC.Text = "0";
+            // 
+            // lblSFR_Z
+            // 
+            this.lblSFR_Z.AutoSize = true;
+            this.lblSFR_Z.Location = new System.Drawing.Point(193, 187);
+            this.lblSFR_Z.Name = "lblSFR_Z";
+            this.lblSFR_Z.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_Z.TabIndex = 24;
+            this.lblSFR_Z.Text = "0";
+            // 
+            // lblSFR_PD
+            // 
+            this.lblSFR_PD.AutoSize = true;
+            this.lblSFR_PD.Location = new System.Drawing.Point(160, 187);
+            this.lblSFR_PD.Name = "lblSFR_PD";
+            this.lblSFR_PD.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_PD.TabIndex = 23;
+            this.lblSFR_PD.Text = "0";
+            // 
+            // lblSFR_TO
+            // 
+            this.lblSFR_TO.AutoSize = true;
+            this.lblSFR_TO.Location = new System.Drawing.Point(126, 187);
+            this.lblSFR_TO.Name = "lblSFR_TO";
+            this.lblSFR_TO.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_TO.TabIndex = 22;
+            this.lblSFR_TO.Text = "0";
+            // 
+            // lblSFR_RP0
+            // 
+            this.lblSFR_RP0.AutoSize = true;
+            this.lblSFR_RP0.Location = new System.Drawing.Point(85, 187);
+            this.lblSFR_RP0.Name = "lblSFR_RP0";
+            this.lblSFR_RP0.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_RP0.TabIndex = 21;
+            this.lblSFR_RP0.Text = "0";
+            // 
+            // lblSFR_RP1
+            // 
+            this.lblSFR_RP1.AutoSize = true;
+            this.lblSFR_RP1.Location = new System.Drawing.Point(44, 187);
+            this.lblSFR_RP1.Name = "lblSFR_RP1";
+            this.lblSFR_RP1.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_RP1.TabIndex = 20;
+            this.lblSFR_RP1.Text = "0";
+            // 
+            // lblSFR_IRP
+            // 
+            this.lblSFR_IRP.AutoSize = true;
+            this.lblSFR_IRP.Location = new System.Drawing.Point(6, 187);
+            this.lblSFR_IRP.Name = "lblSFR_IRP";
+            this.lblSFR_IRP.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_IRP.TabIndex = 19;
+            this.lblSFR_IRP.Text = "0";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.lblSFR_STATUS);
+            this.groupBox5.Controls.Add(this.lblSFR_PCLATH);
+            this.groupBox5.Controls.Add(this.lblSFR_PCL);
+            this.groupBox5.Controls.Add(this.lblSFR_FSR);
+            this.groupBox5.Controls.Add(this.lblSFR_WREG);
+            this.groupBox5.Controls.Add(this.label18);
+            this.groupBox5.Controls.Add(this.label17);
+            this.groupBox5.Controls.Add(this.label16);
+            this.groupBox5.Controls.Add(this.label15);
+            this.groupBox5.Controls.Add(this.label14);
+            this.groupBox5.Location = new System.Drawing.Point(6, 21);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(200, 146);
+            this.groupBox5.TabIndex = 27;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "sichtbar";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(7, 22);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(56, 17);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "W-REG";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(7, 39);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(35, 17);
+            this.label15.TabIndex = 1;
+            this.label15.Text = "FSR";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(7, 56);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(34, 17);
+            this.label16.TabIndex = 2;
+            this.label16.Text = "PCL";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(6, 73);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(62, 17);
+            this.label17.TabIndex = 3;
+            this.label17.Text = "PCLATH";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(7, 90);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(63, 17);
+            this.label18.TabIndex = 4;
+            this.label18.Text = "STATUS";
+            // 
+            // lblSFR_WREG
+            // 
+            this.lblSFR_WREG.AutoSize = true;
+            this.lblSFR_WREG.Location = new System.Drawing.Point(105, 22);
+            this.lblSFR_WREG.Name = "lblSFR_WREG";
+            this.lblSFR_WREG.Size = new System.Drawing.Size(24, 17);
+            this.lblSFR_WREG.TabIndex = 5;
+            this.lblSFR_WREG.Text = "00";
+            // 
+            // lblSFR_FSR
+            // 
+            this.lblSFR_FSR.AutoSize = true;
+            this.lblSFR_FSR.Location = new System.Drawing.Point(105, 39);
+            this.lblSFR_FSR.Name = "lblSFR_FSR";
+            this.lblSFR_FSR.Size = new System.Drawing.Size(24, 17);
+            this.lblSFR_FSR.TabIndex = 6;
+            this.lblSFR_FSR.Text = "00";
+            // 
+            // lblSFR_PCL
+            // 
+            this.lblSFR_PCL.AutoSize = true;
+            this.lblSFR_PCL.Location = new System.Drawing.Point(105, 56);
+            this.lblSFR_PCL.Name = "lblSFR_PCL";
+            this.lblSFR_PCL.Size = new System.Drawing.Size(24, 17);
+            this.lblSFR_PCL.TabIndex = 7;
+            this.lblSFR_PCL.Text = "00";
+            // 
+            // lblSFR_PCLATH
+            // 
+            this.lblSFR_PCLATH.AutoSize = true;
+            this.lblSFR_PCLATH.Location = new System.Drawing.Point(105, 73);
+            this.lblSFR_PCLATH.Name = "lblSFR_PCLATH";
+            this.lblSFR_PCLATH.Size = new System.Drawing.Size(24, 17);
+            this.lblSFR_PCLATH.TabIndex = 8;
+            this.lblSFR_PCLATH.Text = "00";
+            // 
+            // lblSFR_STATUS
+            // 
+            this.lblSFR_STATUS.AutoSize = true;
+            this.lblSFR_STATUS.Location = new System.Drawing.Point(105, 90);
+            this.lblSFR_STATUS.Name = "lblSFR_STATUS";
+            this.lblSFR_STATUS.Size = new System.Drawing.Size(24, 17);
+            this.lblSFR_STATUS.TabIndex = 9;
+            this.lblSFR_STATUS.Text = "00";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1299, 743);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -320,6 +631,10 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -350,6 +665,34 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label lblSFR_C;
+        private System.Windows.Forms.Label lblSFR_DC;
+        private System.Windows.Forms.Label lblSFR_Z;
+        private System.Windows.Forms.Label lblSFR_PD;
+        private System.Windows.Forms.Label lblSFR_TO;
+        private System.Windows.Forms.Label lblSFR_RP0;
+        private System.Windows.Forms.Label lblSFR_RP1;
+        private System.Windows.Forms.Label lblSFR_IRP;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label lblSFR_STATUS;
+        private System.Windows.Forms.Label lblSFR_PCLATH;
+        private System.Windows.Forms.Label lblSFR_PCL;
+        private System.Windows.Forms.Label lblSFR_FSR;
+        private System.Windows.Forms.Label lblSFR_WREG;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
     }
 }
 

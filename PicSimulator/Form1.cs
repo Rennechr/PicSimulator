@@ -210,5 +210,10 @@ namespace PicSimulator
         {
             next_step();
         }
+
+        private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }

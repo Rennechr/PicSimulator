@@ -17,7 +17,15 @@ namespace PicSimulator
         public List<int> calls = new List<int>();
         public int backendCurrentRow = 0;
 
-        
+        public bool[] HexToBoolArray(string Hex)         //todo Jannick: das einfach anwenden und keine fragen stellen xD
+        {
+            bool[] literal = new bool[8];
+            string bits = Convert.ToString(Convert.ToInt32(Hex, 16), 2);
+            bits = "00000000" + bits;
+            bits = bits.Substring(bits.Length - 8);            
+            literal = bits.Select(s => s == '1').ToArray();
+            return literal;
+        }
         public void next()
         {
             switch (codeBackend.ElementAt(backendCurrentRow).Substring(0,1))
@@ -285,28 +293,28 @@ namespace PicSimulator
                         case "1":
                         case "2":
                         case "3":
+                            MOVLW(HexToBoolArray(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2)));
                             break;
                         case "4":       //RETLW
                         case "5":
                         case "6":
                         case "7":
-                            bool[] literal = new bool[8];
-                            string bits = Convert.ToString(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16), 2);
-                            bits = "00000000" + bits;
-                            bits = bits.Substring(bits.Length - 8);             //todo Jannick das verstehen, oder was besseres zum wandeln von hex in bool-array finden
-                            literal = bits.Select(s => s == '1').ToArray();
-                            RETLW(literal);
+                            RETLW(HexToBoolArray(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2)));
                             break;
                         case "8":       //IORLW
+                            IORLW(HexToBoolArray(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2)));
                             break;      
                         case "9":       //ANDLW
+                            ANDLW(HexToBoolArray(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2)));
                             break;
                         case "A":       //XORLW
+                            XORLW(HexToBoolArray(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2)));
                             break;
                         case "B":
                             break;
                         case "C":       //SUBLW
                         case "D":
+                            SUBLW(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
                         case "E":       //ADDLW
                         case "F":
@@ -340,7 +348,67 @@ namespace PicSimulator
         void RETLW(bool[] literal)
         {
             WRegister = literal;
-            RETURN();
+            backendCurrentRow = calls.Last();
+            calls.RemoveAt(calls.Count - 1);
+            backendCurrentRow--;
+        }
+        void MOVLW(bool[] literal)
+        {
+            WRegister = literal;
+        }
+        void IORLW(bool[] literal)              //Was ist mit Z bit?
+        {
+            bool[] result = new bool[8];
+            for(int i = 0; i < 8; i++)
+            {
+                if((literal[i]&&WRegister[i])||(literal[i]&&!WRegister[i])||(!literal[i]&&WRegister[i]))
+                {
+                    result[i] = true;
+                }
+                else
+                {
+                    result[i] = false;
+                }
+            }
+            WRegister = result;
+        }
+        void ANDLW(bool[] literal)
+        {
+            bool[] result = new bool[8];
+
+            for (int i = 0; i < 8; i++)
+            {
+                if ((literal[i] && WRegister[i]))
+                {
+                    result[i] = true;
+                }
+                else
+                {
+                    result[i] = false;
+                }
+            }
+            WRegister = result;
+        }
+        void XORLW(bool[] literal)
+        {
+            bool[] result = new bool[8];
+
+            for (int i = 0; i < 8; i++)
+            {
+                if ((literal[i] && !WRegister[i]) || (!literal[i] && WRegister[i]))
+                {
+                    result[i] = true;
+                }
+                else
+                {
+                    result[i] = false;
+                }
+            }
+            WRegister = result;
+        }
+        void SUBLW(int literal)
+        {
+            //todo
         }
         void BCF(int storagePlace, int bitNr)
         {
