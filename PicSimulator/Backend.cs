@@ -16,7 +16,27 @@ namespace PicSimulator
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
         public int backendCurrentRow = 0;
-
+        int BoolArrayToInt(bool[] bits)     //Diese funktion könnte nicht funktionieren
+        {
+            int r = 0;
+            for (int i = 0; i < bits.Length; i++)
+            {
+                if (bits[i])
+                {
+                    r |= 1 << (bits.Length - i);
+                }
+            }
+            return r;
+        }
+        public bool[] IntToBoolArray(int number)
+        {
+            bool[] literal = new bool[8];
+            string bits = Convert.ToString(number, 2);
+            bits = "00000000" + bits;
+            bits = bits.Substring(bits.Length - 8);
+            literal = bits.Select(s => s == '1').ToArray();
+            return literal;
+        }
         public bool[] HexToBoolArray(string Hex)         //todo Jannick: das einfach anwenden und keine fragen stellen xD
         {
             bool[] literal = new bool[8];
@@ -51,6 +71,7 @@ namespace PicSimulator
                                 case "53":  //SLEEP
                                     break;
                                 default:    //MOVWF
+                                    MOVWF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16)-128);
                                     break;
                             }
                             //switch case?
@@ -318,6 +339,7 @@ namespace PicSimulator
                             break;
                         case "E":       //ADDLW
                         case "F":
+                            ADDLW(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
                         default:
                             break;
@@ -327,6 +349,13 @@ namespace PicSimulator
                     break;
             }
             backendCurrentRow++;
+        }
+        void MOVWF(int position)
+        {
+            for(int i = 0; i < 8; i++)
+            {
+                storage[position, i] = WRegister[i];
+            }
         }
         void GOTO(int toRow)
         {
@@ -356,7 +385,7 @@ namespace PicSimulator
         {
             WRegister = literal;
         }
-        void IORLW(bool[] literal)              //Was ist mit Z bit?
+        void IORLW(bool[] literal)             
         {
             bool[] result = new bool[8];
             int count = 0;
@@ -441,9 +470,80 @@ namespace PicSimulator
                 BCF(131, 2);
             }
         }
-        void SUBLW(int literal)
+        void SUBLW(int literal)         //ask DC bit affected???
         {
-            //todo
+            int w = BoolArrayToInt(WRegister);
+            int result = w - literal;
+            if (result < 0)
+            {
+                result = result + 256;
+                WRegister = IntToBoolArray(result);
+                if (result == 0)
+                {
+                    BSF(3, 2);          //set zero bit
+                    BSF(131, 2);
+                }
+                else
+                {
+                    BCF(3, 2);          //unset zero bit
+                    BCF(131, 2);
+                }
+                
+                BCF(3, 0);          //unset carry bit
+                BCF(131, 0);
+            }
+            else if(result == 0)
+            {
+                WRegister = IntToBoolArray(result);
+                BSF(3, 2);     //set zero bit
+                BSF(131, 2);
+                BSF(3, 0);       //set carry bit
+                BSF(131, 0);
+            }
+            else
+            {
+                WRegister = IntToBoolArray(result);
+                BCF(3, 2);      //unset zero bit
+                BCF(131, 2);
+                BSF(3, 0);      //set carry bit
+                BSF(131, 0);
+            }
+        }
+        void ADDLW(int literal)          //ask DC bit affected???
+        {
+            int w = BoolArrayToInt(WRegister);
+            int result = w + literal;
+            if (result > 255)
+            {
+                result = result - 256;
+                WRegister = IntToBoolArray(result);
+                if(result == 0)
+                {
+                    BSF(3, 2);          //set zero bit
+                    BSF(131, 2);
+                }
+                else
+                {
+                    BCF(3, 2);          //unset zero bit
+                    BCF(131, 2);
+                }
+                BSF(3, 0);          //set carry bit
+                BSF(131, 0);
+            }
+            else if (result == 0)
+            {
+                WRegister = IntToBoolArray(result);
+                BSF(3, 2);     //set zero bit
+                BSF(131, 2);
+            }
+            else
+            {
+                WRegister = IntToBoolArray(result);
+                BCF(3, 2);      //unset zero bit
+                BCF(131, 2);
+                BCF(3, 0);      //unset carry bit
+                BCF(131, 0);
+            }
         }
         void BCF(int storagePlace, int bitNr)
         {
