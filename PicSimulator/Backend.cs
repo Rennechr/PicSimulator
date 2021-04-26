@@ -359,6 +359,7 @@ namespace PicSimulator
         void IORLW(bool[] literal)              //Was ist mit Z bit?
         {
             bool[] result = new bool[8];
+            int count = 0;
             for(int i = 0; i < 8; i++)
             {
                 if((literal[i]&&WRegister[i])||(literal[i]&&!WRegister[i])||(!literal[i]&&WRegister[i]))
@@ -368,14 +369,25 @@ namespace PicSimulator
                 else
                 {
                     result[i] = false;
+                    count++;
                 }
             }
             WRegister = result;
+            if(count == 8)
+            {
+                BSF(3, 2);
+                BSF(131, 2);
+            }
+            else
+            {
+                BCF(3, 2);
+                BCF(131, 2);
+            }
         }
         void ANDLW(bool[] literal)
         {
             bool[] result = new bool[8];
-
+            int count = 0;
             for (int i = 0; i < 8; i++)
             {
                 if ((literal[i] && WRegister[i]))
@@ -384,14 +396,26 @@ namespace PicSimulator
                 }
                 else
                 {
+                    count++;
                     result[i] = false;
                 }
             }
             WRegister = result;
+            if(count == 8)
+            {
+                BSF(3, 2);
+                BSF(131, 2);
+            }
+            else
+            {
+                BCF(3, 2);
+                BCF(131, 2);
+            }
         }
         void XORLW(bool[] literal)
         {
             bool[] result = new bool[8];
+            int count = 0;
 
             for (int i = 0; i < 8; i++)
             {
@@ -401,10 +425,21 @@ namespace PicSimulator
                 }
                 else
                 {
+                    count++;
                     result[i] = false;
                 }
             }
             WRegister = result;
+            if (count == 8)
+            {
+                BSF(3, 2);
+                BSF(131, 2);
+            }
+            else
+            {
+                BCF(3, 2);
+                BCF(131, 2);
+            }
         }
         void SUBLW(int literal)
         {
