@@ -16,15 +16,14 @@ namespace PicSimulator
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
         public int backendCurrentRow = 0;
-        int BoolArrayToInt(bool[] bits)     //Diese funktion könnte nicht funktionieren
+        int BoolArrayToInt(bool[] bits)     //
         {
+            if (bits.Length > 32) throw new ArgumentException("Can only fit 32 bits in a uint");
+
             int r = 0;
             for (int i = 0; i < bits.Length; i++)
             {
-                if (bits[i])
-                {
-                    r |= 1 << (bits.Length - i);
-                }
+                if (bits[i]) r |= 1 << (bits.Length - i);
             }
             return r;
         }
@@ -473,6 +472,7 @@ namespace PicSimulator
         void SUBLW(int literal)         //ask DC bit affected???
         {
             int w = BoolArrayToInt(WRegister);
+            bool checkDC = WRegister[3];
             int result = w - literal;
             if (result < 0)
             {
@@ -508,10 +508,22 @@ namespace PicSimulator
                 BSF(3, 0);      //set carry bit
                 BSF(131, 0);
             }
+            if (checkDC == WRegister[3])
+            {
+                BSF(3, 1);      //set digit Carry bit
+                BSF(131, 1);
+            }
+            else
+            {
+                BCF(3, 1);          //unset digit carry bit
+                BCF(131, 1);
+            }
         }
+
         void ADDLW(int literal)          //ask DC bit affected???
         {
             int w = BoolArrayToInt(WRegister);
+            bool checkDC = WRegister[3];
             int result = w + literal;
             if (result > 255)
             {
@@ -544,7 +556,18 @@ namespace PicSimulator
                 BCF(3, 0);      //unset carry bit
                 BCF(131, 0);
             }
+            if(checkDC == WRegister[3])
+            {
+                BSF(3, 1);      //set digit Carry bit
+                BSF(131, 1);
+            }
+            else
+            {
+                BCF(3, 1);          //unset digit carry bit
+                BCF(131, 1);
+            }
         }
+
         void BCF(int storagePlace, int bitNr)
         {
             storage[storagePlace, bitNr] = false;

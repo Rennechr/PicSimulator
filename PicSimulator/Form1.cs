@@ -200,10 +200,6 @@ namespace PicSimulator
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
             backend.next();
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
-
-
-
-
         }
 
         private void buttonStepIn_Click(object sender, EventArgs e)
@@ -212,6 +208,11 @@ namespace PicSimulator
         }
 
         private void groupBox4_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblSFR_PCL_Click(object sender, EventArgs e)
         {
 
         }
