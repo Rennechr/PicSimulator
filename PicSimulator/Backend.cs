@@ -1181,7 +1181,7 @@ namespace PicSimulator
 
         void MOVF(int addresse)
         {
-            if (addresse > 128)
+            if (addresse < 128)
             {
                 bool[] booltemp = new bool[8];
 
@@ -1221,7 +1221,7 @@ namespace PicSimulator
         }
         void COMF(int addresse)
         {
-            if (addresse > 128)
+            if (addresse < 128)
             {
                 bool[] booltemp = new bool[8];
 
