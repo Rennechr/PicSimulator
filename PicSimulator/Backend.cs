@@ -75,36 +75,57 @@ namespace PicSimulator
                             }
                             //switch case?
                             break;
-                        case "1":       //CLRF or CLRW      todo Jannick
+                        case "1":  //CLRF or CLRW 
+                            if (Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2,1), 16) >= 8)
+                            {
+                                CLRF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
+                            } else
+                            {
+                                CLRW();
+                            }
+
                             break;
-                        case "2":       //SUBWF     todo Jannick
+                        case "2":  //SUBWF
+                            SUBWF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;      
-                        case "3":       //DECF       todo Jannick  
+                        case "3":  //DECF
+                            DECF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "4":       //IORWF     todo Jannick
+                        case "4": //IORWF
+                            IORWF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "5":       //ANDWF     todo Jannick
+                        case "5": //ANDWF
+                            ANDWF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "6":       //XORWF     todo Jannick
+                        case "6": //XORWF
+                            XORWF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "7":       //ADDWF     todo Jannick
+                        case "7": //ADDWF
+                            ADDWF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "8":       //MOVF     todo Jannick
+                        case "8": //MOVF
+                            MOVF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "9":       //COMF     todo Jannick
+                        case "9": //COMF
+                            COMF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "A":       //INCF     todo Jannick
-                            //INCF(speicherstelle)
+                        case "A": //INCF
+                            INCF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "B":       //DECFSZ     todo Jannick
+                        case "B": //DECFSZ
+                            DECFSZ(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "C":       //RRF     todo Jannick
+                        case "C": //RRF
+                            RRF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "D":       //RLF     todo Jannick
+                        case "D": //RLF
+                            RLF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "E":       //SWAPF     todo Jannick
+                        case "E": //SWAPF
+                            SWAPF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
-                        case "F":       //INCFSZ     todo Jannick
+                        case "F": //INCFSZ
+                            INCFSZ(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
                             break;
                         default:
                             break;
@@ -510,13 +531,13 @@ namespace PicSimulator
             }
             if (checkDC == WRegister[3])
             {
-                BSF(3, 1);      //set digit Carry bit
-                BSF(131, 1);
+                BCF(3, 1);      //set digit Carry bit
+                BCF(131, 1);
             }
             else
             {
-                BCF(3, 1);          //unset digit carry bit
-                BCF(131, 1);
+                BSF(3, 1);          //unset digit carry bit
+                BSF(131, 1);
             }
         }
 
@@ -558,13 +579,13 @@ namespace PicSimulator
             }
             if(checkDC == WRegister[3])
             {
-                BSF(3, 1);      //set digit Carry bit
-                BSF(131, 1);
+                BCF(3, 1);      //set digit Carry bit
+                BCF(131, 1);
             }
             else
             {
-                BCF(3, 1);          //unset digit carry bit
-                BCF(131, 1);
+                BSF(3, 1);          //unset digit carry bit
+                BSF(131, 1);
             }
         }
 
@@ -588,6 +609,1132 @@ namespace PicSimulator
             if (storage[storagePlace, bitNr] == true)
             {
                 backendCurrentRow++;
+            }
+        }
+
+        void CLRF(int addresse)
+        {
+            addresse = addresse - 128;
+            for (int i = 0; i < 8; i++)
+            {
+                BCF(addresse, i);
+            }
+        }
+
+        void CLRW()
+        {
+            for (int i = 0; i < 8; i++)
+            {
+                WRegister[i] = false;
+            }
+
+        }
+
+        void SUBWF(int addresse)
+        {
+
+            if (addresse < 128)
+            {
+                int w = BoolArrayToInt(WRegister);
+                bool checkDigitCarry = WRegister[3];
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                int result = f - w;
+
+                if (result == 0)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                    BSF(3, 0);       //set carry bit
+                    BSF(131, 0);
+
+                } else if (result < 0)
+                {
+                    result = result + 256;
+
+                    BCF(3, 2);       //unset zero bit
+                    BCF(131, 2);
+                    BCF(3, 0);       //unset carry bit
+                    BCF(131, 0);
+
+                } else if (result > 0)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                    BSF(3, 0);       //set carry bit
+                    BSF(131, 0);
+                }
+
+                WRegister = IntToBoolArray(result);
+
+                if (checkDigitCarry == WRegister[3])
+                {
+                    BCF(3, 1);
+                    BCF(131, 1);
+                } else
+                {
+                    BSF(3, 1);
+                    BSF(131, 1);
+                }
+            } else
+            {
+                addresse = addresse - 128;
+
+                int w = BoolArrayToInt(WRegister);
+                bool checkDigitCarry = WRegister[3];
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                int result = f - w;
+
+                if (result == 0)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                    BSF(3, 0);       //set carry bit
+                    BSF(131, 0);
+
+                }
+                else if (result < 0)
+                {
+                    result = result + 256;
+
+                    BCF(3, 2);       //unset zero bit
+                    BCF(131, 2);
+                    BCF(3, 0);       //unset carry bit
+                    BCF(131, 0);
+
+                }
+                else if (result > 0)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                    BSF(3, 0);       //set carry bit
+                    BSF(131, 0);
+                }
+
+                bool[] tempBool = new bool[8];
+                tempBool = IntToBoolArray(result);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = tempBool[i];
+                }
+                                
+                if (checkDigitCarry == WRegister[3])
+                {
+                    BCF(3, 1);
+                    BCF(131, 1);
+                }
+                else
+                {
+                    BSF(3, 1);
+                    BSF(131, 1);
+                }
+            }
+        }
+
+
+        void DECF(int addresse)
+        {
+            if (addresse < 128)
+            {
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                f--;
+
+                if (f == 0)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                    BSF(3, 0);       //set carry bit
+                    BSF(131, 0);
+                }
+                else if (f < 0)
+                {
+                    BCF(3, 2);
+                    BCF(131, 2);                    
+                    BCF(3, 0);       //TODO: Ask Lehman Carrybit in DECF
+                    BCF(131, 0);
+
+                    f = f + 256;
+                }
+                else
+                {
+                    BCF(3, 2);       //unset zero bit
+                    BCF(131, 2);
+                    BCF(3, 0);       //unset carry bit
+                    BCF(131, 0);
+                }
+
+                WRegister = IntToBoolArray(f);
+            }
+            else 
+            {
+                addresse = addresse - 128;
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                f--;
+
+                if (f == 0)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                    BSF(3, 0);       //set carry bit
+                    BSF(131, 0);
+                }
+                else if (f < 0)
+                {
+                    BCF(3, 2);
+                    BCF(131, 2);
+                    BCF(3, 0);       //TODO: Ask Lehman Carrybit in DECF
+                    BCF(131, 0);
+
+                    f = f + 256;
+                }
+                else
+                {
+                    BCF(3, 2);       //unset zero bit
+                    BCF(131, 2);
+                    BCF(3, 0);       //unset carry bit
+                    BCF(131, 0);
+                }
+
+                bool[] tempBool = new bool[8];
+                tempBool = IntToBoolArray(f);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = tempBool[i];
+                }
+            }
+        }
+
+        void IORWF(int addresse)
+        {
+            bool[] boolresult = new bool[8];
+
+            if (addresse < 128)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+
+                    if (storage[addresse, i] == false && WRegister[i] == false)
+                    {
+                        boolresult[i] = false;
+                    }
+                    else
+                    {
+                        boolresult[i] = true;
+                    }
+                }
+
+                bool tempfalse = true;
+                for (int i = 0; i < 8; i++)
+                {
+                    if (boolresult[i] == true)
+                    {
+                        tempfalse = false;
+                    }
+                }
+                if (!tempfalse)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                } else
+                {
+                    BCF(3, 2);       //set zero bit
+                    BCF(131, 2);
+                }
+
+                WRegister = boolresult;
+
+            }
+            else
+            {
+                addresse = addresse - 128;
+
+                for (int i = 0; i < 8; i++)
+                {
+
+                    if (storage[addresse, i] == false && WRegister[i] == false)
+                    {
+                        boolresult[i] = false;
+                    }
+                    else
+                    {
+                        boolresult[i] = true;
+                    }
+                }
+
+                bool tempfalse = true;
+                for (int i = 0; i < 8; i++)
+                {
+                    if (boolresult[i] == true)
+                    {
+                        tempfalse = false;
+                    }
+                }
+                if (!tempfalse)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                }
+                else
+                {
+                    BCF(3, 2);       //set zero bit
+                    BCF(131, 2);
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = boolresult[i];
+                }
+            }
+        }
+        void ANDWF(int addresse)
+        {
+            bool[] boolresult = new bool[8];
+
+            if (addresse < 128)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+
+                    if (storage[addresse, i] == true && WRegister[i] == true)
+                    {
+                        boolresult[i] = true;
+                    }
+                    else
+                    {
+                        boolresult[i] = false;
+                    }
+                }
+
+                bool tempfalse = true;
+                for (int i = 0; i < 8; i++)
+                {
+                    if (boolresult[i] == true)
+                    {
+                        tempfalse = false;
+                    }
+                }
+                if (!tempfalse)
+                {
+                    BCF(3, 2);       //set zero bit
+                    BCF(131, 2);
+                }
+                else
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                }
+
+                WRegister = boolresult;
+
+            }
+            else
+            {
+                addresse = addresse - 128;
+
+                for (int i = 0; i < 8; i++)
+                {
+
+                    if (storage[addresse, i] == true && WRegister[i] == true)
+                    {
+                        boolresult[i] = true;
+                    }
+                    else
+                    {
+                        boolresult[i] = false;
+                    }
+                }
+
+                bool tempfalse = true;
+                for (int i = 0; i < 8; i++)
+                {
+                    if (boolresult[i] == true)
+                    {
+                        tempfalse = false;
+                    }
+                }
+                if (!tempfalse)
+                {
+                    BCF(3, 2);       //set zero bit
+                    BCF(131, 2);
+                }
+                else
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = boolresult[i];
+                }
+            }
+        }
+        void XORWF(int addresse)
+        {
+            bool[] boolresult = new bool[8];
+
+            if (addresse < 128)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+
+                    if ((storage[addresse, i] == true && WRegister[i] == true) || 
+                        (storage[addresse, i] == false && WRegister[i] == false))
+                    {
+                        boolresult[i] = false;
+                    }
+                    else
+                    {
+                        boolresult[i] = true;
+                    }
+                }
+
+                bool tempfalse = true;
+                for (int i = 0; i < 8; i++)
+                {
+                    if (boolresult[i] == true)
+                    {
+                        tempfalse = false;
+                    }
+                }
+                if (!tempfalse)
+                {
+                    BCF(3, 2);       //set zero bit
+                    BCF(131, 2);
+                }
+                else
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                }
+
+                WRegister = boolresult;
+
+            }
+            else
+            {
+                addresse = addresse - 128;
+
+                for (int i = 0; i < 8; i++)
+                {
+
+                    if ((storage[addresse, i] == true && WRegister[i] == true) ||
+                        (storage[addresse, i] == false && WRegister[i] == false))
+                    {
+                        boolresult[i] = false;
+                    }
+                    else
+                    {
+                        boolresult[i] = true;
+                    }
+                }
+
+                bool tempfalse = true;
+                for (int i = 0; i < 8; i++)
+                {
+                    if (boolresult[i] == true)
+                    {
+                        tempfalse = false;
+                    }
+                }
+                if (!tempfalse)
+                {
+                    BCF(3, 2);       //set zero bit
+                    BCF(131, 2);
+                }
+                else
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = boolresult[i];
+                }
+            }
+        }
+
+        void ADDWF(int addresse)
+        {
+            if (addresse < 128)
+            {
+                int w = BoolArrayToInt(WRegister);
+                bool checkDigitCarry = WRegister[3];
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                int result = f + w;
+
+          
+                if (result > 255)
+                {
+                    result = result - 256;
+                  
+
+                    BSF(3, 0);       //set carry bit
+                    BSF(131, 0);
+
+                }
+                else
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                    BCF(3, 0);       //unset carry bit
+                    BCF(131, 0);
+                }
+
+                if (result == 0)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                }
+                else
+                {
+                    BCF(3, 2);       //unset zero bit
+                    BCF(131, 2);
+                }
+
+                WRegister = IntToBoolArray(result);
+
+                if (checkDigitCarry == WRegister[3])
+                {
+                    BCF(3, 1);
+                    BCF(131, 1);
+                }
+                else
+                {
+                    BSF(3, 1);
+                    BSF(131, 1);
+                }
+
+            }
+            else
+            {
+                addresse = addresse - 128;
+
+                int w = BoolArrayToInt(WRegister);
+                bool checkDigitCarry = WRegister[3];
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                int result = f + w;
+
+
+                if (result > 255)
+                {
+                    result = result - 256;
+
+
+                    BSF(3, 0);       //set carry bit
+                    BSF(131, 0);
+
+                }
+                else
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                    BCF(3, 0);       //unset carry bit
+                    BCF(131, 0);
+                }
+
+                if (result == 0)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                }
+                else
+                {
+                    BCF(3, 2);       //unset zero bit
+                    BCF(131, 2);
+                }
+
+                bool[] tempBool = new bool[8];
+                tempBool = IntToBoolArray(result);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = tempBool[i];
+                }
+
+                if (checkDigitCarry == WRegister[3])
+                {
+                    BCF(3, 1);
+                    BCF(131, 1);
+                }
+                else
+                {
+                    BSF(3, 1);
+                    BSF(131, 1);
+                }
+
+            }
+        }
+
+        void MOVF(int addresse)
+        {
+            if (addresse > 128)
+            {
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                WRegister = booltemp;
+
+                BSF(3, 2);       //set zero bit
+                BSF(131, 2);
+
+
+
+            } else
+            {
+                addresse = addresse - 128;
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = booltemp[i];
+                }
+
+                BCF(3, 2);       //unset zero bit
+                BCF(131, 2);
+
+
+            }
+        }
+        void COMF(int addresse)
+        {
+            if (addresse > 128)
+            {
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = !storage[addresse, i];
+                }
+
+                WRegister = booltemp;
+                bool tempfalse = true;
+                
+                for (int i = 0; i < 8; i++)
+                {
+                    if (booltemp[i] == true)
+                    {
+                        tempfalse = false;
+                    }
+                }
+                if (!tempfalse)
+                {
+                    BCF(3, 2);       //unset zero bit
+                    BCF(131, 2);
+                }
+                else
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                }
+            }
+            else
+            {
+                addresse = addresse - 128;
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = !storage[addresse, i];
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = booltemp[i];
+                }
+
+                bool tempfalse = true;
+
+                for (int i = 0; i < 8; i++)
+                {
+                    if (booltemp[i] == true)
+                    {
+                        tempfalse = false;
+                    }
+                }
+                if (!tempfalse)
+                {
+                    BCF(3, 2);       //unset zero bit
+                    BCF(131, 2);
+                }
+                else
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                }
+            }
+        }
+
+
+
+        void INCF(int addresse)
+        {
+            if (addresse < 128)
+            {
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                f++;
+
+                if (f > 255)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                    BSF(3, 0);       //set carry bit
+                    BSF(131, 0);
+
+                    f = f - 256;
+                }
+                else
+                {
+                    BCF(3, 2);       //unset zero bit
+                    BCF(131, 2);
+                    BCF(3, 0);       //unset carry bit
+                    BCF(131, 0);
+                }
+
+                WRegister = IntToBoolArray(f);
+            }
+            else
+            {
+                addresse = addresse - 128;
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                f++;
+
+                if (f > 255)
+                {
+                    BSF(3, 2);       //set zero bit
+                    BSF(131, 2);
+                    BSF(3, 0);       //set carry bit
+                    BSF(131, 0);
+
+                    f = f - 256;
+                }
+                else
+                {
+                    BCF(3, 2);       //unset zero bit
+                    BCF(131, 2);
+                    BCF(3, 0);       //unset carry bit
+                    BCF(131, 0);
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = booltemp[i];
+                }
+            }
+        }
+        void DECFSZ(int addresse)
+        {
+            if (addresse < 128)
+            {
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                f--;
+
+                if (f == 0)
+                {
+                    backendCurrentRow++;
+                }
+                else if (f < 0)
+                {
+                    f = f + 256;
+                }
+
+                WRegister = IntToBoolArray(f);
+            }
+            else
+            {
+                addresse = addresse - 128;
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                f--;
+
+                if (f == 0)
+                {
+                    backendCurrentRow++;
+                }
+                else if (f < 0)
+                {
+                    f = f + 256;
+                }
+
+                bool[] tempBool = new bool[8];
+                tempBool = IntToBoolArray(f);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = tempBool[i];
+                }
+            }
+        }
+        void RRF(int addresse)
+        {
+            if (addresse < 128)
+            {
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                bool temp, temp2;
+
+                temp = booltemp[0];
+                booltemp[0] = false;
+                
+                for (int i = 1; i < 8; i++)
+                {
+                    temp2 = booltemp[i];
+                    booltemp[i] = temp;
+                    temp = temp2;
+                }
+                BCF(3, 0);       //unset carry bit
+                BCF(131, 0);
+
+                WRegister = booltemp;
+            }
+            else
+            {
+                addresse = addresse - 128;
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                bool temp, temp2;
+
+                temp = booltemp[0];
+                booltemp[0] = false;
+
+                for (int i = 1; i < 8; i++)
+                {
+                    temp2 = booltemp[i];
+                    booltemp[i] = temp;
+                    temp = temp2;
+                }
+                BCF(3, 0);       //unset carry bit
+                BCF(131, 0);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = booltemp[i];
+                }
+            }
+        }
+
+
+
+
+        void RLF(int addresse)
+        {
+            if (addresse < 128)
+            {
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                bool temp, temp2;
+
+                temp = booltemp[7];
+                booltemp[7] = false;
+
+                for (int i = 6; i >= 0 ; i--)
+                {
+                    temp2 = booltemp[i];
+                    booltemp[i] = temp;
+                    temp = temp2;
+                }
+                BSF(3, 0);       //unset carry bit
+                BSF(131, 0);
+
+                WRegister = booltemp;
+            }
+            else
+            {
+                addresse = addresse - 128;
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                bool temp, temp2;
+
+                temp = booltemp[7];
+                booltemp[7] = false;
+
+                for (int i = 6; i >= 0; i--)
+                {
+                    temp2 = booltemp[i];
+                    booltemp[i] = temp;
+                    temp = temp2;
+                }
+                BSF(3, 0);       //unset carry bit
+                BSF(131, 0);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = booltemp[i];
+                }
+            }
+
+        }
+        void SWAPF(int addresse)
+             
+        {
+            if (addresse < 128)
+            {
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+
+                bool[] booltemp1 = new bool[4];
+
+                for (int i = 0; i < 4; i++)
+                {
+                    booltemp1[i] = booltemp[i];
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    booltemp[i] = booltemp[i+4];
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    booltemp[i+4] = booltemp1[i];
+                }
+
+
+                WRegister = booltemp;
+            }
+            else
+            {
+                addresse = addresse - 128;
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                bool[] booltemp1 = new bool[4];
+
+                for (int i = 0; i < 4; i++)
+                {
+                    booltemp1[i] = booltemp[i];
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    booltemp[i] = booltemp[i + 4];
+                }
+                for (int i = 0; i < 4; i++)
+                {
+                    booltemp[i + 4] = booltemp1[i];
+                }
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = booltemp[i];
+                }
+            }
+
+        }
+        void INCFSZ(int addresse)
+        
+        {
+            if (addresse < 128)
+            {
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                f++;
+
+                if (f == 256)
+                {
+                    f = 0;
+                    backendCurrentRow++;
+                }
+
+                WRegister = IntToBoolArray(f);
+            }
+            else
+            {
+                addresse = addresse - 128;
+
+                bool[] booltemp = new bool[8];
+
+                for (int i = 0; i < 8; i++)
+                {
+                    booltemp[i] = storage[addresse, i];
+                }
+
+                int f = BoolArrayToInt(booltemp);
+
+                f++;
+
+                if (f == 256)
+                {
+                    f = 0;
+                    backendCurrentRow++;
+                }
+
+                bool[] tempBool = new bool[8];
+                tempBool = IntToBoolArray(f);
+
+                for (int i = 0; i < 8; i++)
+                {
+                    storage[addresse, i] = tempBool[i];
+                }
+            }
+        }
+
+
+
+
+
+
+
+        void setCarryBit(bool set)
+        {
+            if (set)
+            {
+                BSF(3, 0);
+                BSF(131, 0);
+
+            } else
+            {
+                BCF(3, 0);     
+                BCF(131, 0);
+            }
+        }
+
+        void setZeroBit(bool set)
+        {
+            if (set)
+            {
+                BSF(3, 2);
+                BSF(131, 2);
+            }
+            else
+            {
+                BCF(3, 2);
+                BCF(131, 2);
             }
         }
     }
