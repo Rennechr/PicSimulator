@@ -16,7 +16,7 @@ namespace PicSimulator
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
         public int backendCurrentRow = 0;
-        int BoolArrayToInt(bool[] bits)     //
+        int BoolArrayToInt(bool[] bits)   //
         {
             if (bits.Length > 32) throw new ArgumentException("Can only fit 32 bits in a uint");
 
