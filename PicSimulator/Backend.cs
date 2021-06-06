@@ -518,13 +518,11 @@ namespace PicSimulator
             }
             if (checkDC == WRegister[3])
             {
-                BCF(3, 1);      //set digit Carry bit
-                BCF(131, 1);
+                setDigitCarryBit(false);
             }
             else
             {
-                BSF(3, 1);          //unset digit carry bit
-                BSF(131, 1);
+                setDigitCarryBit(true);
             }
         }
 
@@ -560,13 +558,11 @@ namespace PicSimulator
             }
             if(checkDC == WRegister[3])
             {
-                BCF(3, 1);      //set digit Carry bit
-                BCF(131, 1);
+                setDigitCarryBit(false);
             }
             else
             {
-                BSF(3, 1);          //unset digit carry bit
-                BSF(131, 1);
+                setDigitCarryBit(true);
             }
         }
 
@@ -652,12 +648,11 @@ namespace PicSimulator
 
                 if (checkDigitCarry == WRegister[3])
                 {
-                    BCF(3, 1);
-                    BCF(131, 1);
-                } else
+                    setDigitCarryBit(false);
+                } 
+                else
                 {
-                    BSF(3, 1);
-                    BSF(131, 1);
+                    setDigitCarryBit(true);
                 }
             } else
             {
@@ -707,13 +702,11 @@ namespace PicSimulator
                                 
                 if (checkDigitCarry == WRegister[3])
                 {
-                    BCF(3, 1);
-                    BCF(131, 1);
+                    setDigitCarryBit(false);
                 }
                 else
                 {
-                    BSF(3, 1);
-                    BSF(131, 1);
+                    setDigitCarryBit(true);
                 }
             }
         }
@@ -1083,13 +1076,11 @@ namespace PicSimulator
 
                 if (checkDigitCarry == WRegister[3])
                 {
-                    BCF(3, 1);
-                    BCF(131, 1);
+                    setDigitCarryBit(false);
                 }
                 else
                 {
-                    BSF(3, 1);
-                    BSF(131, 1);
+                    setDigitCarryBit(true);
                 }
 
             }
@@ -1145,13 +1136,11 @@ namespace PicSimulator
 
                 if (checkDigitCarry == WRegister[3])
                 {
-                    BCF(3, 1);
-                    BCF(131, 1);
+                    setDigitCarryBit(false);
                 }
                 else
                 {
-                    BSF(3, 1);
-                    BSF(131, 1);
+                    setDigitCarryBit(true);
                 }
 
             }
@@ -1631,7 +1620,19 @@ namespace PicSimulator
 
 
 
-
+        void setDigitCarryBit(bool set)
+        {
+            if (set)
+            {
+                BSF(3, 1);
+                BSF(131, 1);
+            }
+            else
+            {
+                BCF(3, 1);      
+                BCF(131, 1);
+            }
+        }
 
         void setCarryBit(bool set)
         {
@@ -1640,7 +1641,8 @@ namespace PicSimulator
                 BSF(3, 0);
                 BSF(131, 0);
 
-            } else
+            }
+            else
             {
                 BCF(3, 0);     
                 BCF(131, 0);
