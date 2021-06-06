@@ -5,18 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-
 namespace PicSimulator
 {
     class Backend
     {
-        public static bool[,] storage = new bool[255,8];
-        public static bool[] WRegister = new bool[8];
+        public bool[,] storage = new bool[255,8];
+        public bool[] WRegister = new bool[8];
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
         public int backendCurrentRow = 0;
-        int BoolArrayToInt(bool[] bits)
+        public int BoolArrayToInt(bool[] bits)
         {
             if (bits.Length > 32) throw new ArgumentException("Can only fit 32 bits in a uint");
 

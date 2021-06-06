@@ -199,6 +199,16 @@ namespace PicSimulator
             label1.Text = laufzeit.ToString();  //todo Laufzeittimer vom Backend updaten je nach befehl
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
             backend.next();
+            bool[] temp = new bool[8];
+            for(int i = 0; i< 255; i++)
+            {
+                for(int ii = 0; ii < 8; ii++)
+                {
+                    temp[ii] = backend.storage[i, ii];
+                }
+                string hexValue = backend.BoolArrayToInt(temp).ToString("X");
+                dataGridView1[(i % 8), (i / 8)].Value = hexValue;
+            }
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
         }
 
