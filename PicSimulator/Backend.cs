@@ -428,7 +428,7 @@ namespace PicSimulator
             }
             else
             {
-                setZeroBit(false)
+                setZeroBit(false);
             }
         }
         void ANDLW(bool[] literal)
