@@ -502,22 +502,19 @@ namespace PicSimulator
                     setZeroBit(false);
                 }
                 
-                BCF(3, 0);          //unset carry bit
-                BCF(131, 0);
+                setCarryBit(false);
             }
             else if(result == 0)
             {
                 WRegister = IntToBoolArray(result);
                 setZeroBit(true);
-                BSF(3, 0);       //set carry bit
-                BSF(131, 0);
+                setCarryBit(true);
             }
             else
             {
                 WRegister = IntToBoolArray(result);                
                 setZeroBit(false);
-                BSF(3, 0);      //set carry bit
-                BSF(131, 0);
+                setCarryBit(true);
             }
             if (checkDC == WRegister[3])
             {
@@ -548,8 +545,7 @@ namespace PicSimulator
                 {                    
                     setZeroBit(false);
                 }
-                BSF(3, 0);          //set carry bit
-                BSF(131, 0);
+                setCarryBit(true);
             }
             else if (result == 0)
             {
@@ -560,8 +556,7 @@ namespace PicSimulator
             {
                 WRegister = IntToBoolArray(result);
                 setZeroBit(false);
-                BCF(3, 0);      //unset carry bit
-                BCF(131, 0);
+                setCarryBit(false);
             }
             if(checkDC == WRegister[3])
             {
@@ -638,22 +633,19 @@ namespace PicSimulator
                 if (result == 0)
                 {
                     setZeroBit(true);
-                    BSF(3, 0);       //set carry bit
-                    BSF(131, 0);
+                    setCarryBit(true);
 
                 } else if (result < 0)
                 {
                     result = result + 256;
 
                     setZeroBit(false);
-                    BCF(3, 0);       //unset carry bit
-                    BCF(131, 0);
+                    setCarryBit(false);
 
                 } else if (result > 0)
                 {
                     setZeroBit(true);
-                    BSF(3, 0);       //set carry bit
-                    BSF(131, 0);
+                    setCarryBit(true);
                 }
 
                 WRegister = IntToBoolArray(result);
@@ -688,8 +680,7 @@ namespace PicSimulator
                 if (result == 0)
                 {
                     setZeroBit(true);
-                    BSF(3, 0);       //set carry bit
-                    BSF(131, 0);
+                    setCarryBit(true);
 
                 }
                 else if (result < 0)
@@ -697,15 +688,13 @@ namespace PicSimulator
                     result = result + 256;
                     
                     setZeroBit(false);
-                    BCF(3, 0);       //unset carry bit
-                    BCF(131, 0);
+                    setCarryBit(false);
 
                 }
                 else if (result > 0)
                 {
                     setZeroBit(true);
-                    BSF(3, 0);       //set carry bit
-                    BSF(131, 0);
+                    setCarryBit(true);
                 }
 
                 bool[] tempBool = new bool[8];
@@ -748,14 +737,12 @@ namespace PicSimulator
                 if (f == 0)
                 {
                     setZeroBit(true);
-                    BSF(3, 0);       //set carry bit
-                    BSF(131, 0);
+                    setCarryBit(true);
                 }
                 else if (f < 0)
                 {
                     setZeroBit(false);                    
-                    BCF(3, 0);       //TODO: Ask Lehman Carrybit in DECF
-                    BCF(131, 0);
+                    setCarryBit(false);
 
                     f = f + 256;
                 }
@@ -763,8 +750,7 @@ namespace PicSimulator
                 {
                     
                     setZeroBit(false);
-                    BCF(3, 0);       //unset carry bit
-                    BCF(131, 0);
+                    setCarryBit(false);
                 }
 
                 WRegister = IntToBoolArray(f);
@@ -787,14 +773,12 @@ namespace PicSimulator
                 if (f == 0)
                 {
                     setZeroBit(true);
-                    BSF(3, 0);       //set carry bit
-                    BSF(131, 0);
+                    setCarryBit(true);
                 }
                 else if (f < 0)
                 {
                     setZeroBit(false);
-                    BCF(3, 0);       //TODO: Ask Lehman Carrybit in DECF
-                    BCF(131, 0);
+                    setCarryBit(false);
 
                     f = f + 256;
                 }
@@ -802,8 +786,7 @@ namespace PicSimulator
                 {
                     
                     setZeroBit(false);
-                    BCF(3, 0);       //unset carry bit
-                    BCF(131, 0);
+                    setCarryBit(false);
                 }
 
                 bool[] tempBool = new bool[8];
@@ -1078,16 +1061,13 @@ namespace PicSimulator
                 {
                     result = result - 256;
                   
-
-                    BSF(3, 0);       //set carry bit
-                    BSF(131, 0);
+                    setCarryBit(true);
 
                 }
                 else
                 {
                     setZeroBit(true);
-                    BCF(3, 0);       //unset carry bit
-                    BCF(131, 0);
+                    setCarryBit(false);
                 }
 
                 if (result == 0)
@@ -1137,15 +1117,13 @@ namespace PicSimulator
                     result = result - 256;
 
 
-                    BSF(3, 0);       //set carry bit
-                    BSF(131, 0);
+                    setCarryBit(true);
 
                 }
                 else
                 {
                     setZeroBit(true);
-                    BCF(3, 0);       //unset carry bit
-                    BCF(131, 0);
+                    setCarryBit(false);
                 }
 
                 if (result == 0)
@@ -1306,16 +1284,14 @@ namespace PicSimulator
                 if (f > 255)
                 {
                     setZeroBit(true);
-                    BSF(3, 0);       //set carry bit
-                    BSF(131, 0);
+                    setCarryBit(true);
 
                     f = f - 256;
                 }
                 else
                 {
                     setZeroBit(false);
-                    BCF(3, 0);       //unset carry bit
-                    BCF(131, 0);
+                    setCarryBit(false);
                 }
 
                 WRegister = IntToBoolArray(f);
@@ -1338,16 +1314,14 @@ namespace PicSimulator
                 if (f > 255)
                 {
                     setZeroBit(true);
-                    BSF(3, 0);       //set carry bit
-                    BSF(131, 0);
+                    setCarryBit(true);
 
                     f = f - 256;
                 }
                 else
                 {
                     setZeroBit(false);
-                    BCF(3, 0);       //unset carry bit
-                    BCF(131, 0);
+                    setCarryBit(false);
                 }
 
                 booltemp = IntToBoolArray(f);
@@ -1439,8 +1413,7 @@ namespace PicSimulator
                     booltemp[i] = temp;
                     temp = temp2;
                 }
-                BCF(3, 0);       //unset carry bit
-                BCF(131, 0);
+                setCarryBit(false);
 
                 WRegister = booltemp;
             }
@@ -1466,8 +1439,7 @@ namespace PicSimulator
                     booltemp[i] = temp;
                     temp = temp2;
                 }
-                BCF(3, 0);       //unset carry bit
-                BCF(131, 0);
+                setCarryBit(false);
 
                 for (int i = 0; i < 8; i++)
                 {
@@ -1501,8 +1473,7 @@ namespace PicSimulator
                     booltemp[i] = temp;
                     temp = temp2;
                 }
-                BSF(3, 0);       //unset carry bit
-                BSF(131, 0);
+                setCarryBit(true);
 
                 WRegister = booltemp;
             }
@@ -1528,8 +1499,7 @@ namespace PicSimulator
                     booltemp[i] = temp;
                     temp = temp2;
                 }
-                BSF(3, 0);       //unset carry bit
-                BSF(131, 0);
+                setCarryBit(true);
 
                 for (int i = 0; i < 8; i++)
                 {
