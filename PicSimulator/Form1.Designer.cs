@@ -82,6 +82,24 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.lbl13 = new System.Windows.Forms.Label();
+            this.lblSFR_INTCON = new System.Windows.Forms.Label();
+            this.lblSFR_RBIF = new System.Windows.Forms.Label();
+            this.lblSFR_INTF = new System.Windows.Forms.Label();
+            this.lblSFR_T0IF = new System.Windows.Forms.Label();
+            this.lblSFR_RBIE = new System.Windows.Forms.Label();
+            this.lblSFR_INTE = new System.Windows.Forms.Label();
+            this.lblSFR_T0IE = new System.Windows.Forms.Label();
+            this.lblSFR_PIE = new System.Windows.Forms.Label();
+            this.lblSFR_GIE = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -352,6 +370,24 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.lblSFR_RBIF);
+            this.groupBox4.Controls.Add(this.lblSFR_INTF);
+            this.groupBox4.Controls.Add(this.lblSFR_T0IF);
+            this.groupBox4.Controls.Add(this.lblSFR_RBIE);
+            this.groupBox4.Controls.Add(this.lblSFR_INTE);
+            this.groupBox4.Controls.Add(this.lblSFR_T0IE);
+            this.groupBox4.Controls.Add(this.lblSFR_PIE);
+            this.groupBox4.Controls.Add(this.lblSFR_GIE);
+            this.groupBox4.Controls.Add(this.label28);
+            this.groupBox4.Controls.Add(this.label29);
+            this.groupBox4.Controls.Add(this.label30);
+            this.groupBox4.Controls.Add(this.label31);
+            this.groupBox4.Controls.Add(this.label32);
+            this.groupBox4.Controls.Add(this.label33);
+            this.groupBox4.Controls.Add(this.label34);
+            this.groupBox4.Controls.Add(this.label35);
+            this.groupBox4.Controls.Add(this.lblSFR_INTCON);
+            this.groupBox4.Controls.Add(this.lbl13);
             this.groupBox4.Controls.Add(this.groupBox5);
             this.groupBox4.Controls.Add(this.lblSFR_C);
             this.groupBox4.Controls.Add(this.lblSFR_DC);
@@ -373,7 +409,7 @@
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Size = new System.Drawing.Size(309, 173);
+            this.groupBox4.Size = new System.Drawing.Size(309, 246);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "SFR";
@@ -661,11 +697,189 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "IRP";
             // 
+            // lbl13
+            // 
+            this.lbl13.AutoSize = true;
+            this.lbl13.Location = new System.Drawing.Point(4, 176);
+            this.lbl13.Name = "lbl13";
+            this.lbl13.Size = new System.Drawing.Size(65, 19);
+            this.lbl13.TabIndex = 28;
+            this.lbl13.Text = "INTCON";
+            // 
+            // lblSFR_INTCON
+            // 
+            this.lblSFR_INTCON.AutoSize = true;
+            this.lblSFR_INTCON.Location = new System.Drawing.Point(61, 176);
+            this.lblSFR_INTCON.Name = "lblSFR_INTCON";
+            this.lblSFR_INTCON.Size = new System.Drawing.Size(26, 19);
+            this.lblSFR_INTCON.TabIndex = 11;
+            this.lblSFR_INTCON.Text = "00";
+            // 
+            // lblSFR_RBIF
+            // 
+            this.lblSFR_RBIF.AutoSize = true;
+            this.lblSFR_RBIF.Location = new System.Drawing.Point(245, 212);
+            this.lblSFR_RBIF.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFR_RBIF.Name = "lblSFR_RBIF";
+            this.lblSFR_RBIF.Size = new System.Drawing.Size(14, 15);
+            this.lblSFR_RBIF.TabIndex = 45;
+            this.lblSFR_RBIF.Text = "0";
+            // 
+            // lblSFR_INTF
+            // 
+            this.lblSFR_INTF.AutoSize = true;
+            this.lblSFR_INTF.Location = new System.Drawing.Point(213, 212);
+            this.lblSFR_INTF.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFR_INTF.Name = "lblSFR_INTF";
+            this.lblSFR_INTF.Size = new System.Drawing.Size(14, 15);
+            this.lblSFR_INTF.TabIndex = 44;
+            this.lblSFR_INTF.Text = "0";
+            // 
+            // lblSFR_T0IF
+            // 
+            this.lblSFR_T0IF.AutoSize = true;
+            this.lblSFR_T0IF.Location = new System.Drawing.Point(175, 212);
+            this.lblSFR_T0IF.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFR_T0IF.Name = "lblSFR_T0IF";
+            this.lblSFR_T0IF.Size = new System.Drawing.Size(14, 15);
+            this.lblSFR_T0IF.TabIndex = 43;
+            this.lblSFR_T0IF.Text = "0";
+            // 
+            // lblSFR_RBIE
+            // 
+            this.lblSFR_RBIE.AutoSize = true;
+            this.lblSFR_RBIE.Location = new System.Drawing.Point(137, 212);
+            this.lblSFR_RBIE.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFR_RBIE.Name = "lblSFR_RBIE";
+            this.lblSFR_RBIE.Size = new System.Drawing.Size(14, 15);
+            this.lblSFR_RBIE.TabIndex = 42;
+            this.lblSFR_RBIE.Text = "0";
+            // 
+            // lblSFR_INTE
+            // 
+            this.lblSFR_INTE.AutoSize = true;
+            this.lblSFR_INTE.Location = new System.Drawing.Point(100, 212);
+            this.lblSFR_INTE.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFR_INTE.Name = "lblSFR_INTE";
+            this.lblSFR_INTE.Size = new System.Drawing.Size(14, 15);
+            this.lblSFR_INTE.TabIndex = 41;
+            this.lblSFR_INTE.Text = "0";
+            // 
+            // lblSFR_T0IE
+            // 
+            this.lblSFR_T0IE.AutoSize = true;
+            this.lblSFR_T0IE.Location = new System.Drawing.Point(65, 212);
+            this.lblSFR_T0IE.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFR_T0IE.Name = "lblSFR_T0IE";
+            this.lblSFR_T0IE.Size = new System.Drawing.Size(14, 15);
+            this.lblSFR_T0IE.TabIndex = 40;
+            this.lblSFR_T0IE.Text = "0";
+            // 
+            // lblSFR_PIE
+            // 
+            this.lblSFR_PIE.AutoSize = true;
+            this.lblSFR_PIE.Location = new System.Drawing.Point(34, 212);
+            this.lblSFR_PIE.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFR_PIE.Name = "lblSFR_PIE";
+            this.lblSFR_PIE.Size = new System.Drawing.Size(14, 15);
+            this.lblSFR_PIE.TabIndex = 39;
+            this.lblSFR_PIE.Text = "0";
+            // 
+            // lblSFR_GIE
+            // 
+            this.lblSFR_GIE.AutoSize = true;
+            this.lblSFR_GIE.Location = new System.Drawing.Point(5, 212);
+            this.lblSFR_GIE.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblSFR_GIE.Name = "lblSFR_GIE";
+            this.lblSFR_GIE.Size = new System.Drawing.Size(14, 15);
+            this.lblSFR_GIE.TabIndex = 38;
+            this.lblSFR_GIE.Text = "0";
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(245, 198);
+            this.label28.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(34, 15);
+            this.label28.TabIndex = 37;
+            this.label28.Text = "RBIF";
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(210, 198);
+            this.label29.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(33, 15);
+            this.label29.TabIndex = 36;
+            this.label29.Text = "INTF";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(175, 198);
+            this.label30.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(31, 15);
+            this.label30.TabIndex = 35;
+            this.label30.Text = "T0IF";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(137, 198);
+            this.label31.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(35, 15);
+            this.label31.TabIndex = 34;
+            this.label31.Text = "RBIE";
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(100, 198);
+            this.label32.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(34, 15);
+            this.label32.TabIndex = 33;
+            this.label32.Text = "INTE";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(65, 198);
+            this.label33.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(32, 15);
+            this.label33.TabIndex = 32;
+            this.label33.Text = "T0IE";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(34, 198);
+            this.label34.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(26, 15);
+            this.label34.TabIndex = 31;
+            this.label34.Text = "PIE";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(5, 198);
+            this.label35.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(27, 15);
+            this.label35.TabIndex = 30;
+            this.label35.Text = "GIE";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(974, 604);
+            this.ClientSize = new System.Drawing.Size(779, 542);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
@@ -745,6 +959,24 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label lblSFR_INTCON;
+        private System.Windows.Forms.Label lbl13;
+        private System.Windows.Forms.Label lblSFR_RBIF;
+        private System.Windows.Forms.Label lblSFR_INTF;
+        private System.Windows.Forms.Label lblSFR_T0IF;
+        private System.Windows.Forms.Label lblSFR_RBIE;
+        private System.Windows.Forms.Label lblSFR_INTE;
+        private System.Windows.Forms.Label lblSFR_T0IE;
+        private System.Windows.Forms.Label lblSFR_PIE;
+        private System.Windows.Forms.Label lblSFR_GIE;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
     }
 }
 
