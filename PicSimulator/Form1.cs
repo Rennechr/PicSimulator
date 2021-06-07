@@ -203,27 +203,38 @@ namespace PicSimulator
             label1.Text = laufzeit.ToString();  //todo Laufzeittimer vom Backend updaten je nach befehl
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
             backend.next();
+            updateGUI();
+            
+            codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
+        }
+        void updateGUI()
+        {
             bool[] temp = new bool[8];
-            for(int i = 0; i< 255; i++)
+            for (int i = 0; i < 255; i++)
             {
-                for(int ii = 0; ii < 8; ii++)
+                for (int ii = 0; ii < 8; ii++)
                 {
                     temp[ii] = backend.storage[i][ii];
                 }
                 string hexValue = backend.BoolArrayToInt(temp).ToString("X");
                 dataGridView1[(i % 8), (i / 8)].Value = hexValue;
             }
-            setSpecialFunctionRegister();
-            codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
-        }
-         void setSpecialFunctionRegister()
-         {
             lblSFR_WREG.Text = backend.BoolArrayToInt(backend.WRegister).ToString("X");
             lblSFR_STATUS.Text = backend.BoolArrayToInt(backend.storage[3]).ToString("X");
+            lblSFR_PCL.Text = backend.BoolArrayToInt(backend.storage[2]).ToString("X");
+            lblSFR_FSR.Text = backend.BoolArrayToInt(backend.storage[4]).ToString("X");
+            lblSFR_PCLATH.Text = backend.BoolArrayToInt(backend.storage[10]).ToString("X");
+
             lblSFR_Z.Text = Convert.ToInt32(backend.storage[3][2]).ToString();
             lblSFR_C.Text = Convert.ToInt32(backend.storage[3][0]).ToString();
             lblSFR_DC.Text = Convert.ToInt32(backend.storage[3][1]).ToString();
-         }
+            lblSFR_PD.Text = Convert.ToInt32(backend.storage[3][3]).ToString();
+            lblSFR_TO.Text = Convert.ToInt32(backend.storage[3][4]).ToString();
+            lblSFR_RP0.Text = Convert.ToInt32(backend.storage[3][5]).ToString();
+            lblSFR_RP1.Text = Convert.ToInt32(backend.storage[3][6]).ToString();
+            lblSFR_IRP.Text = Convert.ToInt32(backend.storage[3][7]).ToString();
+        }
+
         private void buttonStepIn_Click(object sender, EventArgs e)
         {
             next_step();
@@ -237,6 +248,26 @@ namespace PicSimulator
         private void lblSFR_PCL_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonReset_Click(object sender, EventArgs e)
+        {
+            for(int i = 0; i < 8; i++)
+            {
+                backend.WRegister[i] = false;
+            }
+            for(int i = 0; i<256; i++)
+            {
+                for(int ii = 0; ii < 8; ii++)
+                {
+                    backend.storage[i][ii] = false;
+                }
+
+            }
+            codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
+            backend.calls.Clear();
+            backend.backendCurrentRow = 0;
+            updateGUI();
         }
     }
 }

@@ -613,6 +613,7 @@ namespace PicSimulator
             {
                 BCF(addresse, i);
             }
+            setZeroBit(true);
         }
 
         void CLRW()
@@ -650,7 +651,7 @@ namespace PicSimulator
 
                 } else if (result > 0)
                 {
-                    setZeroBit(true);
+                    setZeroBit(false);
                     setCarryBit(true);
                 }
 
@@ -691,7 +692,7 @@ namespace PicSimulator
                 }
                 else if (result > 0)
                 {
-                    setZeroBit(true);
+                    setZeroBit(false);
                     setCarryBit(true);
                 }
                 storage[addresse] = IntToBoolArray(result); 
@@ -1290,7 +1291,7 @@ namespace PicSimulator
                 bool temp, temp2;
 
                 temp = booltemp[0];
-                booltemp[0] = false;
+                booltemp[0] = storage[3][0];
                 
                 for (int i = 1; i < 8; i++)
                 {
@@ -1299,7 +1300,6 @@ namespace PicSimulator
                     temp = temp2;
                 }
                 setCarryBit(false);
-
                 WRegister = booltemp;
             }
             else
@@ -1316,7 +1316,7 @@ namespace PicSimulator
                 bool temp, temp2;
 
                 temp = booltemp[0];
-                booltemp[0] = false;
+                booltemp[0] = storage[3][0];
 
                 for (int i = 1; i < 8; i++)
                 {
@@ -1349,7 +1349,7 @@ namespace PicSimulator
                 bool temp, temp2;
 
                 temp = booltemp[7];
-                booltemp[7] = false;
+                booltemp[7] = storage[3][0];
 
                 for (int i = 6; i >= 0 ; i--)
                 {
@@ -1375,7 +1375,7 @@ namespace PicSimulator
                 bool temp, temp2;
 
                 temp = booltemp[7];
-                booltemp[7] = false;
+                booltemp[7] = storage[3][0];
 
                 for (int i = 6; i >= 0; i--)
                 {
@@ -1478,10 +1478,6 @@ namespace PicSimulator
 
             }
         }
-
-
-
-
 
         void setDigitCarryBit(bool set)
         {
