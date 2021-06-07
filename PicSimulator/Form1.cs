@@ -236,14 +236,14 @@ namespace PicSimulator
 
             lblSFR_INTCON.Text = backend.BoolArrayToInt(backend.storage[11]).ToString("X");
 
-            lblSFR_GIE.Text = Convert.ToInt32(backend.storage[11][0]).ToString();
-            lblSFR_PIE.Text = Convert.ToInt32(backend.storage[11][1]).ToString();
-            lblSFR_T0IE.Text = Convert.ToInt32(backend.storage[11][2]).ToString();
-            lblSFR_INTE.Text = Convert.ToInt32(backend.storage[11][3]).ToString();
-            lblSFR_RBIE.Text = Convert.ToInt32(backend.storage[11][4]).ToString();
-            lblSFR_T0IF.Text = Convert.ToInt32(backend.storage[11][5]).ToString();
-            lblSFR_INTF.Text = Convert.ToInt32(backend.storage[11][6]).ToString();
-            lblSFR_RBIF.Text = Convert.ToInt32(backend.storage[11][7]).ToString();
+            lblSFR_GIE.Text = Convert.ToInt32(backend.storage[11][7]).ToString();
+            lblSFR_PIE.Text = Convert.ToInt32(backend.storage[11][6]).ToString();
+            lblSFR_T0IE.Text = Convert.ToInt32(backend.storage[11][5]).ToString();
+            lblSFR_INTE.Text = Convert.ToInt32(backend.storage[11][4]).ToString();
+            lblSFR_RBIE.Text = Convert.ToInt32(backend.storage[11][3]).ToString();
+            lblSFR_T0IF.Text = Convert.ToInt32(backend.storage[11][2]).ToString();
+            lblSFR_INTF.Text = Convert.ToInt32(backend.storage[11][1]).ToString();
+            lblSFR_RBIF.Text = Convert.ToInt32(backend.storage[11][0]).ToString();
         }
 
         private void buttonStepIn_Click(object sender, EventArgs e)
