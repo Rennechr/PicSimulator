@@ -38,6 +38,7 @@ namespace PicSimulator
             this.dataGridView1.RowHeadersWidth = 50; //Header width
             for (int i = 0; i < anz_Zeilen_Datagridview; i++)     //Setzen der Headerwerte jeder Zeile
             {
+                
                 if (i % 2 == 0)
                 {
                     this.dataGridView1.Rows[i].HeaderCell.Value = (i / 2).ToString("X") + "0";
@@ -46,6 +47,9 @@ namespace PicSimulator
                 {
                     this.dataGridView1.Rows[i].HeaderCell.Value = (i / 2).ToString("X") + "8";
                 }
+            }
+            for (int i = 0; i < 256; i++){
+                backend.storage[i] = new bool[8];
             }
         }
 
@@ -204,14 +208,22 @@ namespace PicSimulator
             {
                 for(int ii = 0; ii < 8; ii++)
                 {
-                    temp[ii] = backend.storage[i, ii];
+                    temp[ii] = backend.storage[i][ii];
                 }
                 string hexValue = backend.BoolArrayToInt(temp).ToString("X");
                 dataGridView1[(i % 8), (i / 8)].Value = hexValue;
             }
+            setSpecialFunctionRegister();
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
         }
-
+         void setSpecialFunctionRegister()
+         {
+            lblSFR_WREG.Text = backend.BoolArrayToInt(backend.WRegister).ToString("X");
+            lblSFR_STATUS.Text = backend.BoolArrayToInt(backend.storage[3]).ToString("X");
+            lblSFR_Z.Text = Convert.ToInt32(backend.storage[3][2]).ToString();
+            lblSFR_C.Text = Convert.ToInt32(backend.storage[3][0]).ToString();
+            lblSFR_DC.Text = Convert.ToInt32(backend.storage[3][1]).ToString();
+         }
         private void buttonStepIn_Click(object sender, EventArgs e)
         {
             next_step();
