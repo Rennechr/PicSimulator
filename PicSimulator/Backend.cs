@@ -524,7 +524,7 @@ namespace PicSimulator
                     setZeroBit(false);
                 }
                 
-                setCarryBit(false);
+                setCarryBit(true);
             }
             else if(result == 0)
             {
@@ -536,7 +536,7 @@ namespace PicSimulator
             {
                 WRegister = IntToBoolArray(result);                
                 setZeroBit(false);
-                setCarryBit(true);
+                setCarryBit(false);
             }
             int cdErg = BoolArrayToInt(checkDC1) - BoolArrayToInt(checkDC2);
             if (cdErg < 0) 
@@ -674,12 +674,12 @@ namespace PicSimulator
                     result = result + 256;
 
                     setZeroBit(false);
-                    setCarryBit(false);
+                    setCarryBit(true);
 
                 } else if (result > 0)
                 {
                     setZeroBit(false);
-                    setCarryBit(true);
+                    setCarryBit(false);
                 }
                 WRegister = IntToBoolArray(result);
                 int dcErg = BoolArrayToInt(checkDC2) - BoolArrayToInt(checkDC1);
@@ -713,12 +713,13 @@ namespace PicSimulator
                 {
                     result = result + 256;
                     setZeroBit(false);
-                    setCarryBit(false);
+                    setCarryBit(true);
+
                 }
                 else if (result > 0)
                 {
                     setZeroBit(false);
-                    setCarryBit(true);
+                    setCarryBit(false);
                 }
                 save(IntToBoolArray(result),addresse);
                 int dcErg = BoolArrayToInt(checkDC2) - BoolArrayToInt(checkDC1);
