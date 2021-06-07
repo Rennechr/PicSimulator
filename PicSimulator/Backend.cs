@@ -376,7 +376,7 @@ namespace PicSimulator
                             break;
                         case "E":       //ADDLW
                         case "F":
-                            ADDLW(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16));
+                            ADDLW(HexToBoolArray(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2)));
                             break;
                         default:
                             break;
@@ -501,7 +501,7 @@ namespace PicSimulator
                 setZeroBit(false);
             }
         }
-        void SUBLW(int literal)         //ask DC bit affected???
+        void SUBLW(int literal)         //ask DC bit affected??? and how??
         {
             int w = BoolArrayToInt(WRegister);
             bool checkDC = WRegister[3];
@@ -533,7 +533,7 @@ namespace PicSimulator
                 setZeroBit(false);
                 setCarryBit(true);
             }
-            if (checkDC == WRegister[3])
+            if (checkDC == WRegister[3]) //summe untere 4 bit > 
             {
                 setDigitCarryBit(false);
             }
@@ -543,10 +543,19 @@ namespace PicSimulator
             }
         }
 
-        void ADDLW(int literal)          //ask DC bit affected???
+        void ADDLW(bool[] bLiteral)          //ask DC bit affected???
         {
+            int literal = BoolArrayToInt(bLiteral);
             int w = BoolArrayToInt(WRegister);
-            bool checkDC = WRegister[3];
+
+            bool[] checkDC1 = new bool[3];
+            bool[] checkDC2 = new bool[3];
+            for (int i = 4; i < 8; i++)
+            {
+                checkDC1[i] = WRegister[i];
+                checkDC2[i] = bLiteral[i];
+            }
+            
             int result = w + literal;
             if (result > 255)
             {
@@ -573,13 +582,14 @@ namespace PicSimulator
                 setZeroBit(false);
                 setCarryBit(false);
             }
-            if(checkDC == WRegister[3])
+            int dcErg = BoolArrayToInt(checkDC1) + BoolArrayToInt(checkDC2);
+            if (dcErg >= 16)
             {
-                setDigitCarryBit(false);
+                setDigitCarryBit(true);
             }
             else
             {
-                setDigitCarryBit(true);
+                setDigitCarryBit(false);
             }
         }
 
@@ -1001,9 +1011,17 @@ namespace PicSimulator
             if (addresse < 128)
             {
                 int w = BoolArrayToInt(WRegister);
-                bool checkDigitCarry = WRegister[3];
 
                 int f = BoolArrayToInt(storage[addresse]);
+
+                bool[] checkDC1 = new bool[3];
+                bool[] checkDC2 = new bool[3];
+                for (int i = 4; i < 8; i++)
+                {
+                    checkDC1[i] = WRegister[i];
+                    checkDC2[i] = storage[addresse][i];
+                }
+
 
                 int result = f + w;
 
@@ -1031,13 +1049,15 @@ namespace PicSimulator
 
                 WRegister = IntToBoolArray(result);
 
-                if (checkDigitCarry == WRegister[3])
+
+                int dcErg = BoolArrayToInt(checkDC1) + BoolArrayToInt(checkDC2);
+                if (dcErg >= 16)
                 {
-                    setDigitCarryBit(false);
+                    setDigitCarryBit(true);
                 }
                 else
                 {
-                    setDigitCarryBit(true);
+                    setDigitCarryBit(false);
                 }
 
             }
@@ -1049,6 +1069,17 @@ namespace PicSimulator
                 bool checkDigitCarry = WRegister[3];
 
                 int f = BoolArrayToInt(storage[addresse]);
+
+
+                bool[] checkDC1 = new bool[3];
+                bool[] checkDC2 = new bool[3];
+                for (int i = 4; i < 8; i++)
+                {
+                    checkDC1[i] = WRegister[i];
+                    checkDC2[i] = storage[addresse][i];
+                }
+
+
 
                 int result = f + w;
 
@@ -1081,13 +1112,14 @@ namespace PicSimulator
 
                 storage[addresse] = tempBool;
 
-                if (checkDigitCarry == WRegister[3])
+                int dcErg = BoolArrayToInt(checkDC1) + BoolArrayToInt(checkDC2);
+                if (dcErg >= 16)
                 {
-                    setDigitCarryBit(false);
+                    setDigitCarryBit(true);
                 }
                 else
                 {
-                    setDigitCarryBit(true);
+                    setDigitCarryBit(false);
                 }
 
             }
