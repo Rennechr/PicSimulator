@@ -506,12 +506,12 @@ namespace PicSimulator
             int w = BoolArrayToInt(WRegister);
             int literal = BoolArrayToInt(bLiteral);
 
-            bool[] checkDC1 = new bool[3];
-            bool[] checkDC2 = new bool[3];
+            bool[] checkDC1 = new bool[4];
+            bool[] checkDC2 = new bool[4];
             for (int i = 4; i < 8; i++)
             {
-                checkDC1[i] = WRegister[i];
-                checkDC2[i] = bLiteral[i];
+                checkDC1[i-4] = WRegister[i];
+                checkDC2[i-4] = bLiteral[i];
             }
 
             int result = w - literal;
@@ -558,12 +558,12 @@ namespace PicSimulator
             int literal = BoolArrayToInt(bLiteral);
             int w = BoolArrayToInt(WRegister);
 
-            bool[] checkDC1 = new bool[3];
-            bool[] checkDC2 = new bool[3];
+            bool[] checkDC1 = new bool[4];
+            bool[] checkDC2 = new bool[4];
             for (int i = 4; i < 8; i++)
             {
-                checkDC1[i] = WRegister[i];
-                checkDC2[i] = bLiteral[i];
+                checkDC1[i-4] = WRegister[i];
+                checkDC2[i-4] = bLiteral[i];
             }
             
             int result = w + literal;
@@ -652,12 +652,12 @@ namespace PicSimulator
             {
                 int w = BoolArrayToInt(WRegister);
 
-                bool[] checkDC1 = new bool[3];
-                bool[] checkDC2 = new bool[3];
+                bool[] checkDC1 = new bool[4];
+                bool[] checkDC2 = new bool[4];
                 for (int i = 4; i < 8; i++)
                 {
-                    checkDC1[i] = WRegister[i];
-                    checkDC2[i] = storage[addresse][i];
+                    checkDC1[i-4] = WRegister[i];
+                    checkDC2[i-4] = storage[addresse][i];
                 }
 
                 int f = BoolArrayToInt(storage[addresse]);
@@ -699,12 +699,12 @@ namespace PicSimulator
 
                 int w = BoolArrayToInt(WRegister);
 
-                bool[] checkDC1 = new bool[3];
-                bool[] checkDC2 = new bool[3];
+                bool[] checkDC1 = new bool[4];
+                bool[] checkDC2 = new bool[4];
                 for (int i = 4; i < 8; i++)
                 {
-                    checkDC1[i] = WRegister[i];
-                    checkDC2[i] = storage[addresse][i];
+                    checkDC1[i-4] = WRegister[i];
+                    checkDC2[i-4] = storage[addresse][i];
                 }
 
                 int f = BoolArrayToInt(storage[addresse]);
@@ -1041,12 +1041,12 @@ namespace PicSimulator
 
                 int f = BoolArrayToInt(storage[addresse]);
 
-                bool[] checkDC1 = new bool[3];
-                bool[] checkDC2 = new bool[3];
+                bool[] checkDC1 = new bool[4];
+                bool[] checkDC2 = new bool[4];
                 for (int i = 4; i < 8; i++)
                 {
-                    checkDC1[i] = WRegister[i];
-                    checkDC2[i] = storage[addresse][i];
+                    checkDC1[i-4] = WRegister[i];
+                    checkDC2[i-4] = storage[addresse][i];
                 }
 
 
@@ -1098,12 +1098,12 @@ namespace PicSimulator
                 int f = BoolArrayToInt(storage[addresse]);
 
 
-                bool[] checkDC1 = new bool[3];
-                bool[] checkDC2 = new bool[3];
+                bool[] checkDC1 = new bool[4];
+                bool[] checkDC2 = new bool[4];
                 for (int i = 4; i < 8; i++)
                 {
-                    checkDC1[i] = WRegister[i];
-                    checkDC2[i] = storage[addresse][i];
+                    checkDC1[i-4] = WRegister[i];
+                    checkDC2[i-4] = storage[addresse][i];
                 }
 
 
@@ -1351,14 +1351,20 @@ namespace PicSimulator
 
                 temp = booltemp[0];
                 booltemp[0] = storage[3][0];
-                
+                if (booltemp[7])
+                {
+                    setCarryBit(true);
+                }
+                else
+                {
+                    setCarryBit(false);
+                }
                 for (int i = 1; i < 8; i++)
                 {
                     temp2 = booltemp[i];
                     booltemp[i] = temp;
                     temp = temp2;
                 }
-                setCarryBit(false);
                 WRegister = booltemp;
             }
             else
@@ -1376,15 +1382,20 @@ namespace PicSimulator
 
                 temp = booltemp[0];
                 booltemp[0] = storage[3][0];
-
+                if (booltemp[7])
+                {
+                    setCarryBit(true);
+                }
+                else
+                {
+                    setCarryBit(false);
+                }
                 for (int i = 1; i < 8; i++)
                 {
                     temp2 = booltemp[i];
                     booltemp[i] = temp;
                     temp = temp2;
                 }
-                setCarryBit(false);
-
                 
                 storage[addresse] = booltemp;
                 
@@ -1399,24 +1410,29 @@ namespace PicSimulator
             if (addresse < 128)
             {
                 bool[] booltemp = new bool[8];
-
                 for (int i = 0; i < 8; i++)
                 {
                     booltemp[i] = storage[addresse][i];
                 }
-
                 bool temp, temp2;
 
                 temp = booltemp[7];
                 booltemp[7] = storage[3][0];
 
+                if (booltemp[0])
+                {
+                    setCarryBit(true);
+                }
+                else
+                {
+                    setCarryBit(false);
+                }
                 for (int i = 6; i >= 0 ; i--)
                 {
                     temp2 = booltemp[i];
                     booltemp[i] = temp;
                     temp = temp2;
                 }
-                setCarryBit(true);
 
                 WRegister = booltemp;
             }
@@ -1436,14 +1452,20 @@ namespace PicSimulator
                 temp = booltemp[7];
                 booltemp[7] = storage[3][0];
 
+                if (booltemp[0])
+                {
+                    setCarryBit(true);
+                }
+                else
+                {
+                    setCarryBit(false);
+                }
                 for (int i = 6; i >= 0; i--)
                 {
                     temp2 = booltemp[i];
                     booltemp[i] = temp;
                     temp = temp2;
                 }
-                setCarryBit(true);
-
                 storage[addresse] = booltemp;
                 
             }
