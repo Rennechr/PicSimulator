@@ -328,5 +328,21 @@ namespace PicSimulator
             backend.backendCurrentRow = 0;
             updateGUI();
         }
+
+        private void datagridview2_onCellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string value = (string)this.dataGridView2[e.ColumnIndex, e.RowIndex].Value;
+            
+            
+            if (value == "0")
+            {
+                this.dataGridView2[e.ColumnIndex, e.RowIndex].Value = "1";    
+            }
+            if (value == "1")
+            {
+                this.dataGridView2[e.ColumnIndex, e.RowIndex].Value = "0";
+            }
+        }
+
     }
 }
