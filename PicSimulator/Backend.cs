@@ -33,7 +33,7 @@ namespace PicSimulator
             
             int r = 0;
             uint count = 0;
-            for (int i = bits.Length-1; i>=0; i--)
+            for (int i = 0; i< bits.Length; i++)
             {
                 
                 if (bits[i])
