@@ -28,14 +28,28 @@ namespace PicSimulator
             }
             return ret;
         }
-        public int BoolArrayToInt(bool[] bits)
+        public int BoolArrayToIntReverse(bool[] bits)
         {
-            
             int r = 0;
             uint count = 0;
-            for (int i = 0; i< bits.Length; i++)
+            for (int i = 0; i < bits.Length; i++)
             {
-                
+
+                if (bits[i])
+                {
+                    r = r + IntPow(2, count);
+                }
+                count++;
+            }
+            return r;
+        }
+        public int BoolArrayToInt(bool[] bits)
+        {
+            int r = 0;
+            uint count = 0;
+            for (int i = bits.Length - 1; i >= 0; i--)
+            {
+
                 if (bits[i])
                 {
                     r = r + IntPow(2, count);
@@ -410,6 +424,7 @@ namespace PicSimulator
         }
         void RETLW(bool[] literal)
         {
+            Array.Reverse(literal);
             WRegister = literal;
             backendCurrentRow = calls.Last();
             calls.RemoveAt(calls.Count - 1);
@@ -417,10 +432,12 @@ namespace PicSimulator
         }
         void MOVLW(bool[] literal)
         {
+            Array.Reverse(literal);
             WRegister = literal;
         }
         void IORLW(bool[] literal)             
         {
+            Array.Reverse(literal);
             bool[] result = new bool[8];
             int count = 0;
             for(int i = 0; i < 8; i++)
@@ -447,6 +464,7 @@ namespace PicSimulator
         }
         void ANDLW(bool[] literal)
         {
+            Array.Reverse(literal);
             bool[] result = new bool[8];
             int count = 0;
             for (int i = 0; i < 8; i++)
@@ -473,6 +491,7 @@ namespace PicSimulator
         }
         void XORLW(bool[] literal)
         {
+            Array.Reverse(literal);
             bool[] result = new bool[8];
             int count = 0;
 
@@ -500,6 +519,7 @@ namespace PicSimulator
         }
         void SUBLW(bool[] bLiteral)         //ask DC bit affected??? and how??
         {
+            Array.Reverse(bLiteral);
             int w = BoolArrayToInt(WRegister);
             int literal = BoolArrayToInt(bLiteral);
 
@@ -551,6 +571,7 @@ namespace PicSimulator
 
         void ADDLW(bool[] bLiteral)
         {
+            Array.Reverse(bLiteral);
             int literal = BoolArrayToInt(bLiteral);
             int w = BoolArrayToInt(WRegister);
 
@@ -601,6 +622,14 @@ namespace PicSimulator
 
         void BCF(int storagePlace, int bitNr)
         {
+            if (storagePlace == 3 && bitNr == 5)
+            {
+                setRPBit(false, 0);
+            }
+            else if (storagePlace == 3 && bitNr == 6)
+            {
+                setRPBit(false, 1);
+            }
             if (storage[3][5])
             {
                 storage[storagePlace + 128][bitNr] = false;
@@ -612,13 +641,24 @@ namespace PicSimulator
         }
         void BSF(int storagePlace, int bitNr)
         {
-            if (storage[3][5])
+            if(storagePlace==3 && bitNr == 5)
             {
-                storage[storagePlace+128][bitNr] = true;
+                setRPBit(true, 0);
+            }
+            else if(storagePlace == 3 && bitNr == 6)
+            {
+                setRPBit(true, 1);
             }
             else
             {
-                storage[storagePlace][bitNr] = true;
+                if (storage[3][5])
+                {
+                    storage[storagePlace + 128][bitNr] = true;
+                }
+                else
+                {
+                    storage[storagePlace][bitNr] = true;
+                }
             }
         }
         void BTFSC(int storagePlace, int bitNr)
@@ -1459,6 +1499,37 @@ namespace PicSimulator
                 BCF(3, 2);
                 BCF(131, 2);
             }
+        }
+
+        void setRPBit(bool set, int Bank)
+        {
+            if (Bank == 0)
+            {
+                if (set)
+                {
+                    storage[3][5] = true;
+                    storage[131][5] = true;
+                }
+                else
+                {
+                    storage[3][5] = false;
+                    storage[131][5] = false;
+                }
+            }
+            else
+            {
+                if (set)
+                {
+                    storage[3][5] = true;
+                    storage[131][5] = true;
+                }
+                else
+                {
+                    storage[3][5] = false;
+                    storage[131][5] = false;
+                }
+            }
+            
         }
 
         void save(bool[] value, int adresse)
