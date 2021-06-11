@@ -51,6 +51,54 @@ namespace PicSimulator
             for (int i = 0; i < 256; i++){
                 backend.storage[i] = new bool[8];
             }
+
+
+            int anz_Zeilen_Datagridview2 = 15;
+            dataGridView2.Rows.Add(anz_Zeilen_Datagridview2);
+            this.dataGridView2.RowHeadersWidth = 50; //Header width
+            for (int i = 0; i < anz_Zeilen_Datagridview2; i = i + 3)
+            {
+                switch (i)
+                {
+                    case 0:
+                        this.dataGridView2.Rows[i].HeaderCell.Value = "RA";
+                        break;
+                    case 3:
+                        this.dataGridView2.Rows[i].HeaderCell.Value = "RB";
+                        break;
+                    case 6:
+                        this.dataGridView2.Rows[i].HeaderCell.Value = "RC";
+                        break;
+                    case 9:
+                        this.dataGridView2.Rows[i].HeaderCell.Value = "RD";
+                        break;
+                    case 12:
+                        this.dataGridView2.Rows[i].HeaderCell.Value = "RE";
+                        break;
+                    default:
+                        break;
+
+                }
+
+                this.dataGridView2.Rows[i + 1].HeaderCell.Value = "Tris";
+                this.dataGridView2.Rows[i + 2].HeaderCell.Value = "Pin";
+
+                int z = 7;
+                for (int j = 0; j < 8; j++)
+                {
+                    this.dataGridView2[j, i].Value = z.ToString();
+                    z--;
+                    if (i < 5)
+                    {
+                        this.dataGridView2[j, i + 1].Value = "i";
+                    }
+                    else 
+                    {
+                        this.dataGridView2[j, i + 1].Value = "o";
+                    }
+                    this.dataGridView2[j, i+2].Value = "0";
+                }
+            }
         }
 
 
@@ -280,5 +328,21 @@ namespace PicSimulator
             backend.backendCurrentRow = 0;
             updateGUI();
         }
+
+        private void datagridview2_onCellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string value = (string)this.dataGridView2[e.ColumnIndex, e.RowIndex].Value;
+            
+            
+            if (value == "0")
+            {
+                this.dataGridView2[e.ColumnIndex, e.RowIndex].Value = "1";    
+            }
+            if (value == "1")
+            {
+                this.dataGridView2[e.ColumnIndex, e.RowIndex].Value = "0";
+            }
+        }
+
     }
 }
