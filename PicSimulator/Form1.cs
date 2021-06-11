@@ -268,16 +268,17 @@ namespace PicSimulator
                 dataGridView1[(i % 8), (i / 8)].Value = hexValue;
             }
             lblSFR_WREG.Text = backend.BoolArrayToInt(backend.WRegister).ToString("X");
-            lblSFR_STATUS.Text = backend.BoolArrayToInt(backend.storage[3]).ToString("X");
             lblSFR_PCL.Text = backend.BoolArrayToInt(backend.storage[2]).ToString("X");
             lblSFR_FSR.Text = backend.BoolArrayToInt(backend.storage[4]).ToString("X");
             lblSFR_PCLATH.Text = backend.BoolArrayToInt(backend.storage[10]).ToString("X");
+            lblSFR_STATUS.Text = backend.BoolArrayToInt(backend.storage[3]).ToString("X");
 
-            lblSFR_Z.Text = Convert.ToInt32(backend.storage[3][2]).ToString();
-            lblSFR_C.Text = Convert.ToInt32(backend.storage[3][0]).ToString();
-            lblSFR_DC.Text = Convert.ToInt32(backend.storage[3][1]).ToString();
-            lblSFR_PD.Text = Convert.ToInt32(backend.storage[3][3]).ToString();
-            lblSFR_TO.Text = Convert.ToInt32(backend.storage[3][4]).ToString();
+            // Update der Status-Bits
+            lblSFR_C.Text   = Convert.ToInt32(backend.storage[3][0]).ToString();
+            lblSFR_DC.Text  = Convert.ToInt32(backend.storage[3][1]).ToString();
+            lblSFR_Z.Text   = Convert.ToInt32(backend.storage[3][2]).ToString();
+            lblSFR_PD.Text  = Convert.ToInt32(backend.storage[3][3]).ToString();
+            lblSFR_TO.Text  = Convert.ToInt32(backend.storage[3][4]).ToString();
             lblSFR_RP0.Text = Convert.ToInt32(backend.storage[3][5]).ToString();
             lblSFR_RP1.Text = Convert.ToInt32(backend.storage[3][6]).ToString();
             lblSFR_IRP.Text = Convert.ToInt32(backend.storage[3][7]).ToString();
