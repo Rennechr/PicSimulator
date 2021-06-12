@@ -50,8 +50,13 @@ namespace PicSimulator
             }
             for (int i = 0; i < 256; i++){
                 backend.storage[i] = new bool[8];
+            }      
+            
+            // Initialisierung der Pins
+            for (int i = 6; i < 10; i++)
+            { 
+                backend.storage[i][7] = true;
             }
-
 
             int anz_Zeilen_Datagridview2 = 15;
             dataGridView2.Rows.Add(anz_Zeilen_Datagridview2);
@@ -264,18 +269,43 @@ namespace PicSimulator
                 {
                     temp[ii] = backend.storage[i][ii];
                 }
-                string hexValue = backend.BoolArrayToInt(temp).ToString("X");
+                string hexValue = backend.BoolArrayToIntReverse(temp).ToString("X");
                 dataGridView1[(i % 8), (i / 8)].Value = hexValue;
             }
+
+
+            int j = 7;
+            for (int i = 0; i < 8; i++)
+            {
+
+                //PORT-Register
+                dataGridView2[i,2].Value  = Convert.ToString(Convert.ToInt32(backend.storage[5][j]));
+                dataGridView2[i,5].Value  = Convert.ToString(Convert.ToInt32(backend.storage[6][j]));
+                dataGridView2[i,8].Value  = Convert.ToString(Convert.ToInt32(backend.storage[7][j]));
+                dataGridView2[i,11].Value = Convert.ToString(Convert.ToInt32(backend.storage[8][j]));
+                dataGridView2[i,14].Value = Convert.ToString(Convert.ToInt32(backend.storage[9][j]));
+
+                //TRIS-Register
+                dataGridView2[i,1].Value  = ConvertToIO(backend.storage[5+128][j]);
+                dataGridView2[i,4].Value  = ConvertToIO(backend.storage[6+128][j]);
+                dataGridView2[i,7].Value  = ConvertToIO(backend.storage[7+128][j]);
+                dataGridView2[i,10].Value = ConvertToIO(backend.storage[8+128][j]);
+                dataGridView2[i,13].Value = ConvertToIO(backend.storage[9+128][j]);
+                
+                j--;
+            }
+
+            // SFR-Register
             lblSFR_WREG.Text = backend.BoolArrayToIntReverse(backend.WRegister).ToString("X");
             lblSFR_STATUS.Text = backend.BoolArrayToIntReverse(backend.storage[3]).ToString("X");
             lblSFR_PCL.Text = backend.BoolArrayToInt(backend.storage[2]).ToString("X");
             lblSFR_FSR.Text = backend.BoolArrayToInt(backend.storage[4]).ToString("X");
             lblSFR_PCLATH.Text = backend.BoolArrayToInt(backend.storage[10]).ToString("X");
 
-            lblSFR_Z.Text = Convert.ToInt32(backend.storage[3][2]).ToString();
+            // STATUS-Register
             lblSFR_C.Text = Convert.ToInt32(backend.storage[3][0]).ToString();
             lblSFR_DC.Text = Convert.ToInt32(backend.storage[3][1]).ToString();
+            lblSFR_Z.Text = Convert.ToInt32(backend.storage[3][2]).ToString();
             lblSFR_PD.Text = Convert.ToInt32(backend.storage[3][3]).ToString();
             lblSFR_TO.Text = Convert.ToInt32(backend.storage[3][4]).ToString();
             lblSFR_RP0.Text = Convert.ToInt32(backend.storage[3][5]).ToString();
@@ -315,20 +345,31 @@ namespace PicSimulator
             {
                 backend.WRegister[i] = false;
             }
+
+            // Initialisierung des Storage
             for(int i = 0; i<256; i++)
             {
                 for(int ii = 0; ii < 8; ii++)
                 {
                     backend.storage[i][ii] = false;
                 }
+                
 
             }
+
+            // Setzen der initialen Pins
+            for (int i = 6; i < 10; i++)
+            { 
+                backend.storage[i][7] = true;
+            }
+
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
             backend.calls.Clear();
             backend.backendCurrentRow = 0;
             updateGUI();
         }
 
+        // Umstellen der PINS zwischen 1 und 0
         private void datagridview2_onCellClick(object sender, DataGridViewCellEventArgs e)
         {
             string value = (string)this.dataGridView2[e.ColumnIndex, e.RowIndex].Value;
@@ -336,11 +377,37 @@ namespace PicSimulator
             
             if (value == "0")
             {
+                setPin(e.RowIndex,e.ColumnIndex,true);
                 this.dataGridView2[e.ColumnIndex, e.RowIndex].Value = "1";    
             }
             if (value == "1")
             {
+                setPin(e.RowIndex,e.ColumnIndex,false);
                 this.dataGridView2[e.ColumnIndex, e.RowIndex].Value = "0";
+            }
+
+            updateGUI();
+        }
+
+        // Setzen des PINS im Backend
+        private void setPin(int row, int col, bool value)
+        {
+            int port = (row/3) + 5;
+            int bit  = 7-col; 
+
+            backend.storage[port][bit] = value;
+        }
+
+        // Umwandlung Bool-Wert zu i oder o
+        private string ConvertToIO(bool input)
+        {
+            if (input)
+            {
+                return "i";
+            }
+            else
+            {
+                return "o";
             }
         }
 

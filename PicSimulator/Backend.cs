@@ -11,6 +11,7 @@ namespace PicSimulator
     {
         public bool[][] storage = new bool[256][];
         public bool[] WRegister = new bool[8];
+
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
