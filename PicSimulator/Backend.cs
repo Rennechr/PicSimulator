@@ -407,6 +407,7 @@ namespace PicSimulator
         }
         void MOVWF(int position)
         {
+            //TODO: Prüfen
             save(WRegister, position);          
         }
         void GOTO(int toRow)
