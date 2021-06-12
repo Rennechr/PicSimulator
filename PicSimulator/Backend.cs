@@ -17,6 +17,8 @@ namespace PicSimulator
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
         public int backendCurrentRow = 0;
+        public int cycles = 0;
+        int numberOfCyclesAtCurrentRow = 1;
 
         int IntPow(int x, uint pow)
         {
@@ -99,6 +101,7 @@ namespace PicSimulator
                                     RETURN();
                                     break;
                                 case "09":  //RETFIE
+                                    RETFIE();
                                     break;
                                 case "54":  //CLRWDT
                                     break;
@@ -403,6 +406,7 @@ namespace PicSimulator
                 default:
                     break;
             }
+            updateTMR0();
             backendCurrentRow++;
             bool[] temp = new bool[8];
             save(IntToBoolArray(backendCurrentRow), 2);
@@ -416,18 +420,21 @@ namespace PicSimulator
         {
             backendCurrentRow = toRow;
             backendCurrentRow--;
+            numberOfCyclesAtCurrentRow++;
         }
         void CALL(int toRow)
         {
             calls.Add(backendCurrentRow+1);
             backendCurrentRow = toRow;
             backendCurrentRow--;
+            numberOfCyclesAtCurrentRow++;
         }
         void RETURN()
         {
             backendCurrentRow = calls.Last();
             calls.RemoveAt(calls.Count - 1);
             backendCurrentRow--;
+            numberOfCyclesAtCurrentRow++;
         }
         void RETLW(bool[] literal)
         {
@@ -435,6 +442,11 @@ namespace PicSimulator
             backendCurrentRow = calls.Last();
             calls.RemoveAt(calls.Count - 1);
             backendCurrentRow--;
+            numberOfCyclesAtCurrentRow++;
+        }
+        void RETFIE()
+        {
+            numberOfCyclesAtCurrentRow++;
         }
         void MOVLW(bool[] literal)
         {
@@ -665,6 +677,7 @@ namespace PicSimulator
             if (getBit(storagePlace,bitNr) == false)
             {
                 backendCurrentRow++;
+                numberOfCyclesAtCurrentRow++;
             }
         }
         void BTFSS(int storagePlace, int bitNr)
@@ -672,6 +685,7 @@ namespace PicSimulator
             if (getBit(storagePlace, bitNr) == true)
             {
                 backendCurrentRow++;
+                numberOfCyclesAtCurrentRow++;
             }
         }
         void CLRF(int addresse)
@@ -1248,6 +1262,7 @@ namespace PicSimulator
                 if (f == 0)
                 {
                     backendCurrentRow++;
+                    numberOfCyclesAtCurrentRow++;
                 }
                 else if (f < 0)
                 {
@@ -1263,6 +1278,7 @@ namespace PicSimulator
                 if (f == 0)
                 {
                     backendCurrentRow++;
+                    numberOfCyclesAtCurrentRow++;
                 }
                 else if (f < 0)
                 {
@@ -1448,6 +1464,7 @@ namespace PicSimulator
                 {
                     f = 0;
                     backendCurrentRow++;
+                    numberOfCyclesAtCurrentRow++;
                 }
                 WRegister = IntToBoolArray(f);
             }
@@ -1460,6 +1477,7 @@ namespace PicSimulator
                 {
                     f = 0;
                     backendCurrentRow++;
+                    numberOfCyclesAtCurrentRow++;
                 }
                 save(IntToBoolArray(f), addresse);
                 
@@ -1590,6 +1608,36 @@ namespace PicSimulator
             else
             {
                 return storage[adr,bitNr];
+            }
+        }
+        void updateTMR0()
+        {
+            if(numberOfCyclesAtCurrentRow == 2)
+            {
+                cycles += 2;
+                numberOfCyclesAtCurrentRow = 1;
+            }
+            else
+            {
+                cycles++;
+            }
+            if (cycles == 5)
+            {
+                int f = BoolArrayToIntReverse(get(1));
+                f++;
+                save(IntToBoolArray(f),1);
+                cycles = 1;
+            }
+            else if(cycles == 4)
+            {
+                int f = BoolArrayToIntReverse(get(1));
+                f++;
+                save(IntToBoolArray(f), 1);
+                cycles = 0;
+            }
+            else
+            {
+
             }
         }
     }
