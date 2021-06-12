@@ -10,6 +10,7 @@ namespace PicSimulator
     class Backend
     {
         public bool[][] storage = new bool[256][];
+        public double[] huso = new double[100]; 
         public bool[] WRegister = new bool[8];
 
         public List<string> codeBackend = new List<string>();
@@ -66,6 +67,7 @@ namespace PicSimulator
             bits = "00000000" + bits;
             bits = bits.Substring(bits.Length - 8);
             literal = bits.Select(s => s == '1').ToArray();
+            Array.Reverse(literal);
             return literal;
         }
         public bool[] HexToBoolArray(string Hex)         //todo Jannick: das einfach anwenden und keine fragen stellen xD
@@ -75,6 +77,7 @@ namespace PicSimulator
             bits = "00000000" + bits;
             bits = bits.Substring(bits.Length - 8);            
             literal = bits.Select(s => s == '1').ToArray();
+            Array.Reverse(literal);
             return literal;
         }
         public void next()
@@ -404,7 +407,7 @@ namespace PicSimulator
         }
         void MOVWF(int position)
         {
-            save(WRegister, position);            
+            save(WRegister, position);          
         }
         void GOTO(int toRow)
         {
@@ -425,7 +428,6 @@ namespace PicSimulator
         }
         void RETLW(bool[] literal)
         {
-            Array.Reverse(literal);
             WRegister = literal;
             backendCurrentRow = calls.Last();
             calls.RemoveAt(calls.Count - 1);
@@ -433,12 +435,10 @@ namespace PicSimulator
         }
         void MOVLW(bool[] literal)
         {
-            Array.Reverse(literal);
             WRegister = literal;
         }
         void IORLW(bool[] literal)             
         {
-            Array.Reverse(literal);
             bool[] result = new bool[8];
             int count = 0;
             for(int i = 0; i < 8; i++)
@@ -465,7 +465,6 @@ namespace PicSimulator
         }
         void ANDLW(bool[] literal)
         {
-            Array.Reverse(literal);
             bool[] result = new bool[8];
             int count = 0;
             for (int i = 0; i < 8; i++)
@@ -492,7 +491,6 @@ namespace PicSimulator
         }
         void XORLW(bool[] literal)
         {
-            Array.Reverse(literal);
             bool[] result = new bool[8];
             int count = 0;
 
@@ -520,36 +518,26 @@ namespace PicSimulator
         }
         void SUBLW(bool[] bLiteral)         //ask DC bit affected??? and how??
         {
-            Array.Reverse(bLiteral);
-            int w = BoolArrayToInt(WRegister);
-            int literal = BoolArrayToInt(bLiteral);
-
+            int w = BoolArrayToIntReverse(WRegister);
+            int literal = BoolArrayToIntReverse(bLiteral);
             bool[] checkDC1 = new bool[4];
             bool[] checkDC2 = new bool[4];
             for (int i = 4; i < 8; i++)
             {
-                checkDC1[i-4] = WRegister[i];
-                checkDC2[i-4] = bLiteral[i];
+                checkDC1[i-4] = WRegister[i-4];
+                checkDC2[i-4] = bLiteral[i-4];
             }
             int result = w - literal;
             if (result < 0)
             {
                 result = result + (-2*result);
                 WRegister = IntToBoolArray(result);
-                if (result == 0)
-                {
-                    setZeroBit(true);
-                }
-                else
-                {
-                    setZeroBit(false);
-                }
-                
                 setCarryBit(true);
             }
             else if(result == 0)
             {
                 WRegister = IntToBoolArray(result);
+
                 setZeroBit(true);
                 setCarryBit(true);
             }
@@ -559,7 +547,7 @@ namespace PicSimulator
                 setZeroBit(false);
                 setCarryBit(false);
             }
-            int cdErg = BoolArrayToInt(checkDC1) - BoolArrayToInt(checkDC2);
+            int cdErg = BoolArrayToIntReverse(checkDC1) - BoolArrayToIntReverse(checkDC2);
             if (cdErg < 0) 
             {
                 setDigitCarryBit(false);
@@ -572,9 +560,8 @@ namespace PicSimulator
 
         void ADDLW(bool[] bLiteral)
         {
-            Array.Reverse(bLiteral);
-            int literal = BoolArrayToInt(bLiteral);
-            int w = BoolArrayToInt(WRegister);
+            int literal = BoolArrayToIntReverse(bLiteral);
+            int w = BoolArrayToIntReverse(WRegister);
 
             bool[] checkDC1 = new bool[4];
             bool[] checkDC2 = new bool[4];
