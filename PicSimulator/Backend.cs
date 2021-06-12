@@ -10,7 +10,6 @@ namespace PicSimulator
     class Backend
     {
         public bool[][] storage = new bool[256][];
-        public double[] huso = new double[100]; 
         public bool[] WRegister = new bool[8];
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
