@@ -56,6 +56,10 @@ namespace PicSimulator
             { 
                 backend.storage[i,7] = true;
             }
+            for(int i = 0; i<8; i++)
+            {
+                backend.storage[81, i] = true;
+            }
 
             int anz_Zeilen_Datagridview2 = 15;
             dataGridView2.Rows.Add(anz_Zeilen_Datagridview2);
