@@ -404,6 +404,8 @@ namespace PicSimulator
                     break;
             }
             backendCurrentRow++;
+            bool[] temp = new bool[8];
+            save(IntToBoolArray(backendCurrentRow), 2);
         }
         void MOVWF(int position)
         {
