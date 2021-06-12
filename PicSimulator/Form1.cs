@@ -56,9 +56,10 @@ namespace PicSimulator
             { 
                 backend.storage[i,7] = true;
             }
+
             for(int i = 0; i<8; i++)
             {
-                backend.storage[81, i] = true;
+                backend.storage[129, i] = true;
             }
 
             int anz_Zeilen_Datagridview2 = 15;
@@ -316,9 +317,9 @@ namespace PicSimulator
             // SFR-Register
             lblSFR_WREG.Text = backend.BoolArrayToIntReverse(backend.WRegister).ToString("X");
             lblSFR_STATUS.Text = backend.BoolArrayToIntReverse(backend.get(3)).ToString("X");
-            lblSFR_PCL.Text = backend.BoolArrayToInt(backend.get(2)).ToString("X");
-            lblSFR_FSR.Text = backend.BoolArrayToInt(backend.get(4)).ToString("X");
-            lblSFR_PCLATH.Text = backend.BoolArrayToInt(backend.get(10)).ToString("X");
+            lblSFR_PCL.Text = backend.BoolArrayToIntReverse(backend.get(2)).ToString("X");
+            lblSFR_FSR.Text = backend.BoolArrayToIntReverse(backend.get(4)).ToString("X");
+            lblSFR_PCLATH.Text = backend.BoolArrayToIntReverse(backend.get(10)).ToString("X");
 
             // STATUS-Register
             lblSFR_C.Text = Convert.ToInt32(backend.storage[3,0]).ToString();

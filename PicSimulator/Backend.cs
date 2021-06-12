@@ -406,8 +406,12 @@ namespace PicSimulator
                 default:
                     break;
             }
-            updateTMR0();
+            
             backendCurrentRow++;
+            if (!storage[129, 5])
+            {
+                updateTMR0();
+            }
             bool[] temp = new bool[8];
             save(IntToBoolArray(backendCurrentRow), 2);
         }
@@ -1610,7 +1614,7 @@ namespace PicSimulator
                 return storage[adr,bitNr];
             }
         }
-        void updateTMR0()
+        void updateTMR0()   //updates tmr0 register clock counter
         {
             if(numberOfCyclesAtCurrentRow == 2)
             {
@@ -1625,6 +1629,14 @@ namespace PicSimulator
             {
                 int f = BoolArrayToIntReverse(get(1));
                 f++;
+                if (f > 255)
+                {
+                    if (getBit(11, 5) && getBit(11,7))
+                    {
+                        backendCurrentRow = 4;
+                    }
+                    f = 0;
+                }
                 save(IntToBoolArray(f),1);
                 cycles = 1;
             }
@@ -1632,6 +1644,14 @@ namespace PicSimulator
             {
                 int f = BoolArrayToIntReverse(get(1));
                 f++;
+                if (f > 255)
+                {
+                    if (getBit(11, 5) && getBit(11, 7))
+                    {
+                        backendCurrentRow = 4;
+                    }
+                    f = 0;
+                }
                 save(IntToBoolArray(f), 1);
                 cycles = 0;
             }
