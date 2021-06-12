@@ -11,6 +11,7 @@ namespace PicSimulator
     {
         public bool[][] storage = new bool[256][];
         public bool[] WRegister = new bool[8];
+        public bool[,] dataLetch = new bool [5,8];
 
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
@@ -644,6 +645,14 @@ namespace PicSimulator
                 }
                 else
                 {
+                    if (storagePlace >= 5 && storagePlace <= 9)
+                    { 
+                        if (storage[storagePlace + 128][bitNr] == true)
+                        {
+                            dataLetch[storagePlace - 5, bitNr] = true;
+                        }
+                    }
+
                     storage[storagePlace][bitNr] = true;
                 }
             }

@@ -103,6 +103,7 @@ namespace PicSimulator
                     }
                     this.dataGridView2[j, i+2].Value = "0";
                 }
+
             }
         }
 
@@ -277,13 +278,27 @@ namespace PicSimulator
             int j = 7;
             for (int i = 0; i < 8; i++)
             {
-
                 //PORT-Register
-                dataGridView2[i,2].Value  = Convert.ToString(Convert.ToInt32(backend.storage[5][j]));
-                dataGridView2[i,5].Value  = Convert.ToString(Convert.ToInt32(backend.storage[6][j]));
-                dataGridView2[i,8].Value  = Convert.ToString(Convert.ToInt32(backend.storage[7][j]));
-                dataGridView2[i,11].Value = Convert.ToString(Convert.ToInt32(backend.storage[8][j]));
-                dataGridView2[i,14].Value = Convert.ToString(Convert.ToInt32(backend.storage[9][j]));
+                if (backend.storage[5 + 128][j] == false)
+                {
+                    dataGridView2[i,2].Value  = Convert.ToString(Convert.ToInt32(backend.storage[5][j]));
+                }
+                if (backend.storage[6 + 128][j] == false)
+                {
+                    dataGridView2[i,5].Value  = Convert.ToString(Convert.ToInt32(backend.storage[6][j]));
+                }
+                if (backend.storage[7 + 128][j] == false)
+                {
+                    dataGridView2[i,8].Value  = Convert.ToString(Convert.ToInt32(backend.storage[7][j]));
+                }
+                if (backend.storage[8 + 128][j] == false)
+                {
+                    dataGridView2[i,11].Value = Convert.ToString(Convert.ToInt32(backend.storage[8][j]));
+                }
+                if (backend.storage[9 + 128][j] == false)
+                {
+                    dataGridView2[i,14].Value = Convert.ToString(Convert.ToInt32(backend.storage[9][j]));
+                }
 
                 //TRIS-Register
                 dataGridView2[i,1].Value  = ConvertToIO(backend.storage[5+128][j]);
@@ -361,6 +376,12 @@ namespace PicSimulator
             for (int i = 6; i < 10; i++)
             { 
                 backend.storage[i][7] = true;
+            }
+
+            // Initialisierung DataLetch
+            for (int i = 0; i < backend.dataLetch.Length; i++)
+            {
+                backend.dataLetch[i/8,i%8] = false;
             }
 
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
