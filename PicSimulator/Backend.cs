@@ -9,8 +9,9 @@ namespace PicSimulator
 {
     class Backend
     {
-        public bool[,] storage = new bool[256,8];
+        public bool[][] storage = new bool[256][];
         public bool[] WRegister = new bool[8];
+        public bool[,] dataLetch = new bool [5,8];
 
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
@@ -566,8 +567,8 @@ namespace PicSimulator
             bool[] checkDC2 = new bool[4];
             for (int i = 4; i < 8; i++)
             {
-                checkDC1[i-4] = WRegister[i-4];
-                checkDC2[i-4] = bLiteral[i-4];
+                checkDC1[i-4] = WRegister[i];
+                checkDC2[i-4] = bLiteral[i];
             }
             
             int result = w + literal;
@@ -596,7 +597,7 @@ namespace PicSimulator
                 setZeroBit(false);
                 setCarryBit(false);
             }
-            int dcErg = BoolArrayToIntReverse(checkDC1) + BoolArrayToIntReverse(checkDC2);
+            int dcErg = BoolArrayToInt(checkDC1) + BoolArrayToInt(checkDC2);
             if (dcErg >= 16)
             {
                 setDigitCarryBit(true);
@@ -617,13 +618,13 @@ namespace PicSimulator
             {
                 setRPBit(false, 1);
             }
-            if (storage[3,5])
+            if (storage[3][5])
             {
-                storage[storagePlace + 128,bitNr] = false;
+                storage[storagePlace + 128][bitNr] = false;
             }
             else
             {
-                storage[storagePlace,bitNr] = false;
+                storage[storagePlace][bitNr] = false;
             }
         }
         void BSF(int storagePlace, int bitNr)
@@ -638,13 +639,21 @@ namespace PicSimulator
             }
             else
             {
-                if (storage[3,5])
+                if (storage[3][5])
                 {
-                    storage[storagePlace + 128,bitNr] = true;
+                    storage[storagePlace + 128][bitNr] = true;
                 }
                 else
                 {
-                    storage[storagePlace,bitNr] = true;
+                    if (storagePlace >= 5 && storagePlace <= 9)
+                    { 
+                        if (storage[storagePlace + 128][bitNr] == true)
+                        {
+                            dataLetch[storagePlace - 5, bitNr] = true;
+                        }
+                    }
+
+                    storage[storagePlace][bitNr] = true;
                 }
             }
         }
@@ -677,21 +686,20 @@ namespace PicSimulator
             {
                 WRegister[i] = false;
             }
-            setZeroBit(true);
         }
         void SUBWF(int addresse)
         {
             if (addresse < 128)
             {
-                int w = BoolArrayToIntReverse(WRegister);
+                int w = BoolArrayToInt(WRegister);
                 bool[] checkDC1 = new bool[4];
                 bool[] checkDC2 = new bool[4];
                 for (int i = 4; i < 8; i++)
                 {
-                    checkDC1[i-4] = WRegister[i-4];
-                    checkDC2[i - 4] = getBit(addresse, i-4);
+                    checkDC1[i-4] = WRegister[i];
+                    checkDC2[i - 4] = getBit(addresse, i);
                 }
-                int f = BoolArrayToIntReverse(get(addresse));
+                int f = BoolArrayToInt(get(addresse));
                 int result = f - w;
                 if (result == 0)
                 {
@@ -702,12 +710,12 @@ namespace PicSimulator
                     result = result + 256;
 
                     setZeroBit(false);
-                    setCarryBit(false);
+                    setCarryBit(true);
 
                 } else if (result > 0)
                 {
                     setZeroBit(false);
-                    setCarryBit(true);
+                    setCarryBit(false);
                 }
                 WRegister = IntToBoolArray(result);
                 int dcErg = BoolArrayToInt(checkDC2) - BoolArrayToInt(checkDC1);
@@ -722,15 +730,15 @@ namespace PicSimulator
             } else
             {
                 addresse = addresse - 128;
-                int w = BoolArrayToIntReverse(WRegister);
+                int w = BoolArrayToInt(WRegister);
                 bool[] checkDC1 = new bool[4];
                 bool[] checkDC2 = new bool[4];
                 for (int i = 4; i < 8; i++)
                 {
-                    checkDC1[i-4] = WRegister[i-4];
-                    checkDC2[i-4] = getBit(addresse, i-4);
+                    checkDC1[i-4] = WRegister[i];
+                    checkDC2[i-4] = getBit(addresse, i);
                 }
-                int f = BoolArrayToIntReverse(get(addresse));
+                int f = BoolArrayToInt(get(addresse));
                 int result = f - w;
                 if (result == 0)
                 {
@@ -741,13 +749,13 @@ namespace PicSimulator
                 {
                     result = result + 256;
                     setZeroBit(false);
-                    setCarryBit(false);
+                    setCarryBit(true);
 
                 }
                 else if (result > 0)
                 {
                     setZeroBit(false);
-                    setCarryBit(true);
+                    setCarryBit(false);
                 }
                 save(IntToBoolArray(result),addresse);
                 int dcErg = BoolArrayToInt(checkDC2) - BoolArrayToInt(checkDC1);
@@ -1015,14 +1023,14 @@ namespace PicSimulator
         {
             if (addresse < 128)
             {
-                int w = BoolArrayToIntReverse(WRegister);
-                int f = BoolArrayToIntReverse(get(addresse));
+                int w = BoolArrayToInt(WRegister);
+                int f = BoolArrayToInt(get(addresse));
                 bool[] checkDC1 = new bool[4];
                 bool[] checkDC2 = new bool[4];
                 for (int i = 4; i < 8; i++)
                 {
-                    checkDC1[i-4] = WRegister[i-4];
-                    checkDC2[i-4] = getBit(addresse,i-4);
+                    checkDC1[i-4] = WRegister[i];
+                    checkDC2[i-4] = getBit(addresse,i);
                 }
                 int result = f + w;
                 if (result > 255)
@@ -1034,6 +1042,7 @@ namespace PicSimulator
                 }
                 else
                 {
+                    setZeroBit(true);
                     setCarryBit(false);
                 }
                 if (result == 0)
@@ -1045,7 +1054,7 @@ namespace PicSimulator
                     setZeroBit(false);
                 }
                 WRegister = IntToBoolArray(result);
-                int dcErg = BoolArrayToIntReverse(checkDC1) + BoolArrayToIntReverse(checkDC2);
+                int dcErg = BoolArrayToInt(checkDC1) + BoolArrayToInt(checkDC2);
                 if (dcErg >= 16)
                 {
                     setDigitCarryBit(true);
@@ -1058,14 +1067,15 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
-                int w = BoolArrayToIntReverse(WRegister);
-                int f = BoolArrayToIntReverse(get(addresse));
+                int w = BoolArrayToInt(WRegister);
+                bool checkDigitCarry = WRegister[3];
+                int f = BoolArrayToInt(get(addresse));
                 bool[] checkDC1 = new bool[4];
                 bool[] checkDC2 = new bool[4];
                 for (int i = 4; i < 8; i++)
                 {
-                    checkDC1[i-4] = WRegister[i-4];
-                    checkDC2[i - 4] = getBit(addresse, i-4);
+                    checkDC1[i-4] = WRegister[i];
+                    checkDC2[i - 4] = getBit(addresse, i);
                 }
                 int result = f + w;
                 if (result > 255)
@@ -1090,7 +1100,7 @@ namespace PicSimulator
                 bool[] tempBool = new bool[8];
                 tempBool = IntToBoolArray(result);
                 save(tempBool, addresse);
-                int dcErg = BoolArrayToIntReverse(checkDC1) + BoolArrayToIntReverse(checkDC2);
+                int dcErg = BoolArrayToInt(checkDC1) + BoolArrayToInt(checkDC2);
                 if (dcErg >= 16)
                 {
                     setDigitCarryBit(true);
@@ -1179,16 +1189,8 @@ namespace PicSimulator
         {
             if (addresse < 128)
             {
-                int f = BoolArrayToIntReverse(get(addresse));
+                int f = BoolArrayToInt(get(addresse));
                 f++;
-                if (f % 16 == 0)
-                {
-                    setDigitCarryBit(true);
-                }
-                else
-                {
-                    setDigitCarryBit(false);
-                }
                 if (f > 255)
                 {
                     setZeroBit(true);
@@ -1198,22 +1200,15 @@ namespace PicSimulator
                 else
                 {
                     setZeroBit(false);
+                    setCarryBit(false);
                 }
                 WRegister = IntToBoolArray(f);
             }
             else
             {
                 addresse = addresse - 128;
-                int f = BoolArrayToIntReverse(get(addresse));
+                int f = BoolArrayToInt(get(addresse));
                 f++;
-                if (f % 16 == 0)
-                {
-                    setDigitCarryBit(true);
-                }
-                else
-                {
-                    setDigitCarryBit(false);
-                }
                 if (f > 255)
                 {
                     setZeroBit(true);
@@ -1223,6 +1218,7 @@ namespace PicSimulator
                 else
                 {
                     setZeroBit(false);
+                    setCarryBit(false);
                 }
                 save(IntToBoolArray(f), addresse);
             }
@@ -1231,7 +1227,7 @@ namespace PicSimulator
         {
             if (addresse < 128)
             {
-                int f = BoolArrayToIntReverse(get(addresse));
+                int f = BoolArrayToInt(get(addresse));
                 f--;
                 if (f == 0)
                 {
@@ -1246,7 +1242,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
-                int f = BoolArrayToIntReverse(get(addresse));
+                int f = BoolArrayToInt(get(addresse));
                 f--;
                 if (f == 0)
                 {
@@ -1264,14 +1260,17 @@ namespace PicSimulator
             if (addresse < 128)
             {
                 bool[] booltemp = new bool[8];
+
                 for (int i = 0; i < 8; i++)
                 {
                     booltemp[i] = getBit(addresse, i);
                 }
+
                 bool temp, temp2;
-                temp = booltemp[7];
-                booltemp[7] = getBit(3, 0);
-                if (booltemp[0])
+
+                temp = booltemp[0];
+                booltemp[0] = getBit(3, 0);
+                if (booltemp[7])
                 {
                     setCarryBit(true);
                 }
@@ -1279,7 +1278,7 @@ namespace PicSimulator
                 {
                     setCarryBit(false);
                 }
-                for (int i = 6; i >= 0; i--)
+                for (int i = 1; i < 8; i++)
                 {
                     temp2 = booltemp[i];
                     booltemp[i] = temp;
@@ -1296,9 +1295,9 @@ namespace PicSimulator
                     booltemp[i] = getBit(addresse, i);
                 }
                 bool temp, temp2;
-                temp = booltemp[7];
-                booltemp[7] = getBit(3, 0);
-                if (booltemp[0])
+                temp = booltemp[0];
+                booltemp[0] = getBit(3, 0);
+                if (booltemp[7])
                 {
                     setCarryBit(true);
                 }
@@ -1306,7 +1305,7 @@ namespace PicSimulator
                 {
                     setCarryBit(false);
                 }
-                for (int i = 6; i >= 0; i--)
+                for (int i = 1; i < 8; i++)
                 {
                     temp2 = booltemp[i];
                     booltemp[i] = temp;
@@ -1325,9 +1324,9 @@ namespace PicSimulator
                     booltemp[i] = getBit(addresse, i);
                 }
                 bool temp, temp2;
-                temp = booltemp[0];
-                booltemp[0] = getBit(3, 0);
-                if (booltemp[7])
+                temp = booltemp[7];
+                booltemp[7] = getBit(3,0);
+                if (booltemp[0])
                 {
                     setCarryBit(true);
                 }
@@ -1335,7 +1334,7 @@ namespace PicSimulator
                 {
                     setCarryBit(false);
                 }
-                for (int i = 1; i < 8; i++)
+                for (int i = 6; i >= 0 ; i--)
                 {
                     temp2 = booltemp[i];
                     booltemp[i] = temp;
@@ -1352,9 +1351,9 @@ namespace PicSimulator
                     booltemp[i] = getBit(addresse, i);
                 }
                 bool temp, temp2;
-                temp = booltemp[0];
-                booltemp[0] = getBit(3, 0);
-                if (booltemp[7])
+                temp = booltemp[7];
+                booltemp[7] = getBit(3, 0);
+                if (booltemp[0])
                 {
                     setCarryBit(true);
                 }
@@ -1362,7 +1361,7 @@ namespace PicSimulator
                 {
                     setCarryBit(false);
                 }
-                for (int i = 1; i < 8; i++)
+                for (int i = 6; i >= 0; i--)
                 {
                     temp2 = booltemp[i];
                     booltemp[i] = temp;
@@ -1430,7 +1429,7 @@ namespace PicSimulator
         {
             if (addresse < 128)
             {
-                int f = BoolArrayToIntReverse(get(addresse));
+                int f = BoolArrayToInt(get(addresse));
                 f++;
                 if (f == 256)
                 {
@@ -1442,7 +1441,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
-                int f = BoolArrayToIntReverse(get(addresse));
+                int f = BoolArrayToInt(get(addresse));
                 f++;
                 if (f == 256)
                 {
@@ -1504,26 +1503,26 @@ namespace PicSimulator
             {
                 if (set)
                 {
-                    storage[3,5] = true;
-                    storage[131,5] = true;
+                    storage[3][5] = true;
+                    storage[131][5] = true;
                 }
                 else
                 {
-                    storage[3,5] = false;
-                    storage[131,5] = false;
+                    storage[3][5] = false;
+                    storage[131][5] = false;
                 }
             }
             else
             {
                 if (set)
                 {
-                    storage[3,5] = true;
-                    storage[131,5] = true;
+                    storage[3][5] = true;
+                    storage[131][5] = true;
                 }
                 else
                 {
-                    storage[3,5] = false;
-                    storage[131,5] = false;
+                    storage[3][5] = false;
+                    storage[131][5] = false;
                 }
             }
             
@@ -1531,53 +1530,37 @@ namespace PicSimulator
 
         void save(bool[] value, int adresse)
         {
-            if (storage[3,5])
+            if (storage[3][5])
             {
-                for(int i = 0; i< 8; i++)
-                {
-                    storage[(adresse + 128), i] = value[i];
-                }
+                storage[adresse + 128] = value;
             }
             else
             {
-                for (int i = 0; i < 8; i++)
-                {
-                    storage[(adresse), i] = value[i];
-                }
+                storage[adresse] = value;
             }
         }
 
-        public bool[] get(int adr)
+        bool[] get(int adr)
         {
-            if (storage[3,5])
+            if (storage[3][5])
             {
-                bool[] temp = new bool[8];
-                for (int i = 0; i < 8; i++)
-                {
-                    temp[i] = storage[adr + 128, i];
-                }
-                return temp;
+                return storage[adr + 128];
             }
             else
             {
-                bool[] temp = new bool[8];
-                for (int i = 0; i < 8; i++)
-                {
-                    temp[i] = storage[adr, i];
-                }
-                return temp;
+                return storage[adr];
             }
         }
 
         bool getBit(int adr, int bitNr)
         {
-            if (storage[3,5])
+            if (storage[3][5])
             {
-                return storage[adr + 128,bitNr];
+                return storage[adr + 128][bitNr];
             }
             else
             {
-                return storage[adr,bitNr];
+                return storage[adr][bitNr];
             }
         }
     }
