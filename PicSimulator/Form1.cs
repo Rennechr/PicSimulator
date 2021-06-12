@@ -264,7 +264,7 @@ namespace PicSimulator
                 {
                     temp[ii] = backend.storage[i][ii];
                 }
-                string hexValue = backend.BoolArrayToIntReverse(temp).ToString("X");
+                string hexValue = backend.BoolArrayToInt(temp).ToString("X");
                 dataGridView1[(i % 8), (i / 8)].Value = hexValue;
             }
             lblSFR_WREG.Text = backend.BoolArrayToIntReverse(backend.WRegister).ToString("X");

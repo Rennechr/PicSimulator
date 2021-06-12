@@ -213,7 +213,7 @@
             this.CodePanel.Location = new System.Drawing.Point(332, 33);
             this.CodePanel.Margin = new System.Windows.Forms.Padding(2);
             this.CodePanel.Name = "CodePanel";
-            this.CodePanel.Size = new System.Drawing.Size(435, 382);
+            this.CodePanel.Size = new System.Drawing.Size(577, 382);
             this.CodePanel.TabIndex = 2;
             // 
             // button1
@@ -265,7 +265,7 @@
             this.groupBox1.Controls.Add(this.buttonReset);
             this.groupBox1.Controls.Add(this.buttonStepIn);
             this.groupBox1.Controls.Add(this.buttonGo);
-            this.groupBox1.Location = new System.Drawing.Point(782, 317);
+            this.groupBox1.Location = new System.Drawing.Point(913, 317);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
@@ -279,7 +279,7 @@
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Location = new System.Drawing.Point(782, 223);
+            this.groupBox2.Location = new System.Drawing.Point(913, 223);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
@@ -325,7 +325,7 @@
             this.groupBox3.Controls.Add(this.label3);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.textBox1);
-            this.groupBox3.Location = new System.Drawing.Point(875, 223);
+            this.groupBox3.Location = new System.Drawing.Point(1006, 223);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
