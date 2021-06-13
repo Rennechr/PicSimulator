@@ -109,6 +109,11 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.lblPC = new System.Windows.Forms.Label();
+            this.lblStackpointer = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -116,6 +121,7 @@
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.groupBox6.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -380,6 +386,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.groupBox6);
             this.groupBox4.Controls.Add(this.lblSFR_RBIF);
             this.groupBox4.Controls.Add(this.lblSFR_INTF);
             this.groupBox4.Controls.Add(this.lblSFR_T0IF);
@@ -419,7 +426,7 @@
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Size = new System.Drawing.Size(309, 246);
+            this.groupBox4.Size = new System.Drawing.Size(285, 246);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "SFR";
@@ -973,6 +980,61 @@
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             this.dataGridViewTextBoxColumn8.Width = 30;
             // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.lblStackpointer);
+            this.groupBox6.Controls.Add(this.lblPC);
+            this.groupBox6.Controls.Add(this.label20);
+            this.groupBox6.Controls.Add(this.label19);
+            this.groupBox6.Location = new System.Drawing.Point(159, 17);
+            this.groupBox6.Margin = new System.Windows.Forms.Padding(2);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox6.Size = new System.Drawing.Size(117, 119);
+            this.groupBox6.TabIndex = 28;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "versteckt";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(4, 18);
+            this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(21, 13);
+            this.label19.TabIndex = 10;
+            this.label19.Text = "PC";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(4, 32);
+            this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(67, 13);
+            this.label20.TabIndex = 10;
+            this.label20.Text = "Stackpointer";
+            // 
+            // lblPC
+            // 
+            this.lblPC.AutoSize = true;
+            this.lblPC.Location = new System.Drawing.Point(83, 18);
+            this.lblPC.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblPC.Name = "lblPC";
+            this.lblPC.Size = new System.Drawing.Size(31, 13);
+            this.lblPC.TabIndex = 10;
+            this.lblPC.Text = "0000";
+            // 
+            // lblStackpointer
+            // 
+            this.lblStackpointer.AutoSize = true;
+            this.lblStackpointer.Location = new System.Drawing.Point(83, 32);
+            this.lblStackpointer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblStackpointer.Name = "lblStackpointer";
+            this.lblStackpointer.Size = new System.Drawing.Size(13, 13);
+            this.lblStackpointer.TabIndex = 10;
+            this.lblStackpointer.Text = "0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1001,6 +1063,8 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1086,6 +1150,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn6;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn7;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn8;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label lblStackpointer;
+        private System.Windows.Forms.Label lblPC;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
     }
 }
 
