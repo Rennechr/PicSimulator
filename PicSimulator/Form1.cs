@@ -377,6 +377,7 @@ namespace PicSimulator
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
+            // Initialisierung des WRegisters
             for(int i = 0; i < 8; i++)
             {
                 backend.WRegister[i] = false;
@@ -389,8 +390,6 @@ namespace PicSimulator
                 {
                     backend.storage[i,ii] = false;
                 }
-                
-
             }
 
             // Setzen der initialen Pins
@@ -404,6 +403,9 @@ namespace PicSimulator
             {
                 backend.dataLetch[i/8,i%8] = false;
             }
+
+            // Zurücksetzen des Stackpointers
+            backend.stackpointer = 0;
 
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
             backend.calls.Clear();
