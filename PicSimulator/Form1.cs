@@ -29,7 +29,20 @@ namespace PicSimulator
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            string temp;
+            bool[] tempArray = new bool[8];
+            temp = this.sendValueToBackend("Storage");
+            if (temp != "Error")
+            {
+                tempArray = backend.IntToBoolArray(Int32.Parse(temp, System.Globalization.NumberStyles.HexNumber));
+                for (int i = 0; i < 8; i++)
+                {
+                    backend.storage[(e.RowIndex * 8) + (e.ColumnIndex), i] = tempArray[i];
+                }
+                updateGUI();
+            }
 
+            updateGUI();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -39,7 +52,7 @@ namespace PicSimulator
             this.dataGridView1.RowHeadersWidth = 50; //Header width
             for (int i = 0; i < anz_Zeilen_Datagridview; i++)     //Setzen der Headerwerte jeder Zeile
             {
-                
+
                 if (i % 2 == 0)
                 {
                     this.dataGridView1.Rows[i].HeaderCell.Value = (i / 2).ToString("X") + "0";
@@ -49,15 +62,15 @@ namespace PicSimulator
                     this.dataGridView1.Rows[i].HeaderCell.Value = (i / 2).ToString("X") + "8";
                 }
             }
-              
-            
+
+
             // Initialisierung der Pins
             for (int i = 6; i < 10; i++)
-            { 
-                backend.storage[i,7] = true;
+            {
+                backend.storage[i, 7] = true;
             }
 
-            for(int i = 0; i<8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 backend.storage[129, i] = true;
             }
@@ -107,11 +120,11 @@ namespace PicSimulator
                     {
                         this.dataGridView2[j, i + 1].Value = "i";
                     }
-                    else 
+                    else
                     {
                         this.dataGridView2[j, i + 1].Value = "o";
                     }
-                    this.dataGridView2[j, i+2].Value = "0";
+                    this.dataGridView2[j, i + 2].Value = "0";
                 }
 
             }
@@ -145,7 +158,7 @@ namespace PicSimulator
                         Strich.Location = new Point(0, 30 * i + 30);
                         LblBreakpoint.Location = new Point(20, 30 * i + 20);
                         Zeilennummer.Location = new Point(40, 30 * i + 20);
-                        Zeilennummer.Text = (i+1).ToString();
+                        Zeilennummer.Text = (i + 1).ToString();
                         Zeilennummer.AutoSize = true;
                         LblBreakpoint.Text = "  ";
                         LblBreakpoint.ForeColor = Color.Red;
@@ -174,7 +187,7 @@ namespace PicSimulator
         public void setBackendCode()
         {
             bool CodeStarted = false;
-            
+
             for (int i = 0; i < codeRows.Count(); i++)
             {
                 if (codeRows.ElementAt(i).Text.StartsWith("0000"))
@@ -203,7 +216,7 @@ namespace PicSimulator
 
         void ChangeBreakpoint(object sender, EventArgs e, int i)
         {
-            
+
             if (Breakpoints.ElementAt(i).Text == "  ")
             {
                 Breakpoints.ElementAt(i).Text = "⬤";
@@ -249,7 +262,7 @@ namespace PicSimulator
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if(go && !backend.breakpoints.Contains(backend.backendCurrentRow))
+            if (go && !backend.breakpoints.Contains(backend.backendCurrentRow))
             {
                 next_step();
             }
@@ -260,12 +273,12 @@ namespace PicSimulator
         }
         void next_step()
         {
-            
-            
+
+
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
 
             int timeUnits = backend.next();
-            laufzeit += period*timeUnits;
+            laufzeit += period * timeUnits;
             label1.Text = laufzeit.ToString();
             updateGUI();
 
@@ -285,7 +298,7 @@ namespace PicSimulator
             {
                 for (int ii = 0; ii < 8; ii++)
                 {
-                    temp[ii] = backend.storage[i,ii];
+                    temp[ii] = backend.storage[i, ii];
                 }
                 string hexValue = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
                 dataGridView1[(i % 8), (i / 8)].Value = hexValue;
@@ -296,83 +309,83 @@ namespace PicSimulator
             for (int i = 0; i < 8; i++)
             {
                 //PORT-Register
-                if (backend.storage[5 + 128,j] == false)
+                if (backend.storage[5 + 128, j] == false)
                 {
-                    dataGridView2[i,2].Value  = Convert.ToString(Convert.ToInt32(backend.storage[5,j]));
+                    dataGridView2[i, 2].Value = Convert.ToString(Convert.ToInt32(backend.storage[5, j]));
                 }
-                if (backend.storage[6 + 128,j] == false)
+                if (backend.storage[6 + 128, j] == false)
                 {
-                    dataGridView2[i,5].Value  = Convert.ToString(Convert.ToInt32(backend.storage[6,j]));
+                    dataGridView2[i, 5].Value = Convert.ToString(Convert.ToInt32(backend.storage[6, j]));
                 }
-                if (backend.storage[7 + 128,j] == false)
+                if (backend.storage[7 + 128, j] == false)
                 {
-                    dataGridView2[i,8].Value  = Convert.ToString(Convert.ToInt32(backend.storage[7,j]));
+                    dataGridView2[i, 8].Value = Convert.ToString(Convert.ToInt32(backend.storage[7, j]));
                 }
-                if (backend.storage[8 + 128,j] == false)
+                if (backend.storage[8 + 128, j] == false)
                 {
-                    dataGridView2[i,11].Value = Convert.ToString(Convert.ToInt32(backend.storage[8,j]));
+                    dataGridView2[i, 11].Value = Convert.ToString(Convert.ToInt32(backend.storage[8, j]));
                 }
-                if (backend.storage[9 + 128,j] == false)
+                if (backend.storage[9 + 128, j] == false)
                 {
-                    dataGridView2[i,14].Value = Convert.ToString(Convert.ToInt32(backend.storage[9,j]));
+                    dataGridView2[i, 14].Value = Convert.ToString(Convert.ToInt32(backend.storage[9, j]));
                 }
 
                 //TRIS-Register
-                dataGridView2[i,1].Value  = ConvertToIO(backend.storage[5+128,j]);
-                dataGridView2[i,4].Value  = ConvertToIO(backend.storage[6+128,j]);
-                dataGridView2[i,7].Value  = ConvertToIO(backend.storage[7+128,j]);
-                dataGridView2[i,10].Value = ConvertToIO(backend.storage[8+128,j]);
-                dataGridView2[i,13].Value = ConvertToIO(backend.storage[9+128,j]);
-                
+                dataGridView2[i, 1].Value = ConvertToIO(backend.storage[5 + 128, j]);
+                dataGridView2[i, 4].Value = ConvertToIO(backend.storage[6 + 128, j]);
+                dataGridView2[i, 7].Value = ConvertToIO(backend.storage[7 + 128, j]);
+                dataGridView2[i, 10].Value = ConvertToIO(backend.storage[8 + 128, j]);
+                dataGridView2[i, 13].Value = ConvertToIO(backend.storage[9 + 128, j]);
+
                 j--;
             }
 
-            
+
             // sichtbares SFR-Register
-            lblSFR_WREG.Text    = FillZero(backend.BoolArrayToIntReverse(backend.WRegister).ToString("X"));
+            lblSFR_WREG.Text = FillZero(backend.BoolArrayToIntReverse(backend.WRegister).ToString("X"));
             for (int i = 0; i < 8; i++)
             {
                 temp[i] = backend.storage[3, i];
             }
-            lblSFR_STATUS.Text  = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
+            lblSFR_STATUS.Text = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
             for (int i = 0; i < 8; i++)
             {
                 temp[i] = backend.storage[2, i];
             }
-            lblSFR_PCL.Text     = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
+            lblSFR_PCL.Text = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
             for (int i = 0; i < 8; i++)
             {
                 temp[i] = backend.storage[4, i];
             }
-            lblSFR_FSR.Text     = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
+            lblSFR_FSR.Text = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
             for (int i = 0; i < 8; i++)
             {
                 temp[i] = backend.storage[10, i];
             }
-            lblSFR_PCLATH.Text  = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
+            lblSFR_PCLATH.Text = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
 
             // unsichtbares SFR-Register
             for (int i = 0; i < 8; i++)
             {
                 temp[i] = backend.storage[2, i];
             }
-            lblSFR_PC.Text           = "00" + FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
+            lblSFR_PC.Text = "00" + FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
             lblSFR_Stackpointer.Text = backend.stackpointer.ToString();
 
 
             // STATUS-Register
-            lblSFR_C.Text = Convert.ToInt32(backend.storage[3,0]).ToString();
-            lblSFR_DC.Text = Convert.ToInt32(backend.storage[3,1]).ToString();
-            lblSFR_Z.Text = Convert.ToInt32(backend.storage[3,2]).ToString();
-            lblSFR_PD.Text = Convert.ToInt32(backend.storage[3,3]).ToString();
-            lblSFR_TO.Text = Convert.ToInt32(backend.storage[3,4]).ToString();
-            lblSFR_RP0.Text = Convert.ToInt32(backend.storage[3,5]).ToString();
-            lblSFR_RP1.Text = Convert.ToInt32(backend.storage[3,6]).ToString();
-            lblSFR_IRP.Text = Convert.ToInt32(backend.storage[3,7]).ToString();
+            lblSFR_C.Text = Convert.ToInt32(backend.storage[3, 0]).ToString();
+            lblSFR_DC.Text = Convert.ToInt32(backend.storage[3, 1]).ToString();
+            lblSFR_Z.Text = Convert.ToInt32(backend.storage[3, 2]).ToString();
+            lblSFR_PD.Text = Convert.ToInt32(backend.storage[3, 3]).ToString();
+            lblSFR_TO.Text = Convert.ToInt32(backend.storage[3, 4]).ToString();
+            lblSFR_RP0.Text = Convert.ToInt32(backend.storage[3, 5]).ToString();
+            lblSFR_RP1.Text = Convert.ToInt32(backend.storage[3, 6]).ToString();
+            lblSFR_IRP.Text = Convert.ToInt32(backend.storage[3, 7]).ToString();
 
 
             // OPTION-Register
-            for(int i = 0; i<8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 temp[i] = backend.storage[129, i];
             }
@@ -394,14 +407,14 @@ namespace PicSimulator
             }
             lblSFR_INTCON.Text = backend.BoolArrayToInt(temp).ToString("X");
 
-            lblSFR_GIE.Text = Convert.ToInt32(backend.storage[11,7]).ToString();
-            lblSFR_PIE.Text = Convert.ToInt32(backend.storage[11,6]).ToString();
-            lblSFR_T0IE.Text = Convert.ToInt32(backend.storage[11,5]).ToString();
-            lblSFR_INTE.Text = Convert.ToInt32(backend.storage[11,4]).ToString();
-            lblSFR_RBIE.Text = Convert.ToInt32(backend.storage[11,3]).ToString();
-            lblSFR_T0IF.Text = Convert.ToInt32(backend.storage[11,2]).ToString();
-            lblSFR_INTF.Text = Convert.ToInt32(backend.storage[11,1]).ToString();
-            lblSFR_RBIF.Text = Convert.ToInt32(backend.storage[11,0]).ToString();
+            lblSFR_GIE.Text = Convert.ToInt32(backend.storage[11, 7]).ToString();
+            lblSFR_PIE.Text = Convert.ToInt32(backend.storage[11, 6]).ToString();
+            lblSFR_T0IE.Text = Convert.ToInt32(backend.storage[11, 5]).ToString();
+            lblSFR_INTE.Text = Convert.ToInt32(backend.storage[11, 4]).ToString();
+            lblSFR_RBIE.Text = Convert.ToInt32(backend.storage[11, 3]).ToString();
+            lblSFR_T0IF.Text = Convert.ToInt32(backend.storage[11, 2]).ToString();
+            lblSFR_INTF.Text = Convert.ToInt32(backend.storage[11, 1]).ToString();
+            lblSFR_RBIF.Text = Convert.ToInt32(backend.storage[11, 0]).ToString();
 
 
         }
@@ -418,40 +431,51 @@ namespace PicSimulator
 
         private void lblSFR_PCL_Click(object sender, EventArgs e)
         {
-
+            string temp;
+            bool[] tempArray = new bool[8];
+            temp = this.sendValueToBackend("PCL");
+            if (temp != "Error")
+            {
+                tempArray = backend.IntToBoolArray(Int32.Parse(temp, System.Globalization.NumberStyles.HexNumber));
+                for (int i = 0; i < 7; i++)
+                {
+                    backend.storage[2, i] = tempArray[i];
+                }
+                updateGUI();
+            }
         }
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
             // Initialisierung des WRegisters
-            for(int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
                 backend.WRegister[i] = false;
             }
-            
+
             // Initialisierung des Storage
-            for (int i = 0; i<256; i++)
+            for (int i = 0; i < 256; i++)
             {
-                for(int ii = 0; ii < 8; ii++)
+                for (int ii = 0; ii < 8; ii++)
                 {
-                    backend.storage[i,ii] = false;
+                    backend.storage[i, ii] = false;
                 }
             }
 
             // Setzen der initialen Pins
             for (int i = 6; i < 10; i++)
-            { 
-                backend.storage[i,7] = true;
+            {
+                backend.storage[i, 7] = true;
             }
             // Initialisierung des OPTION-Registers
             for (int i = 0; i < 8; i++)
             {
-                backend.storage[129,i] = true;
+                backend.storage[129, i] = true;
             }
             // Initialisierung DataLetch
             for (int i = 0; i < backend.dataLetch.Length; i++)
             {
-                backend.dataLetch[i/8,i%8] = false;
+                backend.dataLetch[i / 8, i % 8] = false;
             }
 
             // Zurücksetzen des Stackpointers
@@ -467,16 +491,16 @@ namespace PicSimulator
         private void datagridview2_onCellClick(object sender, DataGridViewCellEventArgs e)
         {
             string value = (string)this.dataGridView2[e.ColumnIndex, e.RowIndex].Value;
-            
-            
+
+
             if (value == "0")
             {
-                setPin(e.RowIndex,e.ColumnIndex,true);
-                this.dataGridView2[e.ColumnIndex, e.RowIndex].Value = "1";    
+                setPin(e.RowIndex, e.ColumnIndex, true);
+                this.dataGridView2[e.ColumnIndex, e.RowIndex].Value = "1";
             }
             if (value == "1")
             {
-                setPin(e.RowIndex,e.ColumnIndex,false);
+                setPin(e.RowIndex, e.ColumnIndex, false);
                 this.dataGridView2[e.ColumnIndex, e.RowIndex].Value = "0";
             }
 
@@ -486,10 +510,10 @@ namespace PicSimulator
         // Setzen des PINS im Backend
         private void setPin(int row, int col, bool value)
         {
-            int port = (row/3) + 5;
-            int bit  = 7-col; 
+            int port = (row / 3) + 5;
+            int bit = 7 - col;
 
-            backend.storage[port,bit] = value;
+            backend.storage[port, bit] = value;
         }
 
         // Umwandlung Bool-Wert zu i oder o
@@ -524,6 +548,206 @@ namespace PicSimulator
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void lblSFR_WREG_Click(object sender, EventArgs e)
+        {
+            string temp;
+            temp = this.sendValueToBackend("W-Register");
+            if (temp != "Error")
+            {
+                backend.WRegister = backend.IntToBoolArray(Int32.Parse(temp, System.Globalization.NumberStyles.HexNumber));
+                updateGUI();
+            }
+        }
+
+        private string sendValueToBackend(string input)
+        {
+            string answer = "Error";
+            using (var frm = new EingabeFenster(input))
+            {
+                var result = frm.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    answer = frm.ReturnValue;
+
+                }
+            }
+            return answer;
+        }
+
+        public string getValueFromEingabe(string input)
+        {
+            return input;
+        }
+
+        private void lblSFR_FSR_Click(object sender, EventArgs e)
+        {
+            string temp;
+            bool[] tempArray = new bool[8];
+            temp = this.sendValueToBackend("FSR");
+            if (temp != "Error")
+            {
+                tempArray = backend.IntToBoolArray(Int32.Parse(temp, System.Globalization.NumberStyles.HexNumber));
+                for (int i = 0; i < 7; i++)
+                { 
+                    backend.storage[4,i] = tempArray[i];
+                }
+                updateGUI();
+            }
+        }
+
+        private void lblSFR_STATUS_Click(object sender, EventArgs e)
+        {
+            string temp;
+            bool[] tempArray = new bool[8];
+            temp = this.sendValueToBackend("Status");
+            if (temp != "Error")
+            {
+                tempArray = backend.IntToBoolArray(Int32.Parse(temp, System.Globalization.NumberStyles.HexNumber));
+                for (int i = 0; i < 7; i++)
+                {
+                    backend.storage[3, i] = tempArray[i];
+                    backend.storage[3 + 128, i] = tempArray[i];
+                }
+                updateGUI();
+            }
+        }
+
+        private void lblSFR_PCLATH_Click(object sender, EventArgs e)
+        {
+            string temp;
+            bool[] tempArray = new bool[8];
+            temp = this.sendValueToBackend("PCLATH");
+            if (temp != "Error")
+            {
+                tempArray = backend.IntToBoolArray(Int32.Parse(temp, System.Globalization.NumberStyles.HexNumber));
+                for (int i = 0; i < 7; i++)
+                {
+                    backend.storage[10, i] = tempArray[i];
+                }
+                updateGUI();
+            }
+        }
+
+        private void lblSFR_C_Click(object sender, EventArgs e)
+        {
+            if (lblSFR_C.Text == "0")
+            {
+                backend.storage[3, 0] = true;
+                backend.storage[3 + 128, 0] = true;
+            }
+            else
+            {
+                backend.storage[3, 0] = false;
+                backend.storage[3 + 128, 0] = false;
+            }
+            updateGUI();
+        }
+
+        private void lblSFR_DC_Click(object sender, EventArgs e)
+        {
+            if (lblSFR_DC.Text == "0")
+            {
+                backend.storage[3, 1] = true;
+                backend.storage[3 + 128, 1] = true;
+            }
+            else
+            {
+                backend.storage[3, 1] = false;
+                backend.storage[3 + 128, 1] = false;
+            }
+            updateGUI();
+        }
+
+        private void lblSFR_Z_Click(object sender, EventArgs e)
+        {
+            if (lblSFR_Z.Text == "0")
+            {
+                backend.storage[3, 2] = true;
+                backend.storage[3 + 128, 2] = true;
+            }
+            else
+            {
+                backend.storage[3, 2] = false;
+                backend.storage[3 + 128, 2] = false;
+            }
+            updateGUI();
+        }
+
+        private void lblSFR_PD_Click(object sender, EventArgs e)
+        {
+            if (lblSFR_PD.Text == "0")
+            {
+                backend.storage[3, 3] = true;
+                backend.storage[3 + 128, 3] = true;
+            }
+            else
+            {
+                backend.storage[3, 3] = false;
+                backend.storage[3 + 128, 3] = false;
+            }
+            updateGUI();
+        }
+
+        private void lblSFR_TO_Click(object sender, EventArgs e)
+        {
+            if (lblSFR_TO.Text == "0")
+            {
+                backend.storage[3, 4] = true;
+                backend.storage[3 + 128, 4] = true;
+            }
+            else
+            {
+                backend.storage[3, 4] = false;
+                backend.storage[3 + 128, 4] = false;
+            }
+            updateGUI();
+        }
+
+        private void lblSFR_RP0_Click(object sender, EventArgs e)
+        {
+            if (lblSFR_RP0.Text == "0")
+            {
+                backend.storage[3, 5] = true;
+                backend.storage[3 + 128, 5] = true;
+            }
+            else
+            {
+                backend.storage[3, 5] = false;
+                backend.storage[3 + 128, 5] = false;
+            }
+            updateGUI();
+        }
+
+        private void lblSFR_RP1_Click(object sender, EventArgs e)
+        {
+            if (lblSFR_RP1.Text == "0")
+            {
+                backend.storage[3, 6] = true;
+                backend.storage[3 + 128, 6] = true;
+            }
+            else
+            {
+                backend.storage[3, 6] = false;
+                backend.storage[3 + 128, 6] = false;
+            }
+            updateGUI();
+        }
+
+        private void lblSFR_IRP_Click(object sender, EventArgs e)
+        {
+            if (lblSFR_Z.Text == "0")
+            {
+                backend.storage[3, 7] = true;
+                backend.storage[3 + 128, 7] = true;
+            }
+            else
+            {
+                backend.storage[3, 7] = false;
+                backend.storage[3 + 128, 7] = false;
+            }
+            updateGUI();
         }
     }
 }
