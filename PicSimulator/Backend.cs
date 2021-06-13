@@ -1634,6 +1634,7 @@ namespace PicSimulator
                     if (getBit(11, 5) && getBit(11,7))
                     {
                         backendCurrentRow = 4;
+                        storage[11, 2] = true;
                     }
                     f = 0;
                 }
@@ -1649,6 +1650,7 @@ namespace PicSimulator
                     if (getBit(11, 5) && getBit(11, 7))
                     {
                         backendCurrentRow = 4;
+                        storage[11, 2] = true;
                     }
                     f = 0;
                 }
