@@ -495,6 +495,18 @@ namespace PicSimulator
         void RETFIE()
         {
             numberOfCyclesAtCurrentRow++;
+            if (stackpointer == 0)
+            {
+                stackpointer = 7;
+            }
+            else
+            {
+                stackpointer--;
+            }
+
+            backendCurrentRow = calls.ElementAt(stackpointer);
+            storage[11, 7] = true;
+            backendCurrentRow--;
         }
         void MOVLW(bool[] literal)
         {
@@ -1677,6 +1689,7 @@ namespace PicSimulator
                 {
                     if (getBit(11, 5) && getBit(11,7))
                     {
+                        setInterruptStack();
                         backendCurrentRow = 4;
                         storage[11, 2] = true;
                     }
@@ -1693,6 +1706,7 @@ namespace PicSimulator
                 {
                     if (getBit(11, 5) && getBit(11, 7))
                     {
+                        setInterruptStack();
                         backendCurrentRow = 4;
                         storage[11, 2] = true;
                     }
@@ -1704,6 +1718,18 @@ namespace PicSimulator
             else
             {
 
+            }
+        }
+        void setInterruptStack()
+        {
+            calls.Insert(stackpointer, backendCurrentRow + 1);
+            if (stackpointer == 7)
+            {
+                stackpointer = 0;
+            }
+            else
+            {
+                stackpointer++;
             }
         }
     }
