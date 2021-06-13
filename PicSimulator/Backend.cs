@@ -1753,7 +1753,34 @@ namespace PicSimulator
             }
             else if(getBit(11, 7) && getBit(11, 3))//interrupt enabled for other RB?
             {
-
+                if (prev[4] != getBit(6, 4) && storage[134,4])  //interrupt occured at RB4, execute interrupt
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 0] = true;
+                }
+                else if(prev[5]!= getBit(6, 5) && storage[134, 5])   //interrupt occured at RB4, execute interrupt
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 0] = true;
+                }
+                else if(prev[6]!= getBit(6, 6) && storage[134, 6])   //interrupt occured at RB4, execute interrupt
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 0] = true;
+                }
+                else if(prev[7]!= getBit(6, 7) && storage[134, 7])   //interrupt occured at RB4, execute interrupt
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 0] = true;
+                }
+                else
+                {
+                    // no changes in RB4-7 detected (do  nothing) or tris isn't set    
+                }
             }
             else
             {
