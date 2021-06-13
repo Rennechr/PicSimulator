@@ -132,6 +132,23 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
+            this.lbl_Stack0 = new System.Windows.Forms.Label();
+            this.lbl_Stack1 = new System.Windows.Forms.Label();
+            this.lbl_Stack2 = new System.Windows.Forms.Label();
+            this.lbl_Stack3 = new System.Windows.Forms.Label();
+            this.lbl_Stack4 = new System.Windows.Forms.Label();
+            this.lbl_Stack5 = new System.Windows.Forms.Label();
+            this.lbl_Stack6 = new System.Windows.Forms.Label();
+            this.lbl_Stack7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -140,6 +157,7 @@
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            this.groupBox7.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -406,6 +424,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.groupBox7);
             this.groupBox4.Controls.Add(this.lblSFR_PS0);
             this.groupBox4.Controls.Add(this.lblSFR_PS1);
             this.groupBox4.Controls.Add(this.lblSFR_PS2);
@@ -464,7 +483,7 @@
             this.groupBox4.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox4.Size = new System.Drawing.Size(292, 300);
+            this.groupBox4.Size = new System.Drawing.Size(305, 300);
             this.groupBox4.TabIndex = 10;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "SFR";
@@ -1263,6 +1282,175 @@
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             this.dataGridViewTextBoxColumn8.Width = 30;
             // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.lbl_Stack7);
+            this.groupBox7.Controls.Add(this.lbl_Stack6);
+            this.groupBox7.Controls.Add(this.lbl_Stack5);
+            this.groupBox7.Controls.Add(this.lbl_Stack4);
+            this.groupBox7.Controls.Add(this.lbl_Stack3);
+            this.groupBox7.Controls.Add(this.lbl_Stack2);
+            this.groupBox7.Controls.Add(this.lbl_Stack1);
+            this.groupBox7.Controls.Add(this.lbl_Stack0);
+            this.groupBox7.Controls.Add(this.label36);
+            this.groupBox7.Controls.Add(this.label27);
+            this.groupBox7.Controls.Add(this.label26);
+            this.groupBox7.Controls.Add(this.label25);
+            this.groupBox7.Controls.Add(this.label24);
+            this.groupBox7.Controls.Add(this.label23);
+            this.groupBox7.Controls.Add(this.label22);
+            this.groupBox7.Controls.Add(this.label21);
+            this.groupBox7.Location = new System.Drawing.Point(214, 17);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(83, 134);
+            this.groupBox7.TabIndex = 12;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Stackpointer";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(6, 18);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(13, 13);
+            this.label21.TabIndex = 0;
+            this.label21.Text = "0";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(6, 31);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(13, 13);
+            this.label22.TabIndex = 1;
+            this.label22.Text = "1";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(6, 44);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(13, 13);
+            this.label23.TabIndex = 2;
+            this.label23.Text = "2";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(6, 83);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(13, 13);
+            this.label24.TabIndex = 3;
+            this.label24.Text = "5";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(6, 57);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(13, 13);
+            this.label25.TabIndex = 3;
+            this.label25.Text = "3";
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(6, 70);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(13, 13);
+            this.label26.TabIndex = 4;
+            this.label26.Text = "4";
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(6, 96);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(13, 13);
+            this.label27.TabIndex = 5;
+            this.label27.Text = "6";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(6, 109);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(13, 13);
+            this.label36.TabIndex = 6;
+            this.label36.Text = "7";
+            // 
+            // lbl_Stack0
+            // 
+            this.lbl_Stack0.AutoSize = true;
+            this.lbl_Stack0.Location = new System.Drawing.Point(25, 18);
+            this.lbl_Stack0.Name = "lbl_Stack0";
+            this.lbl_Stack0.Size = new System.Drawing.Size(44, 13);
+            this.lbl_Stack0.TabIndex = 7;
+            this.lbl_Stack0.Text = "Stack 0";
+            // 
+            // lbl_Stack1
+            // 
+            this.lbl_Stack1.AutoSize = true;
+            this.lbl_Stack1.Location = new System.Drawing.Point(25, 31);
+            this.lbl_Stack1.Name = "lbl_Stack1";
+            this.lbl_Stack1.Size = new System.Drawing.Size(44, 13);
+            this.lbl_Stack1.TabIndex = 8;
+            this.lbl_Stack1.Text = "Stack 1";
+            // 
+            // lbl_Stack2
+            // 
+            this.lbl_Stack2.AutoSize = true;
+            this.lbl_Stack2.Location = new System.Drawing.Point(25, 44);
+            this.lbl_Stack2.Name = "lbl_Stack2";
+            this.lbl_Stack2.Size = new System.Drawing.Size(44, 13);
+            this.lbl_Stack2.TabIndex = 9;
+            this.lbl_Stack2.Text = "Stack 2";
+            // 
+            // lbl_Stack3
+            // 
+            this.lbl_Stack3.AutoSize = true;
+            this.lbl_Stack3.Location = new System.Drawing.Point(25, 57);
+            this.lbl_Stack3.Name = "lbl_Stack3";
+            this.lbl_Stack3.Size = new System.Drawing.Size(44, 13);
+            this.lbl_Stack3.TabIndex = 10;
+            this.lbl_Stack3.Text = "Stack 3";
+            // 
+            // lbl_Stack4
+            // 
+            this.lbl_Stack4.AutoSize = true;
+            this.lbl_Stack4.Location = new System.Drawing.Point(25, 70);
+            this.lbl_Stack4.Name = "lbl_Stack4";
+            this.lbl_Stack4.Size = new System.Drawing.Size(44, 13);
+            this.lbl_Stack4.TabIndex = 11;
+            this.lbl_Stack4.Text = "Stack 4";
+            // 
+            // lbl_Stack5
+            // 
+            this.lbl_Stack5.AutoSize = true;
+            this.lbl_Stack5.Location = new System.Drawing.Point(25, 83);
+            this.lbl_Stack5.Name = "lbl_Stack5";
+            this.lbl_Stack5.Size = new System.Drawing.Size(44, 13);
+            this.lbl_Stack5.TabIndex = 12;
+            this.lbl_Stack5.Text = "Stack 5";
+            // 
+            // lbl_Stack6
+            // 
+            this.lbl_Stack6.AutoSize = true;
+            this.lbl_Stack6.Location = new System.Drawing.Point(25, 96);
+            this.lbl_Stack6.Name = "lbl_Stack6";
+            this.lbl_Stack6.Size = new System.Drawing.Size(44, 13);
+            this.lbl_Stack6.TabIndex = 13;
+            this.lbl_Stack6.Text = "Stack 6";
+            // 
+            // lbl_Stack7
+            // 
+            this.lbl_Stack7.AutoSize = true;
+            this.lbl_Stack7.Location = new System.Drawing.Point(25, 109);
+            this.lbl_Stack7.Name = "lbl_Stack7";
+            this.lbl_Stack7.Size = new System.Drawing.Size(44, 13);
+            this.lbl_Stack7.TabIndex = 14;
+            this.lbl_Stack7.Text = "Stack 7";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1293,6 +1481,8 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1401,6 +1591,23 @@
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label lblSFR_OPTION;
         private System.Windows.Forms.Label label46;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label lbl_Stack7;
+        private System.Windows.Forms.Label lbl_Stack6;
+        private System.Windows.Forms.Label lbl_Stack5;
+        private System.Windows.Forms.Label lbl_Stack4;
+        private System.Windows.Forms.Label lbl_Stack3;
+        private System.Windows.Forms.Label lbl_Stack2;
+        private System.Windows.Forms.Label lbl_Stack1;
+        private System.Windows.Forms.Label lbl_Stack0;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
     }
 }
 

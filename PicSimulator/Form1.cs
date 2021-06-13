@@ -40,7 +40,6 @@ namespace PicSimulator
                 {
                     backend.storage[(e.RowIndex * 8) + (e.ColumnIndex), i] = tempArray[i];
                 }
-                updateGUI();
             }
 
             updateGUI();
@@ -426,6 +425,15 @@ namespace PicSimulator
             lblSFR_INTF.Text = Convert.ToInt32(backend.storage[11, 1]).ToString();
             lblSFR_RBIF.Text = Convert.ToInt32(backend.storage[11, 0]).ToString();
 
+            // Update Stack Visualisierung
+            lbl_Stack0.Text = backend.calls.ElementAtOrDefault(0).ToString();
+            lbl_Stack1.Text = backend.calls.ElementAtOrDefault(1).ToString();
+            lbl_Stack2.Text = backend.calls.ElementAtOrDefault(2).ToString();
+            lbl_Stack3.Text = backend.calls.ElementAtOrDefault(3).ToString();
+            lbl_Stack4.Text = backend.calls.ElementAtOrDefault(4).ToString();
+            lbl_Stack5.Text = backend.calls.ElementAtOrDefault(5).ToString();
+            lbl_Stack6.Text = backend.calls.ElementAtOrDefault(6).ToString();
+            lbl_Stack7.Text = backend.calls.ElementAtOrDefault(7).ToString();
 
         }
 
