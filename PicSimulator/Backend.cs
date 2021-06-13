@@ -902,17 +902,17 @@ namespace PicSimulator
                 bool tempfalse = true;
                 for (int i = 0; i < 8; i++)
                 {
-                    if (boolresult[i] == true)
+                    if (boolresult[i] == false)
                     {
                         tempfalse = false;
                     }
                 }
-                if (!tempfalse)
-                {
-                    setZeroBit(true);
-                } else
+                if (tempfalse)
                 {
                     setZeroBit(false);
+                } else
+                {
+                    setZeroBit(true);
                 }
                 WRegister = boolresult;
             }
@@ -933,18 +933,18 @@ namespace PicSimulator
                 bool tempfalse = true;
                 for (int i = 0; i < 8; i++)
                 {
-                    if (boolresult[i] == true)
+                    if (boolresult[i] == false)
                     {
                         tempfalse = false;
                     }
                 }
-                if (!tempfalse)
+                if (tempfalse)
                 {
-                    setZeroBit(true);
+                    setZeroBit(false);
                 }
                 else
                 {
-                    setZeroBit(false);
+                    setZeroBit(true);
                 }
                 save(boolresult, addresse);
             }
@@ -1191,7 +1191,7 @@ namespace PicSimulator
                     booltemp[i] = getBit(addresse,i);
                 }
                 save(booltemp, addresse);
-                setZeroBit(false);
+                setZeroBit(true);
             }
         }
         void COMF(int addresse)
