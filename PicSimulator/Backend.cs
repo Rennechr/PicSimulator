@@ -1609,9 +1609,21 @@ namespace PicSimulator
 
         void save(bool[] value, int adresse)
         {
-            if (storage[3,5])
+            // Überprüfung ob eine indirekte Adressierung verwendet wird
+            if ((adresse == 0) || (adresse == 128))
             {
-                for(int i = 0; i< 8; i++)
+                bool[] tempBoolArray = new bool[8];
+                for (int i = 0; i < 8; i++)
+                {
+                    tempBoolArray[i] = storage[4, i];
+                }
+                adresse = BoolArrayToIntReverse(tempBoolArray);
+            }
+
+            
+            if (storage[3, 5])
+            {                       
+                for (int i = 0; i < 8; i++)
                 {
                     storage[(adresse + 128), i] = value[i];
                 }
@@ -1624,6 +1636,7 @@ namespace PicSimulator
                 }
             }
         }
+                
 
         public bool[] get(int adr)
         {
