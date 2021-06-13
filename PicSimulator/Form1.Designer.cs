@@ -55,6 +55,24 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lblSFR_PS0 = new System.Windows.Forms.Label();
+            this.lblSFR_PS1 = new System.Windows.Forms.Label();
+            this.lblSFR_PS2 = new System.Windows.Forms.Label();
+            this.lblSFR_PSA = new System.Windows.Forms.Label();
+            this.lblSFR_T0SE = new System.Windows.Forms.Label();
+            this.lblSFR_T0CS = new System.Windows.Forms.Label();
+            this.lblSFR_IntEdg = new System.Windows.Forms.Label();
+            this.lblSFR_RBP = new System.Windows.Forms.Label();
+            this.label37 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.label39 = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
+            this.label41 = new System.Windows.Forms.Label();
+            this.label42 = new System.Windows.Forms.Label();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
+            this.lblSFR_OPTION = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.lblSFR_Stackpointer = new System.Windows.Forms.Label();
             this.lblSFR_PC = new System.Windows.Forms.Label();
@@ -114,24 +132,6 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lblSFR_PS0 = new System.Windows.Forms.Label();
-            this.lblSFR_PS1 = new System.Windows.Forms.Label();
-            this.lblSFR_PS2 = new System.Windows.Forms.Label();
-            this.lblSFR_PSA = new System.Windows.Forms.Label();
-            this.lblSFR_T0SE = new System.Windows.Forms.Label();
-            this.lblSFR_T0CS = new System.Windows.Forms.Label();
-            this.lblSFR_IntEdg = new System.Windows.Forms.Label();
-            this.lblSFR_RBP = new System.Windows.Forms.Label();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.label39 = new System.Windows.Forms.Label();
-            this.label40 = new System.Windows.Forms.Label();
-            this.label41 = new System.Windows.Forms.Label();
-            this.label42 = new System.Windows.Forms.Label();
-            this.label43 = new System.Windows.Forms.Label();
-            this.label44 = new System.Windows.Forms.Label();
-            this.lblSFR_OPTION = new System.Windows.Forms.Label();
-            this.label46 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -329,6 +329,7 @@
             this.label1.Size = new System.Drawing.Size(36, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "0,00";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // button2
             // 
@@ -463,6 +464,170 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "SFR";
             this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
+            // 
+            // lblSFR_PS0
+            // 
+            this.lblSFR_PS0.AutoSize = true;
+            this.lblSFR_PS0.Location = new System.Drawing.Point(328, 253);
+            this.lblSFR_PS0.Name = "lblSFR_PS0";
+            this.lblSFR_PS0.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_PS0.TabIndex = 63;
+            this.lblSFR_PS0.Text = "0";
+            // 
+            // lblSFR_PS1
+            // 
+            this.lblSFR_PS1.AutoSize = true;
+            this.lblSFR_PS1.Location = new System.Drawing.Point(285, 253);
+            this.lblSFR_PS1.Name = "lblSFR_PS1";
+            this.lblSFR_PS1.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_PS1.TabIndex = 62;
+            this.lblSFR_PS1.Text = "0";
+            // 
+            // lblSFR_PS2
+            // 
+            this.lblSFR_PS2.AutoSize = true;
+            this.lblSFR_PS2.Location = new System.Drawing.Point(234, 253);
+            this.lblSFR_PS2.Name = "lblSFR_PS2";
+            this.lblSFR_PS2.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_PS2.TabIndex = 61;
+            this.lblSFR_PS2.Text = "0";
+            // 
+            // lblSFR_PSA
+            // 
+            this.lblSFR_PSA.AutoSize = true;
+            this.lblSFR_PSA.Location = new System.Drawing.Point(184, 253);
+            this.lblSFR_PSA.Name = "lblSFR_PSA";
+            this.lblSFR_PSA.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_PSA.TabIndex = 60;
+            this.lblSFR_PSA.Text = "0";
+            // 
+            // lblSFR_T0SE
+            // 
+            this.lblSFR_T0SE.AutoSize = true;
+            this.lblSFR_T0SE.Location = new System.Drawing.Point(134, 253);
+            this.lblSFR_T0SE.Name = "lblSFR_T0SE";
+            this.lblSFR_T0SE.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_T0SE.TabIndex = 59;
+            this.lblSFR_T0SE.Text = "0";
+            // 
+            // lblSFR_T0CS
+            // 
+            this.lblSFR_T0CS.AutoSize = true;
+            this.lblSFR_T0CS.Location = new System.Drawing.Point(88, 253);
+            this.lblSFR_T0CS.Name = "lblSFR_T0CS";
+            this.lblSFR_T0CS.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_T0CS.TabIndex = 58;
+            this.lblSFR_T0CS.Text = "0";
+            // 
+            // lblSFR_IntEdg
+            // 
+            this.lblSFR_IntEdg.AutoSize = true;
+            this.lblSFR_IntEdg.Location = new System.Drawing.Point(46, 253);
+            this.lblSFR_IntEdg.Name = "lblSFR_IntEdg";
+            this.lblSFR_IntEdg.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_IntEdg.TabIndex = 57;
+            this.lblSFR_IntEdg.Text = "0";
+            // 
+            // lblSFR_RBP
+            // 
+            this.lblSFR_RBP.AutoSize = true;
+            this.lblSFR_RBP.Location = new System.Drawing.Point(8, 253);
+            this.lblSFR_RBP.Name = "lblSFR_RBP";
+            this.lblSFR_RBP.Size = new System.Drawing.Size(16, 17);
+            this.lblSFR_RBP.TabIndex = 56;
+            this.lblSFR_RBP.Text = "0";
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(328, 236);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(34, 17);
+            this.label37.TabIndex = 55;
+            this.label37.Text = "PS0";
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(281, 236);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(34, 17);
+            this.label38.TabIndex = 54;
+            this.label38.Text = "PS1";
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(234, 236);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(34, 17);
+            this.label39.TabIndex = 53;
+            this.label39.Text = "PS2";
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(184, 236);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(35, 17);
+            this.label40.TabIndex = 52;
+            this.label40.Text = "PSA";
+            // 
+            // label41
+            // 
+            this.label41.AutoSize = true;
+            this.label41.Location = new System.Drawing.Point(134, 236);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(43, 17);
+            this.label41.TabIndex = 51;
+            this.label41.Text = "T0SE";
+            // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(88, 236);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(43, 17);
+            this.label42.TabIndex = 50;
+            this.label42.Text = "T0CS";
+            // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(46, 236);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(48, 17);
+            this.label43.TabIndex = 49;
+            this.label43.Text = "IntEdg";
+            // 
+            // label44
+            // 
+            this.label44.AutoSize = true;
+            this.label44.Location = new System.Drawing.Point(8, 236);
+            this.label44.Name = "label44";
+            this.label44.Size = new System.Drawing.Size(36, 17);
+            this.label44.TabIndex = 48;
+            this.label44.Text = "RBP";
+            // 
+            // lblSFR_OPTION
+            // 
+            this.lblSFR_OPTION.AutoSize = true;
+            this.lblSFR_OPTION.Location = new System.Drawing.Point(82, 209);
+            this.lblSFR_OPTION.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblSFR_OPTION.Name = "lblSFR_OPTION";
+            this.lblSFR_OPTION.Size = new System.Drawing.Size(24, 17);
+            this.lblSFR_OPTION.TabIndex = 46;
+            this.lblSFR_OPTION.Text = "00";
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Location = new System.Drawing.Point(6, 209);
+            this.label46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(61, 17);
+            this.label46.TabIndex = 47;
+            this.label46.Text = "OPTION";
             // 
             // groupBox6
             // 
@@ -1022,170 +1187,6 @@
             this.dataGridViewTextBoxColumn8.Name = "dataGridViewTextBoxColumn8";
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             this.dataGridViewTextBoxColumn8.Width = 30;
-            // 
-            // lblSFR_PS0
-            // 
-            this.lblSFR_PS0.AutoSize = true;
-            this.lblSFR_PS0.Location = new System.Drawing.Point(328, 253);
-            this.lblSFR_PS0.Name = "lblSFR_PS0";
-            this.lblSFR_PS0.Size = new System.Drawing.Size(16, 17);
-            this.lblSFR_PS0.TabIndex = 63;
-            this.lblSFR_PS0.Text = "0";
-            // 
-            // lblSFR_PS1
-            // 
-            this.lblSFR_PS1.AutoSize = true;
-            this.lblSFR_PS1.Location = new System.Drawing.Point(285, 253);
-            this.lblSFR_PS1.Name = "lblSFR_PS1";
-            this.lblSFR_PS1.Size = new System.Drawing.Size(16, 17);
-            this.lblSFR_PS1.TabIndex = 62;
-            this.lblSFR_PS1.Text = "0";
-            // 
-            // lblSFR_PS2
-            // 
-            this.lblSFR_PS2.AutoSize = true;
-            this.lblSFR_PS2.Location = new System.Drawing.Point(234, 253);
-            this.lblSFR_PS2.Name = "lblSFR_PS2";
-            this.lblSFR_PS2.Size = new System.Drawing.Size(16, 17);
-            this.lblSFR_PS2.TabIndex = 61;
-            this.lblSFR_PS2.Text = "0";
-            // 
-            // lblSFR_PSA
-            // 
-            this.lblSFR_PSA.AutoSize = true;
-            this.lblSFR_PSA.Location = new System.Drawing.Point(184, 253);
-            this.lblSFR_PSA.Name = "lblSFR_PSA";
-            this.lblSFR_PSA.Size = new System.Drawing.Size(16, 17);
-            this.lblSFR_PSA.TabIndex = 60;
-            this.lblSFR_PSA.Text = "0";
-            // 
-            // lblSFR_T0SE
-            // 
-            this.lblSFR_T0SE.AutoSize = true;
-            this.lblSFR_T0SE.Location = new System.Drawing.Point(134, 253);
-            this.lblSFR_T0SE.Name = "lblSFR_T0SE";
-            this.lblSFR_T0SE.Size = new System.Drawing.Size(16, 17);
-            this.lblSFR_T0SE.TabIndex = 59;
-            this.lblSFR_T0SE.Text = "0";
-            // 
-            // lblSFR_T0CS
-            // 
-            this.lblSFR_T0CS.AutoSize = true;
-            this.lblSFR_T0CS.Location = new System.Drawing.Point(88, 253);
-            this.lblSFR_T0CS.Name = "lblSFR_T0CS";
-            this.lblSFR_T0CS.Size = new System.Drawing.Size(16, 17);
-            this.lblSFR_T0CS.TabIndex = 58;
-            this.lblSFR_T0CS.Text = "0";
-            // 
-            // lblSFR_IntEdg
-            // 
-            this.lblSFR_IntEdg.AutoSize = true;
-            this.lblSFR_IntEdg.Location = new System.Drawing.Point(46, 253);
-            this.lblSFR_IntEdg.Name = "lblSFR_IntEdg";
-            this.lblSFR_IntEdg.Size = new System.Drawing.Size(16, 17);
-            this.lblSFR_IntEdg.TabIndex = 57;
-            this.lblSFR_IntEdg.Text = "0";
-            // 
-            // lblSFR_RBP
-            // 
-            this.lblSFR_RBP.AutoSize = true;
-            this.lblSFR_RBP.Location = new System.Drawing.Point(8, 253);
-            this.lblSFR_RBP.Name = "lblSFR_RBP";
-            this.lblSFR_RBP.Size = new System.Drawing.Size(16, 17);
-            this.lblSFR_RBP.TabIndex = 56;
-            this.lblSFR_RBP.Text = "0";
-            // 
-            // label37
-            // 
-            this.label37.AutoSize = true;
-            this.label37.Location = new System.Drawing.Point(328, 236);
-            this.label37.Name = "label37";
-            this.label37.Size = new System.Drawing.Size(34, 17);
-            this.label37.TabIndex = 55;
-            this.label37.Text = "PS0";
-            // 
-            // label38
-            // 
-            this.label38.AutoSize = true;
-            this.label38.Location = new System.Drawing.Point(281, 236);
-            this.label38.Name = "label38";
-            this.label38.Size = new System.Drawing.Size(34, 17);
-            this.label38.TabIndex = 54;
-            this.label38.Text = "PS1";
-            // 
-            // label39
-            // 
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(234, 236);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(34, 17);
-            this.label39.TabIndex = 53;
-            this.label39.Text = "PS2";
-            // 
-            // label40
-            // 
-            this.label40.AutoSize = true;
-            this.label40.Location = new System.Drawing.Point(184, 236);
-            this.label40.Name = "label40";
-            this.label40.Size = new System.Drawing.Size(35, 17);
-            this.label40.TabIndex = 52;
-            this.label40.Text = "PSA";
-            // 
-            // label41
-            // 
-            this.label41.AutoSize = true;
-            this.label41.Location = new System.Drawing.Point(134, 236);
-            this.label41.Name = "label41";
-            this.label41.Size = new System.Drawing.Size(43, 17);
-            this.label41.TabIndex = 51;
-            this.label41.Text = "T0SE";
-            // 
-            // label42
-            // 
-            this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(88, 236);
-            this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(43, 17);
-            this.label42.TabIndex = 50;
-            this.label42.Text = "T0CS";
-            // 
-            // label43
-            // 
-            this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(46, 236);
-            this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(48, 17);
-            this.label43.TabIndex = 49;
-            this.label43.Text = "IntEdg";
-            // 
-            // label44
-            // 
-            this.label44.AutoSize = true;
-            this.label44.Location = new System.Drawing.Point(8, 236);
-            this.label44.Name = "label44";
-            this.label44.Size = new System.Drawing.Size(36, 17);
-            this.label44.TabIndex = 48;
-            this.label44.Text = "RBP";
-            // 
-            // lblSFR_OPTION
-            // 
-            this.lblSFR_OPTION.AutoSize = true;
-            this.lblSFR_OPTION.Location = new System.Drawing.Point(82, 209);
-            this.lblSFR_OPTION.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblSFR_OPTION.Name = "lblSFR_OPTION";
-            this.lblSFR_OPTION.Size = new System.Drawing.Size(24, 17);
-            this.lblSFR_OPTION.TabIndex = 46;
-            this.lblSFR_OPTION.Text = "00";
-            // 
-            // label46
-            // 
-            this.label46.AutoSize = true;
-            this.label46.Location = new System.Drawing.Point(6, 209);
-            this.label46.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(61, 17);
-            this.label46.TabIndex = 47;
-            this.label46.Text = "OPTION";
             // 
             // Form1
             // 

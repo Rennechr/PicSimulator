@@ -83,8 +83,9 @@ namespace PicSimulator
             Array.Reverse(literal);
             return literal;
         }
-        public void next()
+        public int next()
         {
+            numberOfCyclesAtCurrentRow = 1;
             switch (codeBackend.ElementAt(backendCurrentRow).Substring(0,1))
             {
                 case "0":          
@@ -407,15 +408,17 @@ namespace PicSimulator
                 default:
                     break;
             }
-            
+            int cyclesForGUI = numberOfCyclesAtCurrentRow;
             backendCurrentRow++;
             if (!storage[129, 5])
             {
                 updateTMR0();
             }
+            
             checkForRBInterrupt(RB_prev);
             bool[] temp = new bool[8];
             save(IntToBoolArray(backendCurrentRow), 2);
+            return cyclesForGUI;
         }
         void MOVWF(int position)
         {

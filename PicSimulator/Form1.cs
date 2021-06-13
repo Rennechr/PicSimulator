@@ -117,8 +117,6 @@ namespace PicSimulator
             }
         }
 
-
-
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -263,11 +261,12 @@ namespace PicSimulator
         void next_step()
         {
             
-            laufzeit += period;
-            label1.Text = laufzeit.ToString();  //todo Laufzeittimer vom Backend updaten je nach befehl
+            
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
 
-            backend.next();
+            int timeUnits = backend.next();
+            laufzeit += period*timeUnits;
+            label1.Text = laufzeit.ToString();
             updateGUI();
 
 
@@ -522,5 +521,9 @@ namespace PicSimulator
             return output;
         }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
