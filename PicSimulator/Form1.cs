@@ -260,10 +260,14 @@ namespace PicSimulator
             laufzeit += period;
             label1.Text = laufzeit.ToString();  //todo Laufzeittimer vom Backend updaten je nach befehl
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
+
             backend.next();
             updateGUI();
-            
+
+
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
+
+            backend.RB_prev = backend.get(6);
         }
         void updateGUI()
         {

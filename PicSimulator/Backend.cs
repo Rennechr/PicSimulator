@@ -12,7 +12,7 @@ namespace PicSimulator
         public bool[,] storage = new bool[256,8];
         public bool[] WRegister = new bool[8];
         public bool[,] dataLetch = new bool [5,8];
-
+        public bool[] RB_prev = new bool[8];
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
@@ -413,6 +413,7 @@ namespace PicSimulator
             {
                 updateTMR0();
             }
+            checkForRBInterrupt(RB_prev);
             bool[] temp = new bool[8];
             save(IntToBoolArray(backendCurrentRow), 2);
         }
@@ -1730,6 +1731,33 @@ namespace PicSimulator
             else
             {
                 stackpointer++;
+            }
+        }
+
+        void checkForRBInterrupt(bool[] prev)
+        {
+            if(getBit(11, 7) && getBit(11,4) && prev[0] != getBit(6, 0))//interrupt enabled for RB0? && RB0 bit changed?
+            {
+                if (storage[129, 6] && getBit(6, 0))    //execute interrupt on rising edge
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 1] = true;      //4?
+                }
+                else if(!storage[129,6] && !getBit(6, 0))                 //execute interrupt on falling edge
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 1] = true;
+                }
+            }
+            else if(getBit(11, 7) && getBit(11, 3))//interrupt enabled for other RB?
+            {
+
+            }
+            else
+            {
+                // no interrupt at RB (do nothing)
             }
         }
     }
