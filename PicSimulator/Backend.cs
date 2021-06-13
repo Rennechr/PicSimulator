@@ -16,6 +16,7 @@ namespace PicSimulator
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
+        public int stackpointer = 0;
         public int backendCurrentRow = 0;
         public int cycles = 0;
         int numberOfCyclesAtCurrentRow = 1;
@@ -428,25 +429,68 @@ namespace PicSimulator
         }
         void CALL(int toRow)
         {
-            calls.Add(backendCurrentRow+1);
+
+            calls.Insert(stackpointer, backendCurrentRow + 1);
             backendCurrentRow = toRow;
             backendCurrentRow--;
             numberOfCyclesAtCurrentRow++;
+
+            if (stackpointer == 7)
+            {
+                stackpointer = 0;
+            }
+            else
+            {
+                stackpointer++;
+            }
+
+            //calls.Add(backendCurrentRow + 1);
+            //backendCurrentRow = toRow;
+            //backendCurrentRow--;
+            //numberOfCyclesAtCurrentRow++;
         }
         void RETURN()
         {
-            backendCurrentRow = calls.Last();
-            calls.RemoveAt(calls.Count - 1);
+
+            if (stackpointer == 0)
+            {
+                stackpointer = 7;
+            }
+            else
+            {
+                stackpointer--;
+            }
+
+            backendCurrentRow = calls.ElementAt(stackpointer);
             backendCurrentRow--;
             numberOfCyclesAtCurrentRow++;
+                
+            //backendCurrentRow = calls.Last();
+            //calls.RemoveAt(calls.Count - 1);
+            //backendCurrentRow--;
+            //numberOfCyclesAtCurrentRow++;
         }
         void RETLW(bool[] literal)
         {
+            if (stackpointer == 0)
+            {
+                stackpointer = 7;
+            }
+            else
+            {
+                stackpointer--;
+            }
+
             WRegister = literal;
-            backendCurrentRow = calls.Last();
-            calls.RemoveAt(calls.Count - 1);
+            backendCurrentRow = calls.ElementAt(stackpointer);
             backendCurrentRow--;
             numberOfCyclesAtCurrentRow++;
+
+            //WRegister = literal;
+            //backendCurrentRow = calls.Last();
+            //calls.RemoveAt(calls.Count - 1);
+            //backendCurrentRow--;
+            //numberOfCyclesAtCurrentRow++;
         }
         void RETFIE()
         {

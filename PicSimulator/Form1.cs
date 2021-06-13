@@ -323,7 +323,7 @@ namespace PicSimulator
 
             // unsichtbares SFR-Register
             lblSFR_PC.Text           = "00" + FillZero(backend.BoolArrayToIntReverse(backend.get(2)).ToString("X"));
-            lblSFR_Stackpointer.Text = "Test";
+            lblSFR_Stackpointer.Text = backend.stackpointer.ToString();
 
 
             // STATUS-Register
