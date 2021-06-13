@@ -454,7 +454,7 @@
             this.lblSFR_Stackpointer.Location = new System.Drawing.Point(62, 26);
             this.lblSFR_Stackpointer.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSFR_Stackpointer.Name = "lblSFR_Stackpointer";
-            this.lblSFR_Stackpointer.Size = new System.Drawing.Size(13, 13);
+            this.lblSFR_Stackpointer.Size = new System.Drawing.Size(16, 17);
             this.lblSFR_Stackpointer.TabIndex = 10;
             this.lblSFR_Stackpointer.Text = "0";
             // 
@@ -464,7 +464,7 @@
             this.lblSFR_PC.Location = new System.Drawing.Point(62, 15);
             this.lblSFR_PC.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSFR_PC.Name = "lblSFR_PC";
-            this.lblSFR_PC.Size = new System.Drawing.Size(31, 13);
+            this.lblSFR_PC.Size = new System.Drawing.Size(40, 17);
             this.lblSFR_PC.TabIndex = 10;
             this.lblSFR_PC.Text = "0000";
             // 
@@ -474,7 +474,7 @@
             this.label20.Location = new System.Drawing.Point(3, 26);
             this.label20.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(67, 13);
+            this.label20.Size = new System.Drawing.Size(87, 17);
             this.label20.TabIndex = 10;
             this.label20.Text = "Stackpointer";
             // 
@@ -484,7 +484,7 @@
             this.label19.Location = new System.Drawing.Point(3, 15);
             this.label19.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(21, 13);
+            this.label19.Size = new System.Drawing.Size(26, 17);
             this.label19.TabIndex = 10;
             this.label19.Text = "PC";
             // 

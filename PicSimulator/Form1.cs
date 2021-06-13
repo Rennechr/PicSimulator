@@ -62,6 +62,11 @@ namespace PicSimulator
                 backend.storage[129, i] = true;
             }
 
+            //init TRISB
+            for (int i = 0; i < 8; i++)
+            {
+                backend.storage[134, i] = true;
+            }
 
             int anz_Zeilen_Datagridview2 = 15;
             dataGridView2.Rows.Add(anz_Zeilen_Datagridview2);
@@ -261,10 +266,14 @@ namespace PicSimulator
             laufzeit += period;
             label1.Text = laufzeit.ToString();  //todo Laufzeittimer vom Backend updaten je nach befehl
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
+
             backend.next();
             updateGUI();
-            
+
+
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
+
+            backend.RB_prev = backend.get(6);
         }
         void updateGUI()
         {

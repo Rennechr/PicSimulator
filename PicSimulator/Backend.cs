@@ -12,7 +12,7 @@ namespace PicSimulator
         public bool[,] storage = new bool[256,8];
         public bool[] WRegister = new bool[8];
         public bool[,] dataLetch = new bool [5,8];
-
+        public bool[] RB_prev = new bool[8];
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
@@ -413,6 +413,7 @@ namespace PicSimulator
             {
                 updateTMR0();
             }
+            checkForRBInterrupt(RB_prev);
             bool[] temp = new bool[8];
             save(IntToBoolArray(backendCurrentRow), 2);
         }
@@ -479,6 +480,18 @@ namespace PicSimulator
         void RETFIE()
         {
             numberOfCyclesAtCurrentRow++;
+            if (stackpointer == 0)
+            {
+                stackpointer = 7;
+            }
+            else
+            {
+                stackpointer--;
+            }
+
+            backendCurrentRow = calls.ElementAt(stackpointer);
+            storage[11, 7] = true;
+            backendCurrentRow--;
         }
         void MOVLW(bool[] literal)
         {
@@ -1710,6 +1723,7 @@ namespace PicSimulator
                 {
                     if (getBit(11, 5) && getBit(11,7))
                     {
+                        setInterruptStack();
                         backendCurrentRow = 4;
                         storage[11, 2] = true;
                     }
@@ -1726,6 +1740,7 @@ namespace PicSimulator
                 {
                     if (getBit(11, 5) && getBit(11, 7))
                     {
+                        setInterruptStack();
                         backendCurrentRow = 4;
                         storage[11, 2] = true;
                     }
@@ -1767,6 +1782,72 @@ namespace PicSimulator
             int output = BoolArrayToIntReverse(tempBoolArray);
 
             return output;
+        }
+        void setInterruptStack()
+        {
+            calls.Insert(stackpointer, backendCurrentRow + 1);
+            if (stackpointer == 7)
+            {
+                stackpointer = 0;
+            }
+            else
+            {
+                stackpointer++;
+            }
+        }
+
+        void checkForRBInterrupt(bool[] prev)
+        {
+            if(getBit(11, 7) && getBit(11,4) && prev[0] != getBit(6, 0))//interrupt enabled for RB0? && RB0 bit changed?
+            {
+                if (storage[129, 6] && getBit(6, 0))    //execute interrupt on rising edge
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 1] = true;      //4?
+                }
+                else if(!storage[129,6] && !getBit(6, 0))                 //execute interrupt on falling edge
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 1] = true;
+                }
+            }
+            else if(getBit(11, 7) && getBit(11, 3))//interrupt enabled for other RB?
+            {
+                if (prev[4] != getBit(6, 4) && storage[134,4])  //interrupt occured at RB4, execute interrupt
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 0] = true;
+                }
+                else if(prev[5]!= getBit(6, 5) && storage[134, 5])   //interrupt occured at RB4, execute interrupt
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 0] = true;
+                }
+                else if(prev[6]!= getBit(6, 6) && storage[134, 6])   //interrupt occured at RB4, execute interrupt
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 0] = true;
+                }
+                else if(prev[7]!= getBit(6, 7) && storage[134, 7])   //interrupt occured at RB4, execute interrupt
+                {
+                    setInterruptStack();
+                    backendCurrentRow = 4;
+                    storage[11, 0] = true;
+                }
+                else
+                {
+                    // no changes in RB4-7 detected (do  nothing) or tris isn't set    
+                }
+            }
+            else
+            {
+                // no interrupt at RB (do nothing)
+            }
         }
     }
 }
