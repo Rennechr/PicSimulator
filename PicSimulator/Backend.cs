@@ -728,7 +728,6 @@ namespace PicSimulator
                             dataLetch[storagePlace - 5, bitNr] = true;
                         }
                     }
-
                     storage[storagePlace,bitNr] = true;
                 }
             }
@@ -1759,19 +1758,19 @@ namespace PicSimulator
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
                 }
-                else if(prev[5]!= getBit(6, 5) && storage[134, 5])   //interrupt occured at RB4, execute interrupt
+                else if(prev[5]!= getBit(6, 5) && storage[134, 5])   //interrupt occured at RB5, execute interrupt
                 {
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
                 }
-                else if(prev[6]!= getBit(6, 6) && storage[134, 6])   //interrupt occured at RB4, execute interrupt
+                else if(prev[6]!= getBit(6, 6) && storage[134, 6])   //interrupt occured at RB6, execute interrupt
                 {
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
                 }
-                else if(prev[7]!= getBit(6, 7) && storage[134, 7])   //interrupt occured at RB4, execute interrupt
+                else if(prev[7]!= getBit(6, 7) && storage[134, 7])   //interrupt occured at RB7, execute interrupt
                 {
                     setInterruptStack();
                     backendCurrentRow = 4;
