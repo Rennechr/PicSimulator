@@ -346,6 +346,24 @@ namespace PicSimulator
             lblSFR_RP1.Text = Convert.ToInt32(backend.storage[3,6]).ToString();
             lblSFR_IRP.Text = Convert.ToInt32(backend.storage[3,7]).ToString();
 
+
+            // OPTION-Register
+            for(int i = 0; i<8; i++)
+            {
+                temp[i] = backend.storage[129, i];
+            }
+            lblSFR_OPTION.Text = backend.BoolArrayToInt(temp).ToString("X");
+
+            lblSFR_RBP.Text = Convert.ToInt32(backend.storage[129, 7]).ToString();
+            lblSFR_IntEdg.Text = Convert.ToInt32(backend.storage[129, 6]).ToString();
+            lblSFR_T0CS.Text = Convert.ToInt32(backend.storage[129, 5]).ToString();
+            lblSFR_T0SE.Text = Convert.ToInt32(backend.storage[129, 3]).ToString();
+            lblSFR_PSA.Text = Convert.ToInt32(backend.storage[129, 3]).ToString();
+            lblSFR_PS2.Text = Convert.ToInt32(backend.storage[129, 2]).ToString();
+            lblSFR_PS1.Text = Convert.ToInt32(backend.storage[129, 1]).ToString();
+            lblSFR_PS0.Text = Convert.ToInt32(backend.storage[129, 0]).ToString();
+
+            // INTCON-Register
             lblSFR_INTCON.Text = backend.BoolArrayToInt(backend.get(11)).ToString("X");
 
             lblSFR_GIE.Text = Convert.ToInt32(backend.storage[11,7]).ToString();
@@ -382,9 +400,9 @@ namespace PicSimulator
             {
                 backend.WRegister[i] = false;
             }
-
+            
             // Initialisierung des Storage
-            for(int i = 0; i<256; i++)
+            for (int i = 0; i<256; i++)
             {
                 for(int ii = 0; ii < 8; ii++)
                 {
@@ -397,7 +415,11 @@ namespace PicSimulator
             { 
                 backend.storage[i,7] = true;
             }
-
+            // Initialisierung des OPTION-Registers
+            for (int i = 0; i < 8; i++)
+            {
+                backend.storage[129,i] = true;
+            }
             // Initialisierung DataLetch
             for (int i = 0; i < backend.dataLetch.Length; i++)
             {
