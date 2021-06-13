@@ -439,11 +439,11 @@
             this.groupBox6.Controls.Add(this.lblSFR_PC);
             this.groupBox6.Controls.Add(this.label20);
             this.groupBox6.Controls.Add(this.label19);
-            this.groupBox6.Location = new System.Drawing.Point(119, 14);
+            this.groupBox6.Location = new System.Drawing.Point(113, 17);
             this.groupBox6.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox6.Size = new System.Drawing.Size(88, 97);
+            this.groupBox6.Size = new System.Drawing.Size(91, 119);
             this.groupBox6.TabIndex = 28;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "versteckt";
@@ -682,7 +682,7 @@
             this.groupBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox5.Size = new System.Drawing.Size(150, 119);
+            this.groupBox5.Size = new System.Drawing.Size(103, 119);
             this.groupBox5.TabIndex = 27;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "sichtbar";
