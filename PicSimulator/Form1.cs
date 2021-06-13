@@ -18,6 +18,7 @@ namespace PicSimulator
         List<Label> Breakpoints = new List<Label>();
         List<int> backendFrontendRowConnection = new List<int>();
         bool go = false;
+        bool breakpointOccured = false;
         public static float laufzeit = 0;
         public static float period = 1;
         int startRow = 0;
@@ -218,15 +219,16 @@ namespace PicSimulator
 
         private void buttonGo_Click(object sender, EventArgs e)
         {
-            if (go)
+            
+            if (!go)
             {
-                buttonGo.Text = "Go";
+                timer1.Start();
+                buttonGo.Text = "Pause";
                 go = !go;
             }
             else
             {
-                timer1.Start();
-                buttonGo.Text = "Pause";
+                buttonGo.Text = "Go";
                 go = !go;
             }
         }
@@ -249,13 +251,21 @@ namespace PicSimulator
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if(go && !backend.breakpoints.Contains(backend.backendCurrentRow))
+            if(go && ((!backend.breakpoints.Contains(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)))||breakpointOccured))
             {
+                breakpointOccured = false;
                 next_step();
+            }
+            else if(!breakpointOccured)
+            {
+                buttonGo.Text = "Go On";
+                go = !go;
+                breakpointOccured = true;
             }
             else
             {
                 //do nothing
+
             }
         }
         void next_step()
@@ -402,12 +412,11 @@ namespace PicSimulator
             lblSFR_T0IF.Text = Convert.ToInt32(backend.storage[11,2]).ToString();
             lblSFR_INTF.Text = Convert.ToInt32(backend.storage[11,1]).ToString();
             lblSFR_RBIF.Text = Convert.ToInt32(backend.storage[11,0]).ToString();
-
-
         }
 
         private void buttonStepIn_Click(object sender, EventArgs e)
         {
+            buttonGo.Text = "Go";
             next_step();
         }
 
