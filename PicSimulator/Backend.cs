@@ -839,7 +839,7 @@ namespace PicSimulator
         {
             if (addresse < 128)
             {
-                int f = BoolArrayToInt(get(addresse));
+                int f = BoolArrayToIntReverse(get(addresse));
                 f--;
                 if (f == 0)
                 {
@@ -862,7 +862,7 @@ namespace PicSimulator
             else 
             {
                 addresse = addresse - 128;
-                int f = BoolArrayToInt(get(addresse));
+                int f = BoolArrayToIntReverse(get(addresse));
                 f--;
                 if (f == 0)
                 {
