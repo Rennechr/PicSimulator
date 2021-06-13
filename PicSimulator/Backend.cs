@@ -676,6 +676,11 @@ namespace PicSimulator
         }
         void BSF(int storagePlace, int bitNr)
         {
+            if (storagePlace == 0 || storagePlace == 128)
+            {
+                storagePlace = getFSRReferenceBoolArray(storagePlace);
+            }
+
             if(storagePlace==3 && bitNr == 5)
             {
                 setRPBit(true, 0);
@@ -722,13 +727,15 @@ namespace PicSimulator
         }
         void CLRF(int addresse)
         {
+
+            addresse = addresse - 128;
+
             // Überprüfung ob eine indirekte Adressierung verwendet wird
             if ((addresse == 0) || (addresse == 128))
             {
                 addresse = getFSRReferenceBoolArray(addresse);
             }
 
-            addresse = addresse - 128;
             for (int i = 0; i < 8; i++)
             {
                 BCF(addresse, i);
@@ -745,11 +752,6 @@ namespace PicSimulator
         }
         void SUBWF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
 
             if (addresse < 128)
             {
@@ -792,6 +794,7 @@ namespace PicSimulator
             } else
             {
                 addresse = addresse - 128;
+
                 int w = BoolArrayToIntReverse(WRegister);
                 bool[] checkDC1 = new bool[4];
                 bool[] checkDC2 = new bool[4];
@@ -833,11 +836,6 @@ namespace PicSimulator
         }
         void DECF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
 
             if (addresse < 128)
             {
@@ -864,6 +862,7 @@ namespace PicSimulator
             else 
             {
                 addresse = addresse - 128;
+
                 int f = BoolArrayToIntReverse(get(addresse));
                 f--;
                 if (f == 0)
@@ -887,12 +886,6 @@ namespace PicSimulator
         }
         void IORWF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
             bool[] boolresult = new bool[8];
             if (addresse < 128)
             {
@@ -927,6 +920,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 for (int i = 0; i < 8; i++)
                 {
                     if (getBit(addresse, i)  == false && WRegister[i] == false)
@@ -959,12 +953,6 @@ namespace PicSimulator
         }
         void ANDWF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
             bool[] boolresult = new bool[8];
             if (addresse < 128)
             {
@@ -1000,6 +988,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 for (int i = 0; i < 8; i++)
                 {
                     if (getBit(addresse, i) == true && WRegister[i] == true)
@@ -1032,12 +1021,6 @@ namespace PicSimulator
         }
         void XORWF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
             bool[] boolresult = new bool[8];
             if (addresse < 128)
             {
@@ -1074,6 +1057,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 for (int i = 0; i < 8; i++)
                 {
                     if ((getBit(addresse, i) == true && WRegister[i] == true) ||
@@ -1107,12 +1091,6 @@ namespace PicSimulator
         }
         void ADDWF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
             if (addresse < 128)
             {
                 int w = BoolArrayToIntReverse(WRegister);
@@ -1158,6 +1136,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 int w = BoolArrayToIntReverse(WRegister);
                 int f = BoolArrayToIntReverse(get(addresse));
                 bool[] checkDC1 = new bool[4];
@@ -1203,12 +1182,6 @@ namespace PicSimulator
         }
         void MOVF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
             if (addresse < 128)
             {
                 WRegister = get(addresse);
@@ -1217,6 +1190,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 bool[] booltemp = new bool[8];
                 for (int i = 0; i < 8; i++)
                 {
@@ -1228,12 +1202,6 @@ namespace PicSimulator
         }
         void COMF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
             if (addresse < 128)
             {
                 bool[] booltemp = new bool[8];
@@ -1262,6 +1230,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 bool[] booltemp = new bool[8];
                 for (int i = 0; i < 8; i++)
                 {
@@ -1289,11 +1258,6 @@ namespace PicSimulator
         }
         void INCF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
 
             if (addresse < 128)
             {
@@ -1322,6 +1286,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 int f = BoolArrayToIntReverse(get(addresse));
                 f++;
                 if (f % 16 == 0)
@@ -1347,12 +1312,6 @@ namespace PicSimulator
         }
         void DECFSZ(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
             if (addresse < 128)
             {
                 int f = BoolArrayToIntReverse(get(addresse));
@@ -1371,6 +1330,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 int f = BoolArrayToIntReverse(get(addresse));
                 f--;
                 if (f == 0)
@@ -1387,13 +1347,7 @@ namespace PicSimulator
         }
         void RRF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
-            if (addresse < 128)
+             if (addresse < 128)
             {
                 bool[] booltemp = new bool[8];
                 for (int i = 0; i < 8; i++)
@@ -1422,6 +1376,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 bool[] booltemp = new bool[8];
                 for (int i = 0; i < 8; i++)
                 {
@@ -1449,12 +1404,6 @@ namespace PicSimulator
         }
         void RLF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
             if (addresse < 128)
             {
                 bool[] booltemp = new bool[8];
@@ -1484,6 +1433,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 bool[] booltemp = new bool[8];
                 for (int i = 0; i < 8; i++)
                 {
@@ -1511,12 +1461,6 @@ namespace PicSimulator
         }
         void SWAPF(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
             if (addresse < 128)
             {
                 bool[] booltemp = new bool[8];
@@ -1571,12 +1515,6 @@ namespace PicSimulator
         }
         void INCFSZ(int addresse)
         {
-            // Überprüfung ob eine indirekte Adressierung verwendet wird
-            if ((addresse == 0) || (addresse == 128))
-            {
-                addresse = getFSRReferenceBoolArray(addresse);
-            }
-
             if (addresse < 128)
             {
                 int f = BoolArrayToIntReverse(get(addresse));
@@ -1592,6 +1530,7 @@ namespace PicSimulator
             else
             {
                 addresse = addresse - 128;
+
                 int f = BoolArrayToIntReverse(get(addresse));
                 f++;
                 if (f == 256)
@@ -1707,7 +1646,13 @@ namespace PicSimulator
                 
 
         public bool[] get(int adr)
-        {           
+        {
+
+            // Überprüfung ob eine indirekte Adressierung verwendet wird
+            if ((adr == 0) || (adr == 128))
+            {
+                adr = getFSRReferenceBoolArray(adr);
+            }
 
             if (storage[3,5])
             {
@@ -1731,6 +1676,12 @@ namespace PicSimulator
 
         bool getBit(int adr, int bitNr)
         {
+            // Überprüfung ob eine indirekte Adressierung verwendet wird
+            if ((adr == 0) || (adr == 128))
+            {
+                adr = getFSRReferenceBoolArray(adr);
+            }
+
             if (storage[3,5])
             {
                 return storage[adr + 128,bitNr];
@@ -1795,7 +1746,7 @@ namespace PicSimulator
         {
             // Prüfen welche Bank aktiv ist
             bool bankumschaltung = false;
-            if ((adresse > 128) || (storage[3,5]))
+            if (storage[3,5])
             {
                 bankumschaltung = true;
             }
@@ -1817,11 +1768,5 @@ namespace PicSimulator
 
             return output;
         }
-
-        int getFSRReferenceBool()
-        {
-            return 0;
-        }
-
     }
 }

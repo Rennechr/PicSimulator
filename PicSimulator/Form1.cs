@@ -62,6 +62,7 @@ namespace PicSimulator
                 backend.storage[129, i] = true;
             }
 
+
             int anz_Zeilen_Datagridview2 = 15;
             dataGridView2.Rows.Add(anz_Zeilen_Datagridview2);
             this.dataGridView2.RowHeadersWidth = 50; //Header width
