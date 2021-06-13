@@ -272,8 +272,12 @@ namespace PicSimulator
 
 
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
-
-            backend.RB_prev = backend.get(6);
+            bool[] temp = new bool[8];
+            for (int i = 0; i < 8; i++)
+            {
+                temp[i] = backend.storage[6, i];
+            }
+            backend.RB_prev = temp;
         }
         void updateGUI()
         {
@@ -324,15 +328,36 @@ namespace PicSimulator
                 j--;
             }
 
+            
             // sichtbares SFR-Register
             lblSFR_WREG.Text    = FillZero(backend.BoolArrayToIntReverse(backend.WRegister).ToString("X"));
-            lblSFR_STATUS.Text  = FillZero(backend.BoolArrayToIntReverse(backend.get(3)).ToString("X"));
-            lblSFR_PCL.Text     = FillZero(backend.BoolArrayToIntReverse(backend.get(2)).ToString("X"));
-            lblSFR_FSR.Text     = FillZero(backend.BoolArrayToIntReverse(backend.get(4)).ToString("X"));
-            lblSFR_PCLATH.Text  = FillZero(backend.BoolArrayToIntReverse(backend.get(10)).ToString("X"));
+            for (int i = 0; i < 8; i++)
+            {
+                temp[i] = backend.storage[3, i];
+            }
+            lblSFR_STATUS.Text  = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
+            for (int i = 0; i < 8; i++)
+            {
+                temp[i] = backend.storage[2, i];
+            }
+            lblSFR_PCL.Text     = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
+            for (int i = 0; i < 8; i++)
+            {
+                temp[i] = backend.storage[4, i];
+            }
+            lblSFR_FSR.Text     = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
+            for (int i = 0; i < 8; i++)
+            {
+                temp[i] = backend.storage[10, i];
+            }
+            lblSFR_PCLATH.Text  = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
 
             // unsichtbares SFR-Register
-            lblSFR_PC.Text           = "00" + FillZero(backend.BoolArrayToIntReverse(backend.get(2)).ToString("X"));
+            for (int i = 0; i < 8; i++)
+            {
+                temp[i] = backend.storage[2, i];
+            }
+            lblSFR_PC.Text           = "00" + FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
             lblSFR_Stackpointer.Text = backend.stackpointer.ToString();
 
 
@@ -364,7 +389,11 @@ namespace PicSimulator
             lblSFR_PS0.Text = Convert.ToInt32(backend.storage[129, 0]).ToString();
 
             // INTCON-Register
-            lblSFR_INTCON.Text = backend.BoolArrayToInt(backend.get(11)).ToString("X");
+            for (int i = 0; i < 8; i++)
+            {
+                temp[i] = backend.storage[11, i];
+            }
+            lblSFR_INTCON.Text = backend.BoolArrayToInt(temp).ToString("X");
 
             lblSFR_GIE.Text = Convert.ToInt32(backend.storage[11,7]).ToString();
             lblSFR_PIE.Text = Convert.ToInt32(backend.storage[11,6]).ToString();

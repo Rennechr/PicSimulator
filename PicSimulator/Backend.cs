@@ -491,6 +491,7 @@ namespace PicSimulator
 
             backendCurrentRow = calls.ElementAt(stackpointer);
             storage[11, 7] = true;
+            storage[139, 7] = true;
             backendCurrentRow--;
         }
         void MOVLW(bool[] literal)
@@ -1725,6 +1726,7 @@ namespace PicSimulator
                         setInterruptStack();
                         backendCurrentRow = 4;
                         storage[11, 2] = true;
+                        storage[139, 2] = true;
                     }
                     f = 0;
                 }
@@ -1742,6 +1744,7 @@ namespace PicSimulator
                         setInterruptStack();
                         backendCurrentRow = 4;
                         storage[11, 2] = true;
+                        storage[139, 2] = true;
                     }
                     f = 0;
                 }
@@ -1803,13 +1806,15 @@ namespace PicSimulator
                 {
                     setInterruptStack();
                     backendCurrentRow = 4;
-                    storage[11, 1] = true;      //4?
+                    storage[11, 1] = true;
+                    storage[139, 1] = true;
                 }
                 else if(!storage[129,6] && !getBit(6, 0))                 //execute interrupt on falling edge
                 {
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 1] = true;
+                    storage[139, 1] = true;
                 }
             }
             else if(getBit(11, 7) && getBit(11, 3))//interrupt enabled for other RB?
@@ -1819,24 +1824,28 @@ namespace PicSimulator
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
+                    storage[139, 0] = true;
                 }
                 else if(prev[5]!= getBit(6, 5) && storage[134, 5])   //interrupt occured at RB5, execute interrupt
                 {
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
+                    storage[139, 0] = true;
                 }
                 else if(prev[6]!= getBit(6, 6) && storage[134, 6])   //interrupt occured at RB6, execute interrupt
                 {
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
+                    storage[139, 0] = true;
                 }
                 else if(prev[7]!= getBit(6, 7) && storage[134, 7])   //interrupt occured at RB7, execute interrupt
                 {
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
+                    storage[139, 0] = true;
                 }
                 else
                 {
