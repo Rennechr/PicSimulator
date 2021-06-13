@@ -16,6 +16,7 @@ namespace PicSimulator
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
+        public int stackpointer = 0;
         public int backendCurrentRow = 0;
         public int cycles = 0;
         int numberOfCyclesAtCurrentRow = 1;
@@ -428,25 +429,68 @@ namespace PicSimulator
         }
         void CALL(int toRow)
         {
-            calls.Add(backendCurrentRow+1);
+
+            calls.Insert(stackpointer, backendCurrentRow + 1);
             backendCurrentRow = toRow;
             backendCurrentRow--;
             numberOfCyclesAtCurrentRow++;
+
+            if (stackpointer == 7)
+            {
+                stackpointer = 0;
+            }
+            else
+            {
+                stackpointer++;
+            }
+
+            //calls.Add(backendCurrentRow + 1);
+            //backendCurrentRow = toRow;
+            //backendCurrentRow--;
+            //numberOfCyclesAtCurrentRow++;
         }
         void RETURN()
         {
-            backendCurrentRow = calls.Last();
-            calls.RemoveAt(calls.Count - 1);
+
+            if (stackpointer == 0)
+            {
+                stackpointer = 7;
+            }
+            else
+            {
+                stackpointer--;
+            }
+
+            backendCurrentRow = calls.ElementAt(stackpointer);
             backendCurrentRow--;
             numberOfCyclesAtCurrentRow++;
+                
+            //backendCurrentRow = calls.Last();
+            //calls.RemoveAt(calls.Count - 1);
+            //backendCurrentRow--;
+            //numberOfCyclesAtCurrentRow++;
         }
         void RETLW(bool[] literal)
         {
+            if (stackpointer == 0)
+            {
+                stackpointer = 7;
+            }
+            else
+            {
+                stackpointer--;
+            }
+
             WRegister = literal;
-            backendCurrentRow = calls.Last();
-            calls.RemoveAt(calls.Count - 1);
+            backendCurrentRow = calls.ElementAt(stackpointer);
             backendCurrentRow--;
             numberOfCyclesAtCurrentRow++;
+
+            //WRegister = literal;
+            //backendCurrentRow = calls.Last();
+            //calls.RemoveAt(calls.Count - 1);
+            //backendCurrentRow--;
+            //numberOfCyclesAtCurrentRow++;
         }
         void RETFIE()
         {
@@ -795,7 +839,7 @@ namespace PicSimulator
         {
             if (addresse < 128)
             {
-                int f = BoolArrayToInt(get(addresse));
+                int f = BoolArrayToIntReverse(get(addresse));
                 f--;
                 if (f == 0)
                 {
@@ -818,7 +862,7 @@ namespace PicSimulator
             else 
             {
                 addresse = addresse - 128;
-                int f = BoolArrayToInt(get(addresse));
+                int f = BoolArrayToIntReverse(get(addresse));
                 f--;
                 if (f == 0)
                 {
@@ -858,17 +902,17 @@ namespace PicSimulator
                 bool tempfalse = true;
                 for (int i = 0; i < 8; i++)
                 {
-                    if (boolresult[i] == true)
+                    if (boolresult[i] == false)
                     {
                         tempfalse = false;
                     }
                 }
-                if (!tempfalse)
-                {
-                    setZeroBit(true);
-                } else
+                if (tempfalse)
                 {
                     setZeroBit(false);
+                } else
+                {
+                    setZeroBit(true);
                 }
                 WRegister = boolresult;
             }
@@ -889,18 +933,18 @@ namespace PicSimulator
                 bool tempfalse = true;
                 for (int i = 0; i < 8; i++)
                 {
-                    if (boolresult[i] == true)
+                    if (boolresult[i] == false)
                     {
                         tempfalse = false;
                     }
                 }
-                if (!tempfalse)
+                if (tempfalse)
                 {
-                    setZeroBit(true);
+                    setZeroBit(false);
                 }
                 else
                 {
-                    setZeroBit(false);
+                    setZeroBit(true);
                 }
                 save(boolresult, addresse);
             }
@@ -1147,7 +1191,7 @@ namespace PicSimulator
                     booltemp[i] = getBit(addresse,i);
                 }
                 save(booltemp, addresse);
-                setZeroBit(false);
+                setZeroBit(true);
             }
         }
         void COMF(int addresse)

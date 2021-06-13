@@ -274,7 +274,7 @@ namespace PicSimulator
                 {
                     temp[ii] = backend.storage[i,ii];
                 }
-                string hexValue = backend.BoolArrayToIntReverse(temp).ToString("X");
+                string hexValue = FillZero(backend.BoolArrayToIntReverse(temp).ToString("X"));
                 dataGridView1[(i % 8), (i / 8)].Value = hexValue;
             }
 
@@ -314,12 +314,17 @@ namespace PicSimulator
                 j--;
             }
 
-            // SFR-Register
-            lblSFR_WREG.Text = backend.BoolArrayToIntReverse(backend.WRegister).ToString("X");
-            lblSFR_STATUS.Text = backend.BoolArrayToIntReverse(backend.get(3)).ToString("X");
-            lblSFR_PCL.Text = backend.BoolArrayToIntReverse(backend.get(2)).ToString("X");
-            lblSFR_FSR.Text = backend.BoolArrayToIntReverse(backend.get(4)).ToString("X");
-            lblSFR_PCLATH.Text = backend.BoolArrayToIntReverse(backend.get(10)).ToString("X");
+            // sichtbares SFR-Register
+            lblSFR_WREG.Text    = FillZero(backend.BoolArrayToIntReverse(backend.WRegister).ToString("X"));
+            lblSFR_STATUS.Text  = FillZero(backend.BoolArrayToIntReverse(backend.get(3)).ToString("X"));
+            lblSFR_PCL.Text     = FillZero(backend.BoolArrayToIntReverse(backend.get(2)).ToString("X"));
+            lblSFR_FSR.Text     = FillZero(backend.BoolArrayToIntReverse(backend.get(4)).ToString("X"));
+            lblSFR_PCLATH.Text  = FillZero(backend.BoolArrayToIntReverse(backend.get(10)).ToString("X"));
+
+            // unsichtbares SFR-Register
+            lblSFR_PC.Text           = "00" + FillZero(backend.BoolArrayToIntReverse(backend.get(2)).ToString("X"));
+            lblSFR_Stackpointer.Text = backend.stackpointer.ToString();
+
 
             // STATUS-Register
             lblSFR_C.Text = Convert.ToInt32(backend.storage[3,0]).ToString();
@@ -341,6 +346,8 @@ namespace PicSimulator
             lblSFR_T0IF.Text = Convert.ToInt32(backend.storage[11,2]).ToString();
             lblSFR_INTF.Text = Convert.ToInt32(backend.storage[11,1]).ToString();
             lblSFR_RBIF.Text = Convert.ToInt32(backend.storage[11,0]).ToString();
+
+
         }
 
         private void buttonStepIn_Click(object sender, EventArgs e)
@@ -434,6 +441,22 @@ namespace PicSimulator
             {
                 return "o";
             }
+        }
+
+        private string FillZero(string input)
+        {
+            string output;
+
+            if (input.Length == 1)
+            {
+                output = "0" + input;
+            }
+            else
+            {
+                output = input;
+            }
+
+            return output;
         }
 
     }
