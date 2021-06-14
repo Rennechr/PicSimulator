@@ -13,15 +13,18 @@ namespace PicSimulator
         public bool[] WRegister = new bool[8];
         public bool[,] dataLetch = new bool [5,8];
         public bool[] RB_prev = new bool[8];
-        public bool[] WDT = new bool[8];
+        public bool RA4_prev;
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
         public int stackpointer = 0;
         public int backendCurrentRow = 0;
-        public int prescaler = 0;
+        public int prescaler = 1;
         public int currentPrescalerValue = 0;
         int numberOfCyclesAtCurrentRow = 1;
+        public long WatchDogTimer = 0;
+        public bool WDTE = true;
+        public bool sleeping = false;
 
         int IntPow(int x, uint pow)
         {
@@ -107,9 +110,10 @@ namespace PicSimulator
                                 case "09":  //RETFIE
                                     RETFIE();
                                     break;
-                                case "54":  //CLRWDT
+                                case "64":  //CLRWDT
+                                    CLRWDT();
                                     break;
-                                case "53":  //SLEEP
+                                case "63":  //SLEEP
                                     SLEEP();
                                     break;
                                 default:    //MOVWF
@@ -411,22 +415,39 @@ namespace PicSimulator
                 default:
                     break;
             }
-            updatePrescaler();
-            int cyclesForGUI = numberOfCyclesAtCurrentRow;
             backendCurrentRow++;
-            if (!storage[129, 5])
+            if (WDTE)
             {
-                updateTMR0(numberOfCyclesAtCurrentRow);
+                updateWatchdogTimer(numberOfCyclesAtCurrentRow);
             }
-            else
+            if (!sleeping)
             {
+                updatePrescaler();
+                int cyclesForGUI = numberOfCyclesAtCurrentRow;
+                if (!storage[129, 5])
+                {
+                    updateTMR0(numberOfCyclesAtCurrentRow);
+                }
+                else
+                {       //RA4 extern clock
+                    if (RA4_prev && !storage[129, 4])//high to low
+                    {
+                        updateTMR0(1);
+                    }
+                    else if (!RA4_prev && storage[129, 4])//low to high
+                    {
+                        updateTMR0(1);
+                    }
 
+                }
+                checkForRBInterrupt(RB_prev);
+                bool[] temp = new bool[8];
+                save(IntToBoolArray(backendCurrentRow), 2);
+                return cyclesForGUI;
             }
-            
             checkForRBInterrupt(RB_prev);
-            bool[] temp = new bool[8];
-            save(IntToBoolArray(backendCurrentRow), 2);
-            return cyclesForGUI;
+            return 1;
+            
         }
         void MOVWF(int position)
         {
@@ -505,9 +526,30 @@ namespace PicSimulator
             storage[139, 7] = true;
             backendCurrentRow--;
         }
+        void CLRWDT()
+        {
+            WatchDogTimer = 0;
+            
+            storage[129, 0] = false;
+            storage[129, 1] = false;
+            storage[129, 2] = false;
+            prescaler = 1;
+            currentPrescalerValue = 0;
+            setTOBit(true);
+            setPDBit(true);
+        }
         void SLEEP()
         {
             backendCurrentRow--;
+
+            if (!sleeping)
+            {
+                WatchDogTimer = 0;
+                setTOBit(true);
+                setPDBit(false);
+
+                sleeping = true;
+            }
         }
         void MOVLW(bool[] literal)
         {
@@ -1283,7 +1325,7 @@ namespace PicSimulator
             {
                 int f = BoolArrayToIntReverse(get(addresse));
                 f++;
-                if (f % 16 == 0)
+                if (f % 16 == 0 && f != 0)
                 {
                     setDigitCarryBit(true);
                 }
@@ -1607,7 +1649,32 @@ namespace PicSimulator
                 BCF(131, 2);
             }
         }
-
+        void setTOBit(bool set)
+        {
+            if (set)
+            {
+                BSF(3, 4);
+                BSF(131, 4);
+            }
+            else
+            {
+                BCF(3, 4);
+                BCF(131, 4);
+            }
+        }
+        void setPDBit(bool set)
+        {
+            if (set)
+            {
+                BSF(3, 3);
+                BSF(131, 3);
+            }
+            else
+            {
+                BCF(3, 3);
+                BCF(131, 3);
+            }
+        }
         void setRPBit(bool set, int Bank)
         {
             if (Bank == 0)
@@ -1711,7 +1778,7 @@ namespace PicSimulator
                 return storage[adr,bitNr];
             }
         }
-        void updateTMR0(int update_with)   //updates tmr0 register
+        public void updateTMR0(int update_with)   //updates tmr0 register
         {
             if (currentPrescalerValue >= prescaler && !storage[129,3])
             {
@@ -1802,6 +1869,7 @@ namespace PicSimulator
             {
                 if (storage[129, 6] && getBit(6, 0))    //execute interrupt on rising edge
                 {
+                    sleeping = false;
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 1] = true;
@@ -1809,6 +1877,7 @@ namespace PicSimulator
                 }
                 else if(!storage[129,6] && !getBit(6, 0))                 //execute interrupt on falling edge
                 {
+                    sleeping = false;
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 1] = true;
@@ -1819,6 +1888,7 @@ namespace PicSimulator
             {
                 if (prev[4] != getBit(6, 4) && storage[134,4])  //interrupt occured at RB4, execute interrupt
                 {
+                    sleeping = false;
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
@@ -1826,6 +1896,7 @@ namespace PicSimulator
                 }
                 else if(prev[5]!= getBit(6, 5) && storage[134, 5])   //interrupt occured at RB5, execute interrupt
                 {
+                    sleeping = false;
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
@@ -1833,6 +1904,7 @@ namespace PicSimulator
                 }
                 else if(prev[6]!= getBit(6, 6) && storage[134, 6])   //interrupt occured at RB6, execute interrupt
                 {
+                    sleeping = false;
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
@@ -1840,6 +1912,7 @@ namespace PicSimulator
                 }
                 else if(prev[7]!= getBit(6, 7) && storage[134, 7])   //interrupt occured at RB7, execute interrupt
                 {
+                    sleeping = false;
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
@@ -1854,6 +1927,10 @@ namespace PicSimulator
             {
                 // no interrupt at RB (do nothing)
             }
+        }
+        void updateWatchdogTimer(int update_with)
+        {
+            WatchDogTimer += update_with;
         }
         void updatePrescaler()
         {

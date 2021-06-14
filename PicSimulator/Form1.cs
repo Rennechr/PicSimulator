@@ -63,6 +63,9 @@ namespace PicSimulator
                 }
             }
 
+            //load 1 to TO and PD
+            backend.storage[3, 3]=true;
+            backend.storage[3, 4] = true;
 
             // Initialisierung der Pins
             for (int i = 6; i < 10; i++)
@@ -282,23 +285,36 @@ namespace PicSimulator
         }
         void next_step()
         {
-
-
-            codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
-
-            int timeUnits = backend.next();
-            laufzeit += period * timeUnits;
-            label1.Text = laufzeit.ToString();
-            updateGUI();
-
-
-            codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
-            bool[] temp = new bool[8];
-            for (int i = 0; i < 8; i++)
+            long wdt_reset_bed = 18000;
+            if(backend.storage[129, 3])
             {
-                temp[i] = backend.storage[6, i];
+                wdt_reset_bed = (18000 * backend.prescaler) / 2;
             }
-            backend.RB_prev = temp;
+            if (backend.WatchDogTimer < wdt_reset_bed)
+            {
+                codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
+
+                int timeUnits = backend.next();
+                laufzeit += period * timeUnits;
+                label1.Text = laufzeit.ToString();
+                updateGUI();
+
+
+                codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.LightCoral;
+                bool[] temp = new bool[8];
+                for (int i = 0; i < 8; i++)
+                {
+                    temp[i] = backend.storage[6, i];
+                }
+                backend.RB_prev = temp;
+                backend.RA4_prev = backend.storage[5, 4];
+            }
+            else          //WDT timeout occured
+            {
+                reset();
+            }
+
+            
         }
         void updateGUI()
         {
@@ -313,6 +329,7 @@ namespace PicSimulator
                 dataGridView1[(i % 8), (i / 8)].Value = hexValue;
             }
 
+            lblSFR_WDT.Text = backend.WatchDogTimer.ToString();
 
             int j = 7;
             for (int i = 0; i < 8; i++)
@@ -466,6 +483,16 @@ namespace PicSimulator
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
+            reset();
+        }
+        public void reset()
+        {
+            backend.sleeping = false;
+            backend.WatchDogTimer = 0;
+            //load 1 to TO and PD
+            backend.storage[3, 3] = true;
+            backend.storage[3, 4] = true;
+
             // Initialisierung des WRegisters
             for (int i = 0; i < 8; i++)
             {
@@ -503,9 +530,9 @@ namespace PicSimulator
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
             backend.calls.Clear();
             backend.backendCurrentRow = 0;
+            backend.WatchDogTimer = 0;
             updateGUI();
         }
-
         // Umstellen der PINS zwischen 1 und 0
         private void datagridview2_onCellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -767,6 +794,22 @@ namespace PicSimulator
                 backend.storage[3 + 128, 7] = false;
             }
             updateGUI();
+        }
+
+        private void cbSFR_WDTE_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cbSFR_WDTE.Checked)
+            {
+                backend.WDTE = true;
+                lblSFR_WDT.Visible = true;
+                label45.Visible = true;
+            }
+            else
+            {
+                backend.WDTE = false;
+                lblSFR_WDT.Visible = false;
+                label45.Visible = true;
+            }
         }
     }
 }

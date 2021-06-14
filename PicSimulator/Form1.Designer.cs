@@ -149,6 +149,9 @@
             this.dataGridViewTextBoxColumn6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cbSFR_WDTE = new System.Windows.Forms.CheckBox();
+            this.lblSFR_WDT = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -503,9 +506,9 @@
             this.groupBox7.Controls.Add(this.label22);
             this.groupBox7.Controls.Add(this.label21);
             this.groupBox7.Location = new System.Drawing.Point(285, 21);
-            this.groupBox7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox7.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBox7.Padding = new System.Windows.Forms.Padding(4);
             this.groupBox7.Size = new System.Drawing.Size(111, 165);
             this.groupBox7.TabIndex = 12;
             this.groupBox7.TabStop = false;
@@ -837,6 +840,9 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.label45);
+            this.groupBox6.Controls.Add(this.lblSFR_WDT);
+            this.groupBox6.Controls.Add(this.cbSFR_WDTE);
             this.groupBox6.Controls.Add(this.lblSFR_Stackpointer);
             this.groupBox6.Controls.Add(this.lblSFR_PC);
             this.groupBox6.Controls.Add(this.label20);
@@ -1406,6 +1412,36 @@
             this.dataGridViewTextBoxColumn8.ReadOnly = true;
             this.dataGridViewTextBoxColumn8.Width = 30;
             // 
+            // cbSFR_WDTE
+            // 
+            this.cbSFR_WDTE.AutoSize = true;
+            this.cbSFR_WDTE.Checked = true;
+            this.cbSFR_WDTE.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSFR_WDTE.Location = new System.Drawing.Point(12, 73);
+            this.cbSFR_WDTE.Name = "cbSFR_WDTE";
+            this.cbSFR_WDTE.Size = new System.Drawing.Size(71, 21);
+            this.cbSFR_WDTE.TabIndex = 11;
+            this.cbSFR_WDTE.Text = "WDTE";
+            this.cbSFR_WDTE.UseVisualStyleBackColor = true;
+            this.cbSFR_WDTE.CheckedChanged += new System.EventHandler(this.cbSFR_WDTE_CheckedChanged);
+            // 
+            // lblSFR_WDT
+            // 
+            this.lblSFR_WDT.AutoSize = true;
+            this.lblSFR_WDT.Location = new System.Drawing.Point(9, 102);
+            this.lblSFR_WDT.Name = "lblSFR_WDT";
+            this.lblSFR_WDT.Size = new System.Drawing.Size(0, 17);
+            this.lblSFR_WDT.TabIndex = 12;
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Location = new System.Drawing.Point(65, 102);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(23, 17);
+            this.label45.TabIndex = 13;
+            this.label45.Text = "µs";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -1563,6 +1599,9 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label lblSFR_WDT;
+        private System.Windows.Forms.CheckBox cbSFR_WDTE;
+        private System.Windows.Forms.Label label45;
     }
 }
 
