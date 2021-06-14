@@ -81,6 +81,7 @@ namespace PicSimulator
             //init TRISB
             for (int i = 0; i < 8; i++)
             {
+                backend.storage[133, i] = true;
                 backend.storage[134, i] = true;
             }
 
@@ -443,14 +444,14 @@ namespace PicSimulator
             lblSFR_RBIF.Text = Convert.ToInt32(backend.storage[11, 0]).ToString();
 
             // Update Stack Visualisierung
-            lbl_Stack0.Text = backend.calls.ElementAtOrDefault(0).ToString();
-            lbl_Stack1.Text = backend.calls.ElementAtOrDefault(1).ToString();
-            lbl_Stack2.Text = backend.calls.ElementAtOrDefault(2).ToString();
-            lbl_Stack3.Text = backend.calls.ElementAtOrDefault(3).ToString();
-            lbl_Stack4.Text = backend.calls.ElementAtOrDefault(4).ToString();
-            lbl_Stack5.Text = backend.calls.ElementAtOrDefault(5).ToString();
-            lbl_Stack6.Text = backend.calls.ElementAtOrDefault(6).ToString();
-            lbl_Stack7.Text = backend.calls.ElementAtOrDefault(7).ToString();
+            lbl_Stack0.Text = backend.calls[0].ToString();
+            lbl_Stack1.Text = backend.calls[1].ToString();
+            lbl_Stack2.Text = backend.calls[2].ToString();
+            lbl_Stack3.Text = backend.calls[3].ToString();
+            lbl_Stack4.Text = backend.calls[4].ToString();
+            lbl_Stack5.Text = backend.calls[5].ToString();
+            lbl_Stack6.Text = backend.calls[6].ToString();
+            lbl_Stack7.Text = backend.calls[7].ToString();
 
         }
 
@@ -508,6 +509,18 @@ namespace PicSimulator
                 }
             }
 
+            
+
+
+
+
+            //init TRISB
+            for (int i = 0; i < 8; i++)
+            {
+                backend.storage[133, i] = true;
+                backend.storage[134, i] = true;
+            }
+
             // Setzen der initialen Pins
             for (int i = 6; i < 10; i++)
             {
@@ -528,7 +541,10 @@ namespace PicSimulator
             backend.stackpointer = 0;
 
             codeRows.ElementAt(backendFrontendRowConnection.ElementAt(backend.backendCurrentRow)).BackColor = Color.Transparent;
-            backend.calls.Clear();
+            for (int i = 0; i < 8; i++)
+            {
+                backend.calls[i] = 0;
+            }
             backend.backendCurrentRow = 0;
             backend.WatchDogTimer = 0;
             updateGUI();

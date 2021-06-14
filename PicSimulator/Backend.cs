@@ -16,7 +16,7 @@ namespace PicSimulator
         public bool RA4_prev;
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
-        public List<int> calls = new List<int>();
+        public int[] calls = new int[8];
         public int stackpointer = 0;
         public int backendCurrentRow = 0;
         public int prescaler = 1;
@@ -463,7 +463,7 @@ namespace PicSimulator
         void CALL(int toRow)
         {
 
-            calls.Insert(stackpointer, backendCurrentRow + 1);
+            calls[stackpointer] = backendCurrentRow + 1;
             backendCurrentRow = toRow;
             backendCurrentRow--;
             numberOfCyclesAtCurrentRow++;
@@ -489,12 +489,14 @@ namespace PicSimulator
                 stackpointer--;
             }
 
-            backendCurrentRow = calls.ElementAt(stackpointer);
+            backendCurrentRow = calls[stackpointer];
+            calls[stackpointer] = 0;
             backendCurrentRow--;
             numberOfCyclesAtCurrentRow++;
         }
         void RETLW(bool[] literal)
         {
+
             if (stackpointer == 0)
             {
                 stackpointer = 7;
@@ -505,7 +507,8 @@ namespace PicSimulator
             }
 
             WRegister = literal;
-            backendCurrentRow = calls.ElementAt(stackpointer);
+            backendCurrentRow = calls[stackpointer];
+            calls[stackpointer] = 0;
             backendCurrentRow--;
             numberOfCyclesAtCurrentRow++;
         }
@@ -521,7 +524,8 @@ namespace PicSimulator
                 stackpointer--;
             }
 
-            backendCurrentRow = calls.ElementAt(stackpointer);
+            backendCurrentRow = calls[stackpointer];
+            calls[stackpointer] = 0;
             storage[11, 7] = true;
             storage[139, 7] = true;
             backendCurrentRow--;
@@ -1852,7 +1856,7 @@ namespace PicSimulator
         }
         void setInterruptStack()
         {
-            calls.Insert(stackpointer, backendCurrentRow + 1);
+            calls[stackpointer] = backendCurrentRow + 1;
             if (stackpointer == 7)
             {
                 stackpointer = 0;
