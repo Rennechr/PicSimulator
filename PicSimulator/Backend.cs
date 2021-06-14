@@ -430,11 +430,11 @@ namespace PicSimulator
                 }
                 else
                 {       //RA4 extern clock
-                    if (RA4_prev && !storage[5, 4])//high to low
+                    if (RA4_prev && !storage[5, 4] && storage[129,5])//high to low
                     {
                         updateTMR0(1);
                     }
-                    else if (!RA4_prev && storage[5, 4])//low to high
+                    else if (!RA4_prev && storage[5, 4] && !storage[129, 5])//low to high
                     {
                         updateTMR0(1);
                     }
