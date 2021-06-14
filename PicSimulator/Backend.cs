@@ -424,11 +424,11 @@ namespace PicSimulator
             {
                 updatePrescaler();
                 int cyclesForGUI = numberOfCyclesAtCurrentRow;
-                if (!storage[129, 5])
+                if (!storage[129, 5] && !storage[3,5])
                 {
                     updateTMR0(numberOfCyclesAtCurrentRow);
                 }
-                else
+                else if(!storage[3, 5])
                 {       //RA4 extern clock
                     if (RA4_prev && !storage[5, 4] && storage[129,5])//high to low
                     {
@@ -439,6 +439,10 @@ namespace PicSimulator
                         updateTMR0(1);
                     }
 
+                }
+                else
+                {
+                    //do nothing
                 }
                 checkForRBInterrupt(RB_prev);
                 bool[] temp = new bool[8];
@@ -452,6 +456,10 @@ namespace PicSimulator
         void MOVWF(int position)
         {
             //TODO: Prüfen
+            if(position == 1)
+            {
+                currentPrescalerValue = 0;
+            }
             save(WRegister, position);          
         }
         void GOTO(int toRow)
@@ -1259,7 +1267,15 @@ namespace PicSimulator
             if (addresse < 128)
             {
                 WRegister = get(addresse);
-                setZeroBit(false);
+                bool zero = true;
+                for(int i = 0; i < 8; i++)
+                {
+                    if (WRegister[i])
+                    {
+                        zero = false;
+                    }
+                }
+                setZeroBit(zero);
             } 
             else
             {
@@ -1784,6 +1800,7 @@ namespace PicSimulator
         }
         public void updateTMR0(int update_with)   //updates tmr0 register
         {
+            currentPrescalerValue += update_with;
             if (currentPrescalerValue >= prescaler && !storage[129,3])
             {
                 int f = BoolArrayToIntReverse(get(1));
@@ -1801,11 +1818,11 @@ namespace PicSimulator
                     setZeroBit(true);
                 }
                 save(IntToBoolArray(f), 1);
-                currentPrescalerValue = currentPrescalerValue - prescaler;
+                currentPrescalerValue -= prescaler;
             }
             else if(!storage[129, 3])
             {
-                currentPrescalerValue += update_with;
+                //skip
             }
             else           //ps assigned to wdt -> 1:1 assignement to TMR0            
             {
