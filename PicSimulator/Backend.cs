@@ -13,6 +13,7 @@ namespace PicSimulator
         public bool[] WRegister = new bool[8];
         public bool[,] dataLetch = new bool [5,8];
         public bool[] RB_prev = new bool[8];
+        public bool[] WDT = new bool[8];
         public List<string> codeBackend = new List<string>();
         public List<int> breakpoints = new List<int>();
         public List<int> calls = new List<int>();
@@ -108,6 +109,7 @@ namespace PicSimulator
                                 case "54":  //CLRWDT
                                     break;
                                 case "53":  //SLEEP
+                                    SLEEP();
                                     break;
                                 default:    //MOVWF
                                     MOVWF(Convert.ToInt32(codeBackend.ElementAt(backendCurrentRow).Substring(2, 2), 16)-128);
@@ -412,7 +414,7 @@ namespace PicSimulator
             backendCurrentRow++;
             if (!storage[129, 5])
             {
-                updateTMR0();
+                updateTMR0(numberOfCyclesAtCurrentRow);
             }
             
             checkForRBInterrupt(RB_prev);
@@ -495,6 +497,10 @@ namespace PicSimulator
             backendCurrentRow = calls.ElementAt(stackpointer);
             storage[11, 7] = true;
             storage[139, 7] = true;
+            backendCurrentRow--;
+        }
+        void SLEEP()
+        {
             backendCurrentRow--;
         }
         void MOVLW(bool[] literal)
@@ -1205,14 +1211,6 @@ namespace PicSimulator
             } 
             else
             {
-                addresse = addresse - 128;
-
-                bool[] booltemp = new bool[8];
-                for (int i = 0; i < 8; i++)
-                {
-                    booltemp[i] = getBit(addresse,i);
-                }
-                save(booltemp, addresse);
                 setZeroBit(true);
             }
         }
@@ -1707,57 +1705,22 @@ namespace PicSimulator
                 return storage[adr,bitNr];
             }
         }
-        void updateTMR0()   //updates tmr0 register clock counter
+        void updateTMR0(int update_with)   //updates tmr0 register
         {
-            if(numberOfCyclesAtCurrentRow == 2)
+            int f = BoolArrayToIntReverse(get(1));
+            f+=update_with;
+            if (f > 255)
             {
-                cycles += 2;
-                numberOfCyclesAtCurrentRow = 1;
-            }
-            else
-            {
-                cycles++;
-            }
-            if (cycles == 5)
-            {
-                int f = BoolArrayToIntReverse(get(1));
-                f++;
-                if (f > 255)
+                storage[11, 2] = true;
+                storage[139, 2] = true;
+                if (getBit(11, 5) && getBit(11,7))
                 {
-                    if (getBit(11, 5) && getBit(11,7))
-                    {
-                        setInterruptStack();
-                        backendCurrentRow = 4;
-                        storage[11, 2] = true;
-                        storage[139, 2] = true;
-                    }
-                    f = 0;
+                    setInterruptStack();
+                    backendCurrentRow = 4;
                 }
-                save(IntToBoolArray(f),1);
-                cycles = 1;
+                f = 0;
             }
-            else if(cycles == 4)
-            {
-                int f = BoolArrayToIntReverse(get(1));
-                f++;
-                if (f > 255)
-                {
-                    if (getBit(11, 5) && getBit(11, 7))
-                    {
-                        setInterruptStack();
-                        backendCurrentRow = 4;
-                        storage[11, 2] = true;
-                        storage[139, 2] = true;
-                    }
-                    f = 0;
-                }
-                save(IntToBoolArray(f), 1);
-                cycles = 0;
-            }
-            else
-            {
-
-            }
+            save(IntToBoolArray(f),1);
         }
 
 

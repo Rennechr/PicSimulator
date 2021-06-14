@@ -268,7 +268,7 @@ namespace PicSimulator
                 breakpointOccured = false;
                 next_step();
             }
-            else if(!breakpointOccured)
+            else if(go && !breakpointOccured)
             {
                 buttonGo.Text = "Go On";
                 go = !go;
