@@ -1798,6 +1798,7 @@ namespace PicSimulator
                         backendCurrentRow = 4;
                     }
                     f = 0;
+                    setZeroBit(true);
                 }
                 save(IntToBoolArray(f), 1);
                 currentPrescalerValue = currentPrescalerValue - prescaler;
@@ -1820,6 +1821,7 @@ namespace PicSimulator
                         backendCurrentRow = 4;
                     }
                     f = f - 256;
+                    setZeroBit(true);
                 }
                 save(IntToBoolArray(f), 1);
             }
