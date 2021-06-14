@@ -19,7 +19,8 @@ namespace PicSimulator
         public List<int> calls = new List<int>();
         public int stackpointer = 0;
         public int backendCurrentRow = 0;
-        public int cycles = 0;
+        public int prescaler = 0;
+        public int currentPrescalerValue = 0;
         int numberOfCyclesAtCurrentRow = 1;
 
         int IntPow(int x, uint pow)
@@ -410,11 +411,16 @@ namespace PicSimulator
                 default:
                     break;
             }
+            updatePrescaler();
             int cyclesForGUI = numberOfCyclesAtCurrentRow;
             backendCurrentRow++;
             if (!storage[129, 5])
             {
                 updateTMR0(numberOfCyclesAtCurrentRow);
+            }
+            else
+            {
+
             }
             
             checkForRBInterrupt(RB_prev);
@@ -1707,20 +1713,46 @@ namespace PicSimulator
         }
         void updateTMR0(int update_with)   //updates tmr0 register
         {
-            int f = BoolArrayToIntReverse(get(1));
-            f+=update_with;
-            if (f > 255)
+            if (currentPrescalerValue >= prescaler && !storage[129,3])
             {
-                storage[11, 2] = true;
-                storage[139, 2] = true;
-                if (getBit(11, 5) && getBit(11,7))
+                int f = BoolArrayToIntReverse(get(1));
+                f += 1;
+                if (f > 255)
                 {
-                    setInterruptStack();
-                    backendCurrentRow = 4;
+                    storage[11, 2] = true;
+                    storage[139, 2] = true;
+                    if (getBit(11, 5) && getBit(11, 7))
+                    {
+                        setInterruptStack();
+                        backendCurrentRow = 4;
+                    }
+                    f = 0;
                 }
-                f = 0;
+                save(IntToBoolArray(f), 1);
+                currentPrescalerValue = currentPrescalerValue - prescaler;
             }
-            save(IntToBoolArray(f),1);
+            else if(!storage[129, 3])
+            {
+                currentPrescalerValue += update_with;
+            }
+            else           //ps assigned to wdt -> 1:1 assignement to TMR0            
+            {
+                int f = BoolArrayToIntReverse(get(1));
+                f += update_with;
+                if (f > 255)
+                {
+                    storage[11, 2] = true;
+                    storage[139, 2] = true;
+                    if (getBit(11, 5) && getBit(11, 7))
+                    {
+                        setInterruptStack();
+                        backendCurrentRow = 4;
+                    }
+                    f = f - 256;
+                }
+                save(IntToBoolArray(f), 1);
+            }
+            
         }
 
 
@@ -1822,6 +1854,15 @@ namespace PicSimulator
             {
                 // no interrupt at RB (do nothing)
             }
+        }
+        void updatePrescaler()
+        {
+            bool[] ps = new bool[3];
+            for(int i = 0; i < 3; i++)
+            {
+                ps[i] = storage[129, i];
+            }
+            prescaler = IntPow(2, 1+Convert.ToUInt32(BoolArrayToIntReverse(ps)));
         }
     }
 }
