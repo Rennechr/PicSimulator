@@ -430,11 +430,11 @@ namespace PicSimulator
                 }
                 else
                 {       //RA4 extern clock
-                    if (RA4_prev && !storage[129, 4])//high to low
+                    if (RA4_prev && !storage[5, 4])//high to low
                     {
                         updateTMR0(1);
                     }
-                    else if (!RA4_prev && storage[129, 4])//low to high
+                    else if (!RA4_prev && storage[5, 4])//low to high
                     {
                         updateTMR0(1);
                     }
@@ -1351,7 +1351,7 @@ namespace PicSimulator
 
                 int f = BoolArrayToIntReverse(get(addresse));
                 f++;
-                if (f % 16 == 0)
+                if (f % 16 == 0 && f != 0)
                 {
                     setDigitCarryBit(true);
                 }
