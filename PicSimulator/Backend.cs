@@ -1259,7 +1259,7 @@ namespace PicSimulator
             if (addresse < 128)
             {
                 WRegister = get(addresse);
-                setZeroBit(true);
+                setZeroBit(false);
             } 
             else
             {
