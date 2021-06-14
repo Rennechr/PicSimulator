@@ -1813,6 +1813,8 @@ namespace PicSimulator
                     {
                         setInterruptStack();
                         backendCurrentRow = 4;
+                        storage[11, 7] = false;
+                        storage[139, 7] = false;
                     }
                     f = 0;
                     setZeroBit(true);
@@ -1892,11 +1894,14 @@ namespace PicSimulator
             {
                 if (storage[129, 6] && getBit(6, 0))    //execute interrupt on rising edge
                 {
+
                     sleeping = false;
                     setInterruptStack();
                     backendCurrentRow = 4;
                     storage[11, 1] = true;
                     storage[139, 1] = true;
+                    storage[11, 7] = false;
+                    storage[139, 7] = false;
                 }
                 else if(!storage[129,6] && !getBit(6, 0))                 //execute interrupt on falling edge
                 {
@@ -1905,6 +1910,8 @@ namespace PicSimulator
                     backendCurrentRow = 4;
                     storage[11, 1] = true;
                     storage[139, 1] = true;
+                    storage[11, 7] = false;
+                    storage[139, 7] = false;
                 }
             }
             else if(getBit(11, 7) && getBit(11, 3))//interrupt enabled for other RB?
@@ -1916,6 +1923,8 @@ namespace PicSimulator
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
                     storage[139, 0] = true;
+                    storage[11, 7] = false;
+                    storage[139, 7] = false;
                 }
                 else if(prev[5]!= getBit(6, 5) && storage[134, 5])   //interrupt occured at RB5, execute interrupt
                 {
@@ -1924,6 +1933,8 @@ namespace PicSimulator
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
                     storage[139, 0] = true;
+                    storage[11, 7] = false;
+                    storage[139, 7] = false;
                 }
                 else if(prev[6]!= getBit(6, 6) && storage[134, 6])   //interrupt occured at RB6, execute interrupt
                 {
@@ -1932,6 +1943,8 @@ namespace PicSimulator
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
                     storage[139, 0] = true;
+                    storage[11, 7] = false;
+                    storage[139, 7] = false;
                 }
                 else if(prev[7]!= getBit(6, 7) && storage[134, 7])   //interrupt occured at RB7, execute interrupt
                 {
@@ -1940,6 +1953,8 @@ namespace PicSimulator
                     backendCurrentRow = 4;
                     storage[11, 0] = true;
                     storage[139, 0] = true;
+                    storage[11, 7] = false;
+                    storage[139, 7] = false;
                 }
                 else
                 {
